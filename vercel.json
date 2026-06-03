@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/", "destination": "/mockup_tucson_v2/", "permanent": false }
+  ]
+}

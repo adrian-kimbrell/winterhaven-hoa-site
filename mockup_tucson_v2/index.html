@@ -57,12 +57,12 @@
  const card = document.createElement('div');
  card.className = 'card';
  card.innerHTML = `
- <a class="frame" href="${slug}.html" target="_blank"><span class="badge">${Number(num)}</span><iframe src="${slug}.html" loading="lazy" tabindex="-1" scrolling="no"></iframe></a>
+ <a class="frame" href="${slug}.html"><span class="badge">${Number(num)}</span><iframe src="${slug}.html" loading="lazy" tabindex="-1" scrolling="no"></iframe></a>
  <div class="meta"><span class="num">No. ${Number(num)}</span><span class="name">${name}</span></div>
  <div class="desc">${desc}</div>
  <div class="links">
- <a href="${slug}.html" target="_blank">Homepage</a>
- <a href="${slug}-profile.html" target="_blank">Profile page</a>
+ <a href="${slug}.html">Homepage</a>
+ <a href="${slug}-profile.html">Profile page</a>
 </div>`;
  grid.appendChild(card);
  }
