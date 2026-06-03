@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Winterhaven Village — Tucson, Arizona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --ink: #1a1410; /* warm near-black */
+ --paper: #f6f1e7; /* sun-bleached bone */
+ --paper-deep: #efe7d6; /* slightly deeper bone */
+ --grey: #7a7064; /* warm grey */
+ --line: #ddd2bf; /* bone hairline */
+ --accent: #b8431f; /* burnt terracotta */
+ --accent-deep: #98361a; /* darker terracotta */
+ --gutter: 28px;
+ --margin: clamp(20px, 4.5vw, 72px);
+ --maxw: 1480px;
+ }
+
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+
+ html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+ body {
+ font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+ background: var(--paper);
+ color: var(--ink);
+ line-height: 1.4;
+ font-feature-settings: "cv05", "ss01";
+ letter-spacing: -0.011em;
+ }
+
+ a { color: inherit; text-decoration: none; }
+
+ .wrap {
+ max-width: var(--maxw);
+ margin: 0 auto;
+ padding-left: var(--margin);
+ padding-right: var(--margin);
+ }
+
+ /* 12-column grid utility */
+ .grid {
+ display: grid;
+ grid-template-columns: repeat(12, 1fr);
+ column-gap: var(--gutter);
+ row-gap: var(--gutter);
+ }
+
+ /* ---------- TOP BAR ---------- */
+ header.topbar {
+ position: sticky;
+ top: 0;
+ z-index: 50;
+ background: var(--paper);
+ border-bottom: 1px solid var(--ink);
+ }
+ .topbar .wrap {
+ display: flex;
+ align-items: baseline;
+ justify-content: space-between;
+ padding-top: 18px;
+ padding-bottom: 18px;
+ }
+ .brand {
+ display: flex;
+ align-items: baseline;
+ gap: 12px;
+ font-weight: 800;
+ font-size: 17px;
+ letter-spacing: -0.03em;
+ }
+ .brand .dot { width: 9px; height: 9px; background: var(--accent); border-radius: 50%; display:inline-block; transform: translateY(-1px); }
+ nav.main ul {
+ list-style: none;
+ display: flex;
+ gap: clamp(14px, 1.8vw, 34px);
+ font-size: 13px;
+ font-weight: 500;
+ letter-spacing: 0;
+ }
+ nav.main a {
+ position: relative;
+ padding-bottom: 2px;
+ color: var(--ink);
+ transition: color .2s ease;
+ }
+ nav.main a::after {
+ content: "";
+ position: absolute;
+ left: 0; bottom: -1px;
+ width: 100%; height: 1px;
+ background: var(--accent);
+ transform: scaleX(0);
+ transform-origin: left;
+ transition: transform .28s cubic-bezier(.2,.6,.2,1);
+ }
+ nav.main a:hover { color: var(--accent); }
+ nav.main a:hover::after { transform: scaleX(1); }
+
+ .menu-toggle { display: none; background: none; border: 0; font: inherit; font-weight: 600; cursor: pointer; color: var(--ink); }
+
+ /* ---------- HERO ---------- */
+ .hero { border-bottom: 1px solid var(--ink); }
+ .hero .wrap { padding-top: clamp(36px, 6vw, 84px); padding-bottom: 0; }
+
+ .hero-head { margin-bottom: clamp(28px, 4vw, 56px); }
+ .hero-meta {
+ grid-column: 1 / 4;
+ font-size: 12px;
+ text-transform: uppercase;
+ letter-spacing: 0.16em;
+ color: var(--grey);
+ align-self: end;
+ }
+ .hero-meta strong { color: var(--ink); display:block; font-weight:600; }
+
+ h1.hero-title {
+ grid-column: 1 / 13;
+ font-size: clamp(54px, 12.5vw, 184px);
+ font-weight: 800;
+ line-height: 0.86;
+ letter-spacing: -0.05em;
+ text-transform: lowercase;
+ margin-top: 6px;
+ }
+ .hero-tag {
+ grid-column: 8 / 13;
+ font-size: clamp(18px, 2vw, 26px);
+ font-weight: 500;
+ line-height: 1.2;
+ letter-spacing: -0.02em;
+ align-self: end;
+ padding-top: 10px;
+ }
+ .hero-tag .accent { color: var(--accent); }
+
+ .hero-figure {
+ grid-column: 1 / 13;
+ margin-top: clamp(28px, 4vw, 56px);
+ position: relative;
+ aspect-ratio: 16 / 7;
+ overflow: hidden;
+ background: var(--paper-deep);
+ }
+ .hero-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+ .hero-figure figcaption {
+ position: absolute; top: 18px; right: 20px;
+ font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+ color: #fff; mix-blend-mode: difference; max-width: 38%; text-align: right;
+ }
+
+ .cta {
+ position: absolute;
+ left: 0; bottom: 0;
+ display: inline-flex;
+ align-items: center;
+ gap: 14px;
+ background: var(--accent);
+ color: #fff;
+ font-weight: 600;
+ font-size: 15px;
+ padding: 20px 30px;
+ transition: padding .28s cubic-bezier(.2,.6,.2,1), background .2s;
+ }
+ .cta .arrow { transition: transform .28s cubic-bezier(.2,.6,.2,1); }
+ .cta:hover { padding-right: 42px; background: var(--accent-deep); }
+ .cta:hover .arrow { transform: translateX(6px); }
+
+ /* ---------- SECTION SCAFFOLD ---------- */
+ section.block { padding-top: clamp(56px, 8vw, 120px); padding-bottom: clamp(56px, 8vw, 120px); border-bottom: 1px solid var(--line); }
+
+ .sec-head { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gutter); align-items: baseline; margin-bottom: clamp(28px, 3.5vw, 52px); }
+ .sec-num {
+ grid-column: 1 / 3;
+ font-size: 13px;
+ font-weight: 700;
+ color: var(--accent);
+ letter-spacing: 0.04em;
+ }
+ .sec-title {
+ grid-column: 3 / 11;
+ font-size: clamp(26px, 3.4vw, 46px);
+ font-weight: 700;
+ letter-spacing: -0.035em;
+ line-height: 1.0;
+ }
+ .sec-kicker {
+ grid-column: 11 / 13;
+ font-size: 12px;
+ color: var(--grey);
+ text-align: right;
+ text-transform: uppercase;
+ letter-spacing: 0.12em;
+ align-self: baseline;
+ }
+
+ /* ---------- NEWS (01) ---------- */
+ .news-item {
+ grid-column: span 4;
+ border-top: 1px solid var(--ink);
+ padding-top: 20px;
+ display: flex;
+ flex-direction: column;
+ min-height: 220px;
+ transition: background .2s;
+ }
+ .news-idx { font-size: 12px; font-weight: 600; color: var(--grey); letter-spacing: 0.08em; }
+ .news-date { font-size: 12px; font-weight: 500; color: var(--accent); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+ .news-h {
+ font-size: clamp(20px, 1.7vw, 26px);
+ font-weight: 600;
+ letter-spacing: -0.025em;
+ line-height: 1.08;
+ margin-top: auto;
+ }
+ .news-link { font-size: 13px; font-weight: 500; margin-top: 18px; color: var(--ink); display: inline-flex; gap: 8px; align-items:center; }
+ .news-link .arrow { transition: transform .25s; }
+ .news-item:hover .news-link { color: var(--accent); }
+ .news-item:hover .news-link .arrow { transform: translateX(5px); }
+
+ /* ---------- LIGHTER SIDE (02) ---------- */
+ .lighter { background: var(--ink); color: var(--paper); border-bottom: none; }
+ .lighter .sec-num { color: var(--accent); }
+ .lighter .sec-title { color: var(--paper); }
+ .lighter .sec-kicker { color: #9a8e7c; }
+ .lighter-body { grid-column: 3 / 11; }
+ .lighter-quote {
+ font-size: clamp(28px, 4.2vw, 64px);
+ font-weight: 500;
+ letter-spacing: -0.04em;
+ line-height: 1.02;
+ color: var(--paper);
+ }
+ .lighter-quote .accent { color: var(--accent); }
+ .lighter-meta { grid-column: 11 / 13; align-self: end; }
+ .vote {
+ display:inline-flex; align-items:center; gap: 10px;
+ border: 1px solid var(--paper); color: var(--paper);
+ padding: 14px 22px; font-size: 14px; font-weight: 600;
+ transition: background .2s, color .2s;
+ }
+ .vote:hover { background: var(--paper); color: var(--ink); }
+
+ /* ---------- BOARD (03) ---------- */
+ .board-row { grid-column: span 6; border-top: 1px solid var(--ink); padding-top: 22px; }
+ .board-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--grey); font-weight:600; }
+ .board-h { font-size: clamp(22px, 2.2vw, 32px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; margin-top: 12px; }
+ .board-sub { font-size: 15px; color: var(--grey); margin-top: 10px; max-width: 38ch; }
+ .board-link { display:inline-flex; gap:8px; align-items:center; margin-top: 20px; font-size: 14px; font-weight: 600; }
+ .board-link .arrow { transition: transform .25s; }
+ .board-link:hover { color: var(--accent); }
+ .board-link:hover .arrow { transform: translateX(5px); }
+
+ /* ---------- CC&R (04) ---------- */
+ .ccr-q { grid-column: 3 / 8; }
+ .ccr-a { grid-column: 8 / 13; }
+ .qlabel { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
+ .ccr-q .qtext { font-size: clamp(24px, 3vw, 40px); font-weight: 600; letter-spacing: -0.035em; line-height: 1.05; margin-top: 14px; }
+ .ccr-a .atext { font-size: clamp(17px, 1.5vw, 21px); font-weight: 400; line-height: 1.45; margin-top: 14px; color: #3a3026; }
+ .ccr-a .ref { display:block; margin-top: 18px; font-size: 13px; font-weight: 600; color: var(--accent); letter-spacing: 0.04em; }
+
+ /* ---------- NEIGHBORS (05) ---------- */
+ .nb-card { grid-column: span 4; }
+ a.nb-card { display: block; }
+ a.nb-card:hover .nb-name { color: var(--accent); }
+ a.nb-card:hover .nb-no { transform: translateX(4px); display: inline-block; }
+ .nb-no { transition: transform .25s ease; }
+ .nb-name { transition: color .2s ease; }
+ .nb-photo { aspect-ratio: 1 / 1; overflow:hidden; background: var(--paper-deep); }
+ .nb-photo img { width:100%; height:100%; object-fit: cover; display:block; filter: grayscale(100%) sepia(18%); transition: filter .4s ease, transform .6s ease; }
+ .nb-card:hover .nb-photo img { filter: grayscale(0%) sepia(0%); transform: scale(1.03); }
+ .nb-meta { border-top: 1px solid var(--ink); padding-top: 14px; margin-top: 18px; display:flex; justify-content:space-between; align-items: baseline; }
+ .nb-name { font-size: 19px; font-weight: 600; letter-spacing: -0.02em; }
+ .nb-extra { font-size: 13px; color: var(--grey); margin-top: 4px; }
+ .nb-no { font-size: 12px; color: var(--accent); font-weight: 600; }
+
+ /* ---------- FOOTER ---------- */
+ footer.foot { background: var(--paper); padding-top: clamp(56px, 7vw, 100px); padding-bottom: 40px; }
+ .foot-top { grid-column: 1 / 7; }
+ .foot-big { font-size: clamp(40px, 9vw, 132px); font-weight: 800; letter-spacing: -0.05em; line-height: 0.85; text-transform: lowercase; }
+ .foot-nav { grid-column: 9 / 13; align-self: end; }
+ .foot-nav ul { list-style:none; display:grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; font-size: 14px; font-weight: 500; }
+ .foot-nav a { transition: color .2s; }
+ .foot-nav a:hover { color: var(--accent); }
+ .foot-rule { grid-column: 1 / 13; height:1px; background: var(--ink); margin-top: clamp(40px, 5vw, 72px); }
+ .foot-bottom { grid-column: 1 / 13; display:flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 20px; font-size: 12px; color: var(--grey); letter-spacing: 0.04em; }
+
+ /* ---------- RESPONSIVE ---------- */
+ @media (max-width: 900px) {
+ nav.main { display: none; }
+ nav.main.open { display:block; position:absolute; top:100%; left:0; right:0; background: var(--paper); border-bottom:1px solid var(--ink); }
+ nav.main.open ul { flex-direction: column; gap: 0; padding: 8px var(--margin) 24px; }
+ nav.main.open li { border-top: 1px solid var(--line); padding: 14px 0; }
+ .menu-toggle { display: inline-block; }
+ .topbar .wrap { position: relative; }
+
+ .hero-meta { grid-column: 1 / 13; }
+ .hero-tag { grid-column: 1 / 13; }
+
+ .news-item { grid-column: 1 / 13; min-height: auto; padding-bottom: 8px; }
+ .board-row { grid-column: 1 / 13; }
+ .lighter-body { grid-column: 1 / 13; }
+ .lighter-meta { grid-column: 1 / 13; margin-top: 28px; }
+ .ccr-q, .ccr-a { grid-column: 1 / 13; }
+ .nb-card { grid-column: 1 / 13; }
+ .sec-num { grid-column: 1 / 13; margin-bottom: 8px; }
+ .sec-title { grid-column: 1 / 13; }
+ .sec-kicker { grid-column: 1 / 13; text-align: left; margin-top: 10px; }
+ .foot-top { grid-column: 1 / 13; }
+ .foot-nav { grid-column: 1 / 13; margin-top: 36px; }
+ }
+ @media (max-width: 560px) {
+ .nb-card { grid-column: 1 / 13; }
+ .cta { font-size: 13px; padding: 15px 20px; }
+ .hero-figure figcaption { display: none; }
+ }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+ <div class="wrap">
+ <a class="brand" href="02-swiss-minimal.html"><span class="dot"></span> Winterhaven&nbsp;Village</a>
+ <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('nav').classList.toggle('open')">Menu</button>
+ <nav class="main" id="nav">
+ <ul>
+ <li><a href="02-swiss-minimal.html">Home</a></li>
+ <li><a href="#">Directory</a></li>
+ <li><a href="#">Board</a></li>
+ <li><a href="#">News</a></li>
+ <li><a href="#">CC&amp;Rs</a></li>
+ <li><a href="#">Community&nbsp;Board</a></li>
+</ul>
+</nav>
+</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+ <div class="wrap">
+ <div class="grid hero-head">
+ <div class="hero-meta">
+ <strong>Sonoran Desert Community</strong>
+ Tucson, Arizona — Est. 1987
+</div>
+ <h1 class="hero-title">winterhaven&nbsp;village</h1>
+ <p class="hero-tag">Desert living, <span class="accent">neighborly spirit.</span></p>
+</div>
+ <figure class="hero-figure">
+ <img src="img/sunset1.jpg" alt="The Santa Catalina mountains glowing at sunset above the desert" />
+ <figcaption>The Santa Catalinas at sunset, seen from the commons</figcaption>
+ <a class="cta" href="#">Resident Directory <span class="arrow">&rarr;</span></a>
+</figure>
+</div>
+</section>
+
+<!-- 01 NEWS -->
+<section class="block">
+ <div class="wrap grid">
+ <div class="sec-head">
+ <span class="sec-num">01</span>
+ <h2 class="sec-title">This Week at Winterhaven Village</h2>
+ <span class="sec-kicker">Updates</span>
+</div>
+
+ <article class="news-item">
+ <div>
+ <div class="news-idx">N—01</div>
+ <div class="news-date">Maintenance</div>
+</div>
+ <h3 class="news-h">Pool resurfacing begins Monday — swim laps under the Catalinas by July</h3>
+ <a class="news-link" href="#">Read notice <span class="arrow">&rarr;</span></a>
+</article>
+
+ <article class="news-item">
+ <div>
+ <div class="news-idx">N—02</div>
+ <div class="news-date">Grounds</div>
+</div>
+ <h3 class="news-h">New native pollinator garden at the east gate — penstemon, fairy duster, and desert marigold are in</h3>
+ <a class="news-link" href="#">Read notice <span class="arrow">&rarr;</span></a>
+</article>
+
+ <article class="news-item">
+ <div>
+ <div class="news-idx">N—03</div>
+ <div class="news-date">June 21</div>
+</div>
+ <h3 class="news-h">Sunset potluck on the commons — bring a dish and a lawn chair</h3>
+ <a class="news-link" href="#">Read notice <span class="arrow">&rarr;</span></a>
+</article>
+</div>
+</section>
+
+<!-- 02 LIGHTER SIDE -->
+<section class="block lighter">
+ <div class="wrap grid">
+ <div class="sec-head">
+ <span class="sec-num">02</span>
+ <h2 class="sec-title">The Lighter Side</h2>
+ <span class="sec-kicker">Humor Column</span>
+</div>
+ <div class="lighter-body">
+ <p class="lighter-quote">Caption contest: the Hendersons' cat <span class="accent">vs.</span> the drip irrigation system.</p>
+</div>
+ <div class="lighter-meta">
+ <a class="vote" href="#">Vote — closes Friday <span class="arrow">&rarr;</span></a>
+</div>
+</div>
+</section>
+
+<!-- 03 BOARD -->
+<section class="block">
+ <div class="wrap grid">
+ <div class="sec-head">
+ <span class="sec-num">03</span>
+ <h2 class="sec-title">From the Board</h2>
+ <span class="sec-kicker">Governance</span>
+</div>
+
+ <div class="board-row">
+ <div class="board-label">Minutes</div>
+ <h3 class="board-h">May minutes posted</h3>
+ <p class="board-sub">The full record of the May session is now available for resident review and comment.</p>
+ <a class="board-link" href="#">Open minutes <span class="arrow">&rarr;</span></a>
+</div>
+
+ <div class="board-row">
+ <div class="board-label">Project Update</div>
+ <h3 class="board-h">Clubhouse facelift: bids under review</h3>
+ <p class="board-sub">Three contractor proposals are being evaluated; a recommendation goes to vote next month.</p>
+ <a class="board-link" href="#">View update <span class="arrow">&rarr;</span></a>
+</div>
+</div>
+</section>
+
+<!-- 04 CC&R -->
+<section class="block">
+ <div class="wrap grid">
+ <div class="sec-head">
+ <span class="sec-num">04</span>
+ <h2 class="sec-title">CC&amp;R Corner</h2>
+ <span class="sec-kicker">Question of the Week</span>
+</div>
+ <div class="ccr-q">
+ <span class="qlabel">Q</span>
+ <p class="qtext">Can I park my RV in my driveway overnight?</p>
+</div>
+ <div class="ccr-a">
+ <span class="qlabel">A</span>
+ <p class="atext">Up to 72 hours for loading and unloading. Beyond that window, recreational vehicles must be stored off-street.</p>
+ <span class="ref">See section 4.3 →</span>
+</div>
+</div>
+</section>
+
+<!-- 05 NEIGHBORS -->
+<section class="block">
+ <div class="wrap grid">
+ <div class="sec-head">
+ <span class="sec-num">05</span>
+ <h2 class="sec-title">Meet Your Neighbors</h2>
+ <span class="sec-kicker">Directory Preview</span>
+</div>
+
+ <a class="nb-card" href="02-swiss-minimal-profile.html">
+ <div class="nb-photo"><img src="https://i.pravatar.cc/300?img=32" alt="Margaret &amp; Tom Ellis" /></div>
+ <div class="nb-meta">
+ <div>
+ <div class="nb-name">Margaret &amp; Tom Ellis</div>
+ <div class="nb-extra">and Biscuit the corgi</div>
+</div>
+ <span class="nb-no">01</span>
+</div>
+</a>
+
+ <article class="nb-card">
+ <div class="nb-photo"><img src="https://i.pravatar.cc/300?img=12" alt="Robin Calloway" /></div>
+ <div class="nb-meta">
+ <div>
+ <div class="nb-name">Robin Calloway</div>
+ <div class="nb-extra">Ocotillo Court</div>
+</div>
+ <span class="nb-no">02</span>
+</div>
+</article>
+
+ <article class="nb-card">
+ <div class="nb-photo"><img src="https://i.pravatar.cc/300?img=56" alt="The Okafor Family" /></div>
+ <div class="nb-meta">
+ <div>
+ <div class="nb-name">The Okafor Family</div>
+ <div class="nb-extra">and Mango the parrot</div>
+</div>
+ <span class="nb-no">03</span>
+</div>
+</article>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+ <div class="wrap grid">
+ <div class="foot-top">
+ <div class="foot-big">winterhaven&nbsp;village</div>
+</div>
+ <nav class="foot-nav">
+ <ul>
+ <li><a href="02-swiss-minimal.html">Home</a></li>
+ <li><a href="#">Directory</a></li>
+ <li><a href="#">Board</a></li>
+ <li><a href="#">News</a></li>
+ <li><a href="#">CC&amp;Rs</a></li>
+ <li><a href="#">Community Board</a></li>
+</ul>
+</nav>
+ <div class="foot-rule"></div>
+ <div class="foot-bottom">
+ <span>Winterhaven Village Homeowners Association · Tucson, Arizona · Est. 1987</span>
+ <span>Desert living, neighborly spirit.</span>
+</div>
+</div>
+</footer>
+
+</body>
+</html>

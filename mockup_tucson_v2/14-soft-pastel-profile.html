@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Margaret &amp; Tom Ellis — Winterhaven Village Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+<style>
+ :root{
+ --sky:#cfe8e6;
+ --sky-deep:#a3d3cf;
+ --rose:#f3dad5;
+ --rose-deep:#e6b6ab;
+ --terra:#f6ddca;
+ --terra-deep:#e8b58e;
+ --sage:#dde7d3;
+ --sage-deep:#b7c9a4;
+ --sand:#f4ead9;
+ --sand-deep:#e3cfa9;
+ --cream:#fbf7f0;
+ --warm-white:#fffdf8;
+ --ink:#4a423c;
+ --ink-soft:#766b62;
+ --ink-faint:#a59a8d;
+ --rose-accent:#cf7f6e;
+ --teal-accent:#5f9e98;
+ --shadow-soft:0 18px 40px -18px rgba(122,98,74,.30);
+ --shadow-card:0 14px 34px -16px rgba(122,98,74,.28);
+ --radius-lg:32px;
+ --radius-md:22px;
+ --radius-sm:14px;
+ --maxw:1180px;
+ }
+
+ *{box-sizing:border-box;}
+ html{scroll-behavior:smooth;}
+ body{
+ margin:0;
+ font-family:"DM Sans",system-ui,sans-serif;
+ color:var(--ink);
+ background:var(--warm-white);
+ line-height:1.65;
+ -webkit-font-smoothing:antialiased;
+ font-size:17px;
+ }
+ h1,h2,h3{font-family:"DM Serif Display",Georgia,serif;font-weight:400;line-height:1.12;letter-spacing:.2px;margin:0;color:var(--ink);}
+ p{margin:0;}
+ a{color:inherit;text-decoration:none;}
+ img{display:block;max-width:100%;}
+
+ .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+
+ /* squiggle */
+ .squiggle{position:relative;display:inline-block;}
+ .squiggle svg{
+ position:absolute;left:-2%;bottom:-14px;width:104%;height:14px;overflow:visible;pointer-events:none;
+ }
+ .squiggle svg path{
+ fill:none;stroke-width:4;stroke-linecap:round;
+ stroke-dasharray:600;stroke-dashoffset:600;animation:draw 1.6s ease forwards;
+ }
+ @keyframes draw{to{stroke-dashoffset:0;}}
+
+ .tag{
+ display:inline-flex;align-items:center;gap:7px;
+ font-size:.74rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+ padding:7px 16px;border-radius:999px;color:var(--ink);
+ background:#fff;border:1.5px solid rgba(255,255,255,.7);
+ box-shadow:0 6px 16px -10px rgba(122,98,74,.5);
+ }
+ .tag .dot{width:8px;height:8px;border-radius:50%;}
+
+ .btn{
+ display:inline-flex;align-items:center;gap:11px;
+ font-family:"DM Sans",sans-serif;font-weight:600;font-size:1rem;
+ padding:16px 30px;border-radius:999px;border:none;cursor:pointer;
+ background:linear-gradient(135deg,var(--rose-accent),#dd9a83);
+ color:#fff;box-shadow:0 16px 30px -12px rgba(207,127,110,.7);
+ transition:transform .25s cubic-bezier(.2,.8,.3,1),box-shadow .25s ease;
+ }
+ .btn:hover{transform:translateY(-3px);box-shadow:0 22px 38px -12px rgba(207,127,110,.8);}
+ .btn .arrow{transition:transform .25s ease;}
+ .btn:hover .arrow{transform:translateX(4px);}
+ .btn-ghost{
+ background:#fff;color:var(--ink);font-weight:600;
+ box-shadow:0 10px 24px -14px rgba(122,98,74,.5);
+ border:1.5px solid var(--sand-deep);
+ }
+ .btn-ghost:hover{transform:translateY(-3px);box-shadow:0 16px 30px -14px rgba(122,98,74,.6);}
+
+ /* nav */
+ header.site{position:sticky;top:0;z-index:50;}
+ .nav-inner{
+ margin:14px auto 0;max-width:var(--maxw);
+ display:flex;align-items:center;justify-content:space-between;
+ padding:13px 22px;border-radius:999px;
+ background:rgba(255,253,248,.82);backdrop-filter:blur(14px);
+ border:1.5px solid rgba(255,255,255,.9);
+ box-shadow:0 12px 30px -18px rgba(122,98,74,.55);
+ }
+ .brand{display:flex;align-items:center;gap:13px;}
+ .brand .mark{
+ width:42px;height:42px;border-radius:50%;flex:none;
+ background:conic-gradient(from 200deg,var(--sky),var(--rose),var(--terra),var(--sage),var(--sky));
+ display:grid;place-items:center;box-shadow:inset 0 0 0 4px rgba(255,255,255,.7);
+ }
+ .brand .mark span{font-family:"DM Serif Display",serif;font-size:1.2rem;color:var(--ink);}
+ .brand b{font-family:"DM Serif Display",serif;font-weight:400;font-size:1.32rem;}
+ .brand small{display:block;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-top:-2px;}
+ nav.links{display:flex;align-items:center;gap:4px;}
+ nav.links a{
+ font-size:.95rem;font-weight:500;color:var(--ink-soft);
+ padding:9px 15px;border-radius:999px;transition:background .2s,color .2s;
+ }
+ nav.links a:hover{background:var(--sand);color:var(--ink);}
+ .menu-btn{display:none;border:none;background:#fff;width:46px;height:46px;border-radius:50%;cursor:pointer;box-shadow:var(--shadow-card);}
+ .menu-btn span,.menu-btn span::before,.menu-btn span::after{
+ content:"";display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;margin:0 auto;position:relative;
+ }
+ .menu-btn span::before{position:absolute;top:-6px;}
+ .menu-btn span::after{position:absolute;top:6px;}
+
+ /* ---------- back link ---------- */
+ .backbar{padding:30px 0 0;}
+ .back-link{
+ display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:.95rem;
+ color:var(--ink-soft);padding:9px 18px;border-radius:999px;background:#fff;
+ box-shadow:var(--shadow-card);border:1.5px solid rgba(255,255,255,.9);transition:transform .25s,color .2s;
+ }
+ .back-link:hover{transform:translateX(-3px);color:var(--rose-accent);}
+
+ /* ---------- profile hero ---------- */
+ .pro-hero{position:relative;padding:34px 0 70px;overflow:hidden;}
+ .pro-hero::before{
+ content:"";position:absolute;inset:0;z-index:-1;
+ background:
+ radial-gradient(48% 42% at 10% 6%,var(--rose) 0%,transparent 60%),
+ radial-gradient(46% 44% at 92% 16%,var(--sky) 0%,transparent 62%),
+ radial-gradient(58% 55% at 78% 96%,var(--sage) 0%,transparent 60%),
+ var(--warm-white);
+ }
+ .pro-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:54px;align-items:center;margin-top:26px;}
+ .pro-copy .tag{margin-bottom:22px;}
+ .pro-copy h1{font-size:clamp(2.6rem,5vw,4rem);}
+ .pro-copy h1 em{font-style:italic;color:var(--rose-accent);}
+ .pro-meta{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 26px;}
+ .meta-chip{
+ display:inline-flex;align-items:center;gap:8px;font-size:.92rem;font-weight:500;color:var(--ink-soft);
+ background:#fff;padding:10px 18px;border-radius:999px;box-shadow:var(--shadow-card);border:1.5px solid rgba(255,255,255,.9);
+ }
+ .meta-chip b{color:var(--ink);font-family:"DM Sans",sans-serif;font-weight:700;}
+ .pro-contact{display:flex;flex-wrap:wrap;gap:14px;}
+
+ /* portrait pair */
+ .portraits{position:relative;display:flex;gap:18px;justify-content:center;}
+ .portraits .frame{
+ position:absolute;inset:-14px;border-radius:42px;z-index:-1;
+ background:linear-gradient(135deg,var(--sky),var(--rose));transform:rotate(-1.6deg);box-shadow:var(--shadow-card);
+ }
+ .portrait{flex:1;max-width:240px;}
+ .portrait img{width:100%;height:300px;object-fit:cover;border-radius:var(--radius-lg);box-shadow:var(--shadow-soft);}
+ .portrait.t2{margin-top:40px;}
+ .portrait .name{
+ margin-top:14px;text-align:center;font-weight:600;font-size:.95rem;color:var(--ink-soft);
+ }
+
+ /* sections */
+ section{padding:80px 0;position:relative;}
+ .band-rose{background:linear-gradient(180deg,#fdf3f0,#fae8e2);}
+ .band-sky{background:linear-gradient(180deg,#f0faf8,#e6f4f2);}
+ .band-sage{background:linear-gradient(180deg,#f4f8ee,#ebf2e1);}
+ .band-sand{background:linear-gradient(180deg,#fbf5ea,#f5ecd9);}
+ .sec-head{max-width:640px;margin-bottom:42px;}
+ .sec-head.center{margin-left:auto;margin-right:auto;text-align:center;}
+ .sec-head .tag{margin-bottom:20px;}
+ .sec-head h2{font-size:clamp(2rem,3.6vw,2.8rem);}
+ .sec-head p{color:var(--ink-soft);margin-top:18px;font-size:1.06rem;}
+ .wave{display:block;width:100%;height:46px;}
+
+ /* bio */
+ .bio-card{
+ max-width:860px;margin:0 auto;background:#fff;border-radius:var(--radius-lg);
+ padding:52px 56px;box-shadow:var(--shadow-soft);border:1.5px solid rgba(255,255,255,.9);position:relative;overflow:hidden;
+ }
+ .bio-card::after{
+ content:"";position:absolute;width:240px;height:240px;border-radius:50%;
+ right:-80px;bottom:-80px;background:radial-gradient(circle,var(--sage),transparent 70%);opacity:.6;
+ }
+ .bio-card .quote-mark{font-family:"DM Serif Display",serif;font-size:3.4rem;color:var(--rose-accent);line-height:.6;}
+ .bio-card p{font-size:1.22rem;color:var(--ink);margin-top:18px;position:relative;z-index:1;}
+
+ /* home photo */
+ .home-photo{
+ max-width:980px;margin:0 auto;border-radius:var(--radius-lg);overflow:hidden;
+ box-shadow:var(--shadow-soft);border:1.5px solid rgba(255,255,255,.9);background:#fff;
+ }
+ .home-photo img{width:100%;height:480px;object-fit:cover;}
+ .home-photo .cap{
+ display:flex;align-items:center;gap:12px;padding:22px 28px;font-size:1rem;color:var(--ink-soft);
+ }
+ .home-photo .cap .pin{
+ width:38px;height:38px;border-radius:12px;flex:none;display:grid;place-items:center;font-size:1.2rem;background:var(--terra);
+ }
+ .home-photo .cap b{color:var(--ink);font-family:"DM Sans",sans-serif;font-weight:700;}
+
+ /* pets */
+ .pets-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:920px;margin:0 auto;}
+ .pet-card{
+ background:#fff;border-radius:var(--radius-md);overflow:hidden;
+ box-shadow:var(--shadow-card);border:1.5px solid rgba(255,255,255,.9);
+ transition:transform .3s cubic-bezier(.2,.8,.3,1),box-shadow .3s ease;display:flex;flex-direction:column;
+ }
+ .pet-card:hover{transform:translateY(-8px);box-shadow:0 26px 48px -20px rgba(122,98,74,.42);}
+ .pet-card .pic{height:280px;overflow:hidden;}
+ .pet-card .pic img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+ .pet-card:hover .pic img{transform:scale(1.06);}
+ .pet-card .body{padding:26px 28px 30px;display:flex;flex-direction:column;gap:8px;}
+ .pet-card .kind{font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-accent);}
+ .pet-card h3{font-size:1.7rem;}
+
+ /* opt-in note */
+ .optin{
+ max-width:680px;margin:54px auto 0;text-align:center;background:#fff;border-radius:var(--radius-md);
+ padding:28px 34px;box-shadow:var(--shadow-card);border:1.5px solid rgba(255,255,255,.9);
+ display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;
+ }
+ .optin .dot{width:9px;height:9px;border-radius:50%;background:var(--sage-deep);flex:none;}
+ .optin p{color:var(--ink-soft);font-size:.98rem;}
+
+ /* footer */
+ footer{background:linear-gradient(180deg,#f6efe4,#f0e6d6);padding:70px 0 38px;color:var(--ink-soft);}
+ .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;align-items:flex-start;padding-bottom:38px;border-bottom:2px dashed rgba(165,154,141,.45);}
+ .foot-brand{max-width:300px;}
+ .foot-brand .brand{margin-bottom:16px;}
+ .foot-brand p{font-size:.98rem;}
+ .foot-links{display:flex;gap:48px;flex-wrap:wrap;}
+ .foot-col h4{font-family:"DM Sans",sans-serif;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);font-weight:700;margin-bottom:14px;}
+ .foot-col a{display:block;padding:5px 0;font-size:.98rem;transition:color .2s,transform .2s;}
+ .foot-col a:hover{color:var(--rose-accent);transform:translateX(3px);}
+ .foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:28px;font-size:.9rem;color:var(--ink-faint);}
+ .foot-bottom .hearts{display:flex;gap:6px;}
+ .foot-bottom .hearts span{width:11px;height:11px;border-radius:50%;}
+
+ @media (max-width:900px){
+ nav.links{display:none;}
+ .menu-btn{display:grid;place-items:center;}
+ .pro-grid{grid-template-columns:1fr;gap:48px;}
+ .portrait.t2{margin-top:0;}
+ .pets-grid{grid-template-columns:1fr;}
+ .home-photo img{height:340px;}
+ .bio-card{padding:40px 30px;}
+ }
+ @media (max-width:560px){
+ body{font-size:16px;}
+ .wrap{padding:0 18px;}
+ section{padding:60px 0;}
+ .portraits{flex-direction:column;align-items:center;}
+ .portrait{max-width:280px;}
+ }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="site">
+ <div class="wrap">
+ <div class="nav-inner">
+ <a class="brand" href="14-soft-pastel.html#top">
+ <span class="mark"><span>WV</span></span>
+ <span><b>Winterhaven Village</b><small>Tucson, Arizona</small></span>
+</a>
+ <nav class="links">
+ <a href="14-soft-pastel.html#top">Home</a>
+ <a href="14-soft-pastel.html#neighbors">Directory</a>
+ <a href="14-soft-pastel.html#board">Board</a>
+ <a href="14-soft-pastel.html#news">News</a>
+ <a href="14-soft-pastel.html#ccr">CC&amp;Rs</a>
+ <a href="14-soft-pastel.html#community">Community Board</a>
+</nav>
+ <button class="menu-btn" aria-label="Open menu"><span></span></button>
+</div>
+</div>
+</header>
+
+<!-- ============ BACK LINK ============ -->
+<div class="backbar">
+ <div class="wrap">
+ <a class="back-link" href="14-soft-pastel.html#neighbors"><span>&larr;</span> Back to Directory</a>
+</div>
+</div>
+
+<!-- ============ PROFILE HERO ============ -->
+<section class="pro-hero">
+ <div class="wrap">
+ <div class="pro-grid">
+ <div class="pro-copy">
+ <span class="tag"><span class="dot" style="background:var(--rose-accent)"></span> Resident since 1994</span>
+ <h1>Margaret &amp; <em class="squiggle">Tom Ellis
+ <svg viewBox="0 0 280 14" preserveAspectRatio="none"><path d="M2 8 C 40 2, 70 12, 110 6 S 190 2, 230 9 S 270 4, 278 7" stroke="var(--rose-accent)"/></svg>
+</em></h1>
+ <div class="pro-meta">
+ <span class="meta-chip">&#127968; <b>12 Ocotillo Court</b></span>
+ <span class="meta-chip">&#128222; <b>(555) 012-3847</b></span>
+ <span class="meta-chip">&#9993;&#65039; <b>m.ellis@example.com</b></span>
+</div>
+ <div class="pro-contact">
+ <a class="btn" href="mailto:m.ellis@example.com">Say hello <span class="arrow">&rarr;</span></a>
+ <a class="btn btn-ghost" href="14-soft-pastel.html#neighbors">Back to neighbors</a>
+</div>
+</div>
+ <div class="portraits">
+ <div class="frame"></div>
+ <div class="portrait t1">
+ <img src="https://i.pravatar.cc/400?img=32" alt="Margaret Ellis" />
+ <p class="name">Margaret</p>
+</div>
+ <div class="portrait t2">
+ <img src="https://i.pravatar.cc/400?img=11" alt="Tom Ellis" />
+ <p class="name">Tom</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<svg class="wave" viewBox="0 0 1440 46" preserveAspectRatio="none" style="background:var(--warm-white);"><path d="M0,30 C240,8 480,8 720,26 C960,44 1200,44 1440,22 L1440,46 L0,46 Z" fill="#fae8e2"/></svg>
+
+<!-- ============ BIO ============ -->
+<section class="band-rose">
+ <div class="wrap">
+ <div class="sec-head center">
+ <span class="tag"><span class="dot" style="background:var(--rose-deep)"></span> A little about them</span>
+ <h2 class="squiggle">Neighbors worth knowing
+ <svg viewBox="0 0 380 14" preserveAspectRatio="none"><path d="M2 8 C 60 3, 120 12, 180 6 S 300 2, 378 9" stroke="var(--rose-deep)"/></svg>
+</h2>
+</div>
+ <div class="bio-card">
+ <div class="quote-mark">&ldquo;</div>
+ <p>Margaret taught third grade for thirty years and now runs the village book club with the same gentle authority. Tom, a retired civil engineer, spends his mornings on the loop trail before the heat sets in, photographing whatever the desert offers up. Their courtyard garden — penstemon, agave, and one stubborn rosebush — wins the spring garden walk more years than not, and they host the first porch gathering of every monsoon season.</p>
+</div>
+</div>
+</section>
+
+<!-- ============ HOME PHOTO ============ -->
+<section class="band-sky">
+ <div class="wrap">
+ <div class="sec-head center">
+ <span class="tag"><span class="dot" style="background:var(--sky-deep)"></span> Their corner of the village</span>
+ <h2 class="squiggle">Home on Ocotillo Court
+ <svg viewBox="0 0 360 14" preserveAspectRatio="none"><path d="M2 8 C 60 3, 110 12, 170 6 S 290 2, 358 9" stroke="var(--sky-deep)"/></svg>
+</h2>
+</div>
+ <div class="home-photo">
+ <img src="img/house.jpg" alt="The Ellis home on Ocotillo Court" loading="lazy" />
+ <div class="cap">
+ <span class="pin">&#127797;</span>
+ <span><b>The Ellis home, 12 Ocotillo Court</b> — adobe walls, a saguaro by the gate, and that prize-winning courtyard garden out back.</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ PETS ============ -->
+<section class="band-sage">
+ <div class="wrap">
+ <div class="sec-head center">
+ <span class="tag"><span class="dot" style="background:var(--sage-deep)"></span> The four-legged residents</span>
+ <h2 class="squiggle">Meet the menagerie
+ <svg viewBox="0 0 320 14" preserveAspectRatio="none"><path d="M2 8 C 50 3, 100 12, 160 6 S 260 2, 318 9" stroke="var(--sage-deep)"/></svg>
+</h2>
+ <p>Every good desert household needs a welcoming committee.</p>
+</div>
+ <div class="pets-grid">
+ <article class="pet-card">
+ <div class="pic"><img src="https://placedog.net/600/450?id=12" alt="Biscuit the Pembroke Welsh Corgi" loading="lazy" /></div>
+ <div class="body">
+ <span class="kind">&#128021; Pembroke Welsh Corgi</span>
+ <h3>Biscuit</h3>
+ <p>Chief greeter of Ocotillo Court and a devoted shadow on Tom's morning trail walks.</p>
+</div>
+</article>
+ <article class="pet-card">
+ <div class="pic"><img src="https://placecats.com/400/300" alt="Clementine the tabby cat" loading="lazy" /></div>
+ <div class="body">
+ <span class="kind">&#128008; Tabby cat</span>
+ <h3>Clementine</h3>
+ <p>Supervises the courtyard garden from the warmest patch of adobe she can find.</p>
+</div>
+</article>
+</div>
+ <div class="optin">
+ <span class="dot"></span>
+ <p>Directory listings are opt-in. Residents choose what to share.</p>
+</div>
+</div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+ <div class="wrap">
+ <div class="foot-top">
+ <div class="foot-brand">
+ <a class="brand" href="14-soft-pastel.html#top">
+ <span class="mark"><span>WV</span></span>
+ <span><b>Winterhaven Village</b><small>Tucson, Arizona</small></span>
+</a>
+ <p>A Sonoran desert community in the shadow of the Santa Catalinas — and the kind of neighbors who make it home.</p>
+</div>
+ <div class="foot-links">
+ <div class="foot-col">
+ <h4>Explore</h4>
+ <a href="14-soft-pastel.html#top">Home</a>
+ <a href="14-soft-pastel.html#neighbors">Directory</a>
+ <a href="14-soft-pastel.html#board">Board</a>
+</div>
+ <div class="foot-col">
+ <h4>Stay in touch</h4>
+ <a href="14-soft-pastel.html#news">News</a>
+ <a href="14-soft-pastel.html#ccr">CC&amp;Rs</a>
+ <a href="14-soft-pastel.html#community">Community Board</a>
+</div>
+</div>
+</div>
+ <div class="foot-bottom">
+ <span>Winterhaven Village Homeowners Association &middot; Tucson, Arizona &middot; Est. 1987</span>
+ <span class="hearts">
+ <span style="background:var(--sky-deep)"></span>
+ <span style="background:var(--rose-deep)"></span>
+ <span style="background:var(--terra-deep)"></span>
+ <span style="background:var(--sage-deep)"></span>
+</span>
+</div>
+</div>
+</footer>
+
+<script>
+ document.querySelector('.menu-btn')?.addEventListener('click', function(){
+ document.querySelector('nav.links')?.scrollIntoView({behavior:'smooth'});
+ });
+ const obs = new IntersectionObserver((entries)=>{
+ entries.forEach(e=>{
+ if(e.isIntersecting){
+ e.target.querySelectorAll('svg path').forEach(p=>{
+ p.style.animation='none'; void p.offsetWidth; p.style.animation='draw 1.6s ease forwards';
+ });
+ }
+ });
+ },{threshold:.5});
+ document.querySelectorAll('.squiggle').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Margaret &amp; Tom Ellis — The Winterhaven Village Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+ :root{
+ --ink:#1a1714;
+ --paper:#f7f3ea;
+ --paper-deep:#efe9db;
+ --rule:#cdc4b0;
+ --rule-dark:#8a8068;
+ --accent:#7c1c20; /* deep broadsheet red */
+ --accent-ink:#5e1418;
+ --muted:#6b6354;
+ --serif:'EB Garamond', Georgia, serif;
+ --display:'Playfair Display', Georgia, serif;
+ --label:'Oswald', sans-serif;
+ }
+ *{box-sizing:border-box;}
+ html{-webkit-text-size-adjust:100%;}
+ body{
+ margin:0;
+ background:
+ repeating-linear-gradient(0deg, transparent 0 28px, rgba(0,0,0,.012) 28px 29px),
+ var(--paper);
+ color:var(--ink);
+ font-family:var(--serif);
+ font-size:19px;
+ line-height:1.55;
+ -webkit-font-smoothing:antialiased;
+ }
+ a{color:inherit;text-decoration:none;}
+ .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+
+ /* ---------- Top bar / dateline ---------- */
+ .topbar{
+ border-bottom:1px solid var(--rule);
+ font-family:var(--label);
+ text-transform:uppercase;
+ letter-spacing:.14em;
+ font-size:11px;
+ font-weight:400;
+ color:var(--muted);
+ }
+ .topbar .wrap{display:flex;justify-content:space-between;align-items:center;padding-top:9px;padding-bottom:9px;gap:18px;flex-wrap:wrap;}
+ .topbar .price{color:var(--accent);}
+
+ /* ---------- Masthead ---------- */
+ header.masthead{
+ text-align:center;
+ border-bottom:1px solid var(--ink);
+ padding:30px 0 0;
+ }
+ .masthead .estab{
+ font-family:var(--label);
+ text-transform:uppercase;
+ letter-spacing:.42em;
+ font-size:11px;
+ color:var(--muted);
+ margin-bottom:14px;
+ padding-left:.42em;
+ }
+ .masthead h1{
+ font-family:var(--display);
+ font-weight:800;
+ font-size:clamp(46px,9.5vw,118px);
+ line-height:.92;
+ margin:0;
+ letter-spacing:-.01em;
+ }
+ .masthead .tagline{
+ font-family:var(--display);
+ font-style:italic;
+ font-weight:400;
+ font-size:clamp(16px,2.4vw,22px);
+ color:var(--accent-ink);
+ margin:14px 0 18px;
+ }
+ .dateline{
+ border-top:3px double var(--ink);
+ border-bottom:1px solid var(--ink);
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ font-family:var(--label);
+ text-transform:uppercase;
+ font-size:11.5px;
+ letter-spacing:.16em;
+ padding:8px 0;
+ color:var(--ink);
+ }
+ .dateline .vol{color:var(--muted);}
+
+ /* ---------- Nav ---------- */
+ nav.primary{border-bottom:1px solid var(--ink);}
+ nav.primary .wrap{
+ display:flex;
+ justify-content:center;
+ gap:0;
+ flex-wrap:wrap;
+ }
+ nav.primary a{
+ font-family:var(--label);
+ text-transform:uppercase;
+ letter-spacing:.18em;
+ font-size:12.5px;
+ font-weight:500;
+ padding:13px 22px;
+ color:var(--ink);
+ border-left:1px solid var(--rule);
+ position:relative;
+ transition:color .2s ease, background .2s ease;
+ }
+ nav.primary a:first-child{border-left:none;}
+ nav.primary a::after{
+ content:"";position:absolute;left:50%;right:50%;bottom:6px;height:2px;
+ background:var(--accent);transition:left .25s ease,right .25s ease;
+ }
+ nav.primary a:hover{color:var(--accent);}
+ nav.primary a:hover::after{left:18px;right:18px;}
+ nav.primary a.active{color:var(--accent);}
+ nav.primary a.active::after{left:18px;right:18px;}
+
+ /* ---------- Breadcrumb / back affordance ---------- */
+ .crumbs{border-bottom:1px solid var(--rule);}
+ .crumbs .wrap{
+ display:flex;justify-content:space-between;align-items:center;gap:16px;
+ padding:11px 0;flex-wrap:wrap;
+ }
+ .crumbs .back{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.16em;
+ font-size:11.5px;font-weight:500;color:var(--accent);
+ display:inline-flex;align-items:center;gap:7px;
+ border-bottom:1px solid transparent;padding-bottom:1px;transition:border-color .2s,opacity .2s;
+ }
+ .crumbs .back:hover{border-color:var(--accent);opacity:.85;}
+ .crumbs .where{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.16em;
+ font-size:11px;color:var(--muted);
+ }
+
+ /* ---------- Profile head ---------- */
+ .profile-head{padding:36px 0 6px;}
+ .profile-head .kicker{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.2em;
+ font-size:11px;color:var(--accent);border-bottom:1px solid var(--ink);
+ padding-bottom:6px;margin-bottom:16px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+ }
+ .profile-head .kicker .since{color:var(--muted);}
+ .profile-head h2{
+ font-family:var(--display);font-weight:800;font-size:clamp(38px,6.5vw,76px);
+ line-height:.96;margin:0 0 10px;letter-spacing:-.01em;
+ }
+ .profile-head .deck{
+ font-family:var(--display);font-style:italic;font-weight:400;
+ font-size:clamp(18px,2.6vw,25px);color:var(--accent-ink);margin:0;
+ }
+
+ /* ---------- Portrait + bio ---------- */
+ .lede-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:42px;align-items:start;margin:30px 0 0;}
+ .portraits{position:relative;padding:0 18px 22px 0;}
+ .portraits figure{margin:0;}
+ .portraits img{
+ width:100%;display:block;height:auto;object-fit:cover;
+ filter:grayscale(.22) contrast(1.04);border:1px solid var(--rule-dark);
+ background:var(--paper-deep);
+ }
+ .portraits .p-main{position:relative;z-index:1;}
+ .portraits .p-inset{
+ position:absolute;right:-4px;bottom:-4px;width:46%;z-index:2;
+ border:3px solid var(--paper);outline:1px solid var(--rule-dark);
+ box-shadow:0 8px 22px -10px rgba(0,0,0,.4);
+ }
+ .portraits figcaption{
+ font-family:var(--serif);font-style:italic;font-size:14px;color:var(--muted);
+ padding:9px 2px 0;border-bottom:1px solid var(--rule);margin-top:6px;
+ }
+
+ .bio .lead{margin:0 0 16px;text-align:justify;hyphens:auto;}
+ .bio .lead::first-letter{
+ font-family:var(--display);font-weight:800;float:left;font-size:74px;line-height:.66;
+ padding:8px 10px 0 0;color:var(--accent);
+ }
+
+ /* ---------- Contact facts ---------- */
+ .facts{
+ border-top:3px double var(--ink);border-bottom:1px solid var(--ink);
+ margin-top:22px;padding:16px 0;
+ display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+ }
+ .facts .f{border-left:1px solid var(--rule);padding-left:16px;}
+ .facts .f:first-child{border-left:none;}
+ .facts .fk{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.16em;
+ font-size:10px;color:var(--accent);margin-bottom:4px;
+ }
+ .facts .fv{font-size:17px;line-height:1.35;}
+ .facts .fv a{border-bottom:1px solid var(--rule);transition:border-color .2s;}
+ .facts .fv a:hover{border-color:var(--accent);color:var(--accent);}
+
+ /* ---------- Section headers ---------- */
+ .sec-head{
+ display:flex;align-items:baseline;gap:16px;
+ border-bottom:2px solid var(--ink);margin:48px 0 22px;padding-bottom:8px;
+ }
+ .sec-head h3{
+ font-family:var(--display);font-weight:800;font-size:clamp(24px,3vw,34px);margin:0;
+ letter-spacing:-.005em;
+ }
+ .sec-head .tag{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.22em;
+ font-size:11px;color:var(--accent);margin-left:auto;
+ border:1px solid var(--accent);padding:4px 10px;border-radius:1px;white-space:nowrap;
+ }
+
+ /* ---------- Residence ---------- */
+ .residence figure{margin:0;}
+ .residence img{
+ width:100%;display:block;height:auto;
+ filter:grayscale(.18) contrast(1.04);border:1px solid var(--rule-dark);
+ }
+ .residence figcaption{
+ font-family:var(--serif);font-style:italic;font-size:14px;color:var(--muted);
+ padding:7px 2px 0;border-bottom:1px solid var(--rule);
+ }
+
+ /* ---------- Pets ---------- */
+ .pets{display:grid;grid-template-columns:repeat(2,1fr);gap:34px;}
+ .pet{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;
+ border-top:1px solid var(--rule);padding-top:22px;}
+ .pet img{
+ width:150px;height:120px;object-fit:cover;
+ filter:grayscale(.3) sepia(.05) contrast(1.03);border:3px double var(--ink);
+ transition:filter .3s ease,transform .3s ease;
+ }
+ .pet:hover img{filter:grayscale(0) contrast(1.05);transform:scale(1.02);}
+ .pet .pk{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.16em;
+ font-size:10.5px;color:var(--accent);margin-bottom:3px;
+ }
+ .pet h4{font-family:var(--display);font-weight:700;font-size:26px;margin:0 0 4px;}
+ .pet .breed{font-style:italic;color:var(--muted);font-size:16px;}
+
+ /* ---------- Opt-in note ---------- */
+ .optin{
+ background:var(--paper-deep);
+ border-top:3px double var(--ink);border-bottom:3px double var(--ink);
+ margin:46px 0 0;padding:22px 0;
+ }
+ .optin .inner{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;}
+ .optin .mark{
+ font-family:var(--display);font-weight:900;font-size:84px;line-height:.7;
+ color:var(--accent);opacity:.85;
+ }
+ .optin .lbl{font-family:var(--label);text-transform:uppercase;letter-spacing:.22em;font-size:11px;color:var(--accent);margin-bottom:6px;}
+ .optin p{margin:0;font-family:var(--display);font-style:italic;font-weight:500;font-size:clamp(18px,2.4vw,24px);line-height:1.2;}
+
+ /* ---------- Bottom CTA ---------- */
+ .btn{
+ display:inline-block;font-family:var(--label);text-transform:uppercase;
+ letter-spacing:.16em;font-size:13px;font-weight:500;
+ background:var(--accent);color:#f7f3ea;padding:13px 26px;
+ border:1px solid var(--accent-ink);
+ transition:background .2s ease,transform .15s ease,box-shadow .2s ease;
+ }
+ .btn:hover{background:var(--accent-ink);transform:translateY(-1px);box-shadow:0 6px 0 -2px rgba(0,0,0,.18);}
+ .btn.ghost{background:transparent;color:var(--accent);border-color:var(--accent);}
+ .btn.ghost:hover{background:var(--accent);color:#f7f3ea;}
+ .btn .arrow{margin-left:8px;}
+ .btn .arrow.left{margin:0 8px 0 0;}
+ .dir-cta{text-align:center;margin:34px 0 8px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;}
+
+ /* ---------- Footer ---------- */
+ footer{
+ border-top:3px double var(--ink);margin-top:54px;padding:30px 0 44px;
+ text-align:center;
+ }
+ footer .fmast{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:-.01em;}
+ footer .estab{font-family:var(--label);text-transform:uppercase;letter-spacing:.3em;font-size:11px;color:var(--muted);margin:8px 0 18px;}
+ footer nav{display:flex;justify-content:center;flex-wrap:wrap;gap:0;}
+ footer nav a{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.16em;font-size:11.5px;
+ padding:6px 16px;border-left:1px solid var(--rule);color:var(--ink);transition:color .2s;
+ }
+ footer nav a:first-child{border-left:none;}
+ footer nav a:hover{color:var(--accent);}
+ footer .colophon{font-style:italic;color:var(--muted);font-size:13.5px;margin-top:20px;}
+
+ /* ---------- Responsive ---------- */
+ @media(max-width:960px){
+ .lede-grid{grid-template-columns:1fr;gap:30px;}
+ .portraits{max-width:460px;}
+ .facts{grid-template-columns:1fr 1fr;}
+ .pets{grid-template-columns:1fr;gap:0;}
+ .pet{margin-top:22px;}
+ .pet:first-child{border-top:1px solid var(--rule);}
+ }
+ @media(max-width:620px){
+ body{font-size:18px;}
+ .facts{grid-template-columns:1fr;}
+ .facts .f{border-left:none;border-top:1px solid var(--rule);padding-left:0;padding-top:12px;}
+ .facts .f:first-child{border-top:none;padding-top:0;}
+ .optin .inner{grid-template-columns:1fr;gap:8px;text-align:center;}
+ .optin .mark{font-size:64px;}
+ .pet{grid-template-columns:1fr;text-align:center;justify-items:center;gap:12px;}
+ nav.primary a{padding:11px 14px;letter-spacing:.12em;font-size:11.5px;}
+ nav.primary a:nth-child(n+2){border-left:none;}
+ .topbar .wrap{justify-content:center;}
+ .dir-cta{flex-direction:column;align-items:center;}
+ }
+</style>
+</head>
+<body>
+
+ <!-- Top bar -->
+ <div class="topbar">
+ <div class="wrap">
+ <span>Hillside Community &nbsp;·&nbsp; Elevation 1,420 ft</span>
+ <span class="price">Free to Residents — Delivered Weekly</span>
+</div>
+</div>
+
+ <!-- Masthead -->
+ <header class="masthead">
+ <div class="wrap">
+ <div class="estab">The Winterhaven Village Review</div>
+ <h1>Winterhaven&nbsp;Village</h1>
+ <p class="tagline">Life in the village, together.</p>
+</div>
+ <div class="wrap">
+ <div class="dateline">
+ <span>Wednesday, June&nbsp;3</span>
+ <span class="vol">Vol. XXXIX — No. 23</span>
+ <span>The Resident Directory</span>
+</div>
+</div>
+</header>
+
+ <!-- Nav -->
+ <nav class="primary">
+ <div class="wrap">
+ <a href="01-classic-editorial.html">Home</a>
+ <a href="01-classic-editorial.html#directory" class="active">Directory</a>
+ <a href="#">Board</a>
+ <a href="#">News</a>
+ <a href="#">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</div>
+</nav>
+
+ <!-- Breadcrumb / back -->
+ <div class="crumbs">
+ <div class="wrap">
+ <a class="back" href="01-classic-editorial.html#directory"><span class="arrow left">&larr;</span> Back to Directory</a>
+ <span class="where">Directory &middot; Profile</span>
+</div>
+</div>
+
+ <main class="wrap">
+
+ <!-- Profile head -->
+ <section class="profile-head">
+ <div class="kicker">
+ <span>Resident Profile — 12 Crestview Court</span>
+ <span class="since">Residents Since 1994</span>
+</div>
+ <h2>Margaret &amp; Tom Ellis</h2>
+ <p class="deck">Keepers of the village's finest rose beds, and of the first porch light of every summer.</p>
+</section>
+
+ <!-- Portrait + bio -->
+ <section class="lede-grid">
+ <div class="portraits">
+ <figure>
+ <img class="p-main" src="https://i.pravatar.cc/400?img=32" alt="Margaret Ellis">
+ <img class="p-inset" src="https://i.pravatar.cc/400?img=11" alt="Tom Ellis">
+ <figcaption>Margaret &amp; Tom Ellis, photographed on the porch at 12 Crestview Court.</figcaption>
+</figure>
+</div>
+ <div class="bio">
+ <p class="lead">Margaret taught third grade for thirty years and now runs the village book club with the same gentle authority. Tom, a retired civil engineer, can be found most mornings on the walking trail or fixing something that wasn't quite broken. They keep the finest rose beds in the village and host the first porch gathering of every summer.</p>
+
+ <div class="facts">
+ <div class="f">
+ <div class="fk">Residence</div>
+ <div class="fv">12 Crestview Court</div>
+</div>
+ <div class="f">
+ <div class="fk">Telephone</div>
+ <div class="fv"><a href="tel:+15550123847">(555) 012-3847</a></div>
+</div>
+ <div class="f">
+ <div class="fk">Correspondence</div>
+ <div class="fv"><a href="mailto:m.ellis@example.com">m.ellis@example.com</a></div>
+</div>
+</div>
+</div>
+</section>
+
+ <!-- Residence -->
+ <div class="sec-head">
+ <h3>The Ellis Residence</h3>
+ <span class="tag">At Home</span>
+</div>
+ <section class="residence">
+ <figure>
+ <img src="https://picsum.photos/seed/ellishouse/1200/800" alt="The Ellis home at 12 Crestview Court">
+ <figcaption>The Ellis home at 12 Crestview Court — rose beds along the walk, porch swing on the south side.</figcaption>
+</figure>
+</section>
+
+ <!-- Pets -->
+ <div class="sec-head">
+ <h3>The Household Companions</h3>
+ <span class="tag">Pets</span>
+</div>
+ <section class="pets">
+ <article class="pet">
+ <img src="https://placedog.net/600/450?id=12" alt="Biscuit the Pembroke Welsh Corgi">
+ <div>
+ <div class="pk">In Residence</div>
+ <h4>Biscuit</h4>
+ <div class="breed">Pembroke Welsh Corgi · patrols the cul-de-sac at dusk</div>
+</div>
+</article>
+ <article class="pet">
+ <img src="https://placecats.com/400/300" alt="Clementine the tabby cat">
+ <div>
+ <div class="pk">In Residence</div>
+ <h4>Clementine</h4>
+ <div class="breed">Tabby cat · supervises the rose beds from the windowsill</div>
+</div>
+</article>
+</section>
+
+ <!-- Opt-in note -->
+ <section class="optin">
+ <div class="wrap inner">
+ <div class="mark">&sect;</div>
+ <div>
+ <div class="lbl">A Note on the Directory</div>
+ <p>Directory listings are opt-in. Residents choose what to share.</p>
+</div>
+</div>
+</section>
+
+ <div class="dir-cta">
+ <a class="btn ghost" href="01-classic-editorial.html#directory"><span class="arrow left">&larr;</span> Back to Directory</a>
+ <a class="btn" href="01-classic-editorial.html">Return Home <span class="arrow">&rarr;</span></a>
+</div>
+
+</main>
+
+ <!-- Footer -->
+ <footer>
+ <div class="wrap">
+ <div class="fmast">Winterhaven Village</div>
+ <div class="estab">Homeowners Association · Est. 1987</div>
+ <nav>
+ <a href="01-classic-editorial.html">Home</a>
+ <a href="01-classic-editorial.html#directory">Directory</a>
+ <a href="#">Board</a>
+ <a href="#">News</a>
+ <a href="#">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+ <div class="colophon">Printed for the residents of the village &middot; All the news that fits the hillside.</div>
+</div>
+</footer>
+
+</body>
+</html>

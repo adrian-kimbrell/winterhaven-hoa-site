@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Margaret &amp; Tom Ellis — Winterhaven Village Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Rye&family=Bitter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --terracotta: #a8442a;
+ --terracotta-deep: #7c2f1c;
+ --rust: #c25a2e;
+ --orange: #e08a3c;
+ --orange-deep: #c96e1e;
+ --saguaro: #4a6b3e;
+ --saguaro-deep: #324a2c;
+ --saguaro-soft: #6e8b5a;
+ --sand: #e6c79c;
+ --sand-deep: #cda36f;
+ --cream: #f6ecd8;
+ --cream-soft: #efe2c6;
+ --paper: #f8efdc;
+ --ink: #3a2418;
+ --ink-soft: #5c4231;
+ --dusk: #4b2c3f;
+ --line: rgba(194, 90, 46, 0.5);
+ --brass: #d99a3c;
+ --shadow: 0 18px 50px -22px rgba(124, 47, 28, 0.55);
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: 'Bitter', Georgia, serif;
+ color: var(--ink);
+ background-color: var(--paper);
+ background-image:
+ radial-gradient(circle at 12% -10%, rgba(74, 107, 62, 0.10), transparent 45%),
+ radial-gradient(circle at 95% 8%, rgba(224, 138, 60, 0.12), transparent 42%);
+ line-height: 1.65;
+ -webkit-font-smoothing: antialiased;
+ overflow-x: hidden;
+ }
+
+ .topo-bg {
+ position: fixed;
+ inset: 0;
+ z-index: -1;
+ pointer-events: none;
+ opacity: 0.55;
+ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='440' height='440' viewBox='0 0 440 440'%3E%3Cg fill='none' stroke='%23a8442a' stroke-width='1' stroke-opacity='0.10'%3E%3Cpath d='M-20 210 Q 120 140 220 215 T 460 210'/%3E%3Cpath d='M-20 240 Q 120 170 220 245 T 460 240'/%3E%3Cpath d='M-20 270 Q 120 200 220 275 T 460 270'/%3E%3Cpath d='M-20 180 Q 120 110 220 185 T 460 180'/%3E%3Cpath d='M-20 150 Q 120 80 220 155 T 460 150'/%3E%3Cpath d='M-20 120 Q 120 50 220 125 T 460 120'/%3E%3Cpath d='M-20 300 Q 120 230 220 305 T 460 300'/%3E%3Cpath d='M-20 330 Q 120 260 220 335 T 460 330'/%3E%3Cpath d='M-20 360 Q 120 290 220 365 T 460 360'/%3E%3C/g%3E%3C/svg%3E");
+ }
+
+ a { color: inherit; text-decoration: none; }
+
+ .wrap { width: min(1180px, 92vw); margin: 0 auto; }
+
+ /* ---------- TOP RIBBON ---------- */
+ .ribbon {
+ background: var(--terracotta-deep);
+ color: var(--cream);
+ font-family: 'Oswald', sans-serif;
+ font-size: 0.74rem;
+ letter-spacing: 0.28em;
+ text-transform: uppercase;
+ text-align: center;
+ padding: 8px 0;
+ border-bottom: 1px solid rgba(217, 154, 60, 0.35);
+ }
+ .ribbon span { color: var(--brass); }
+
+ /* ---------- HEADER / NAV ---------- */
+ header {
+ background: var(--terracotta);
+ color: var(--cream);
+ position: sticky;
+ top: 0;
+ z-index: 50;
+ border-bottom: 3px solid var(--brass);
+ box-shadow: 0 6px 20px -8px rgba(0,0,0,0.45);
+ }
+ .nav {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 14px 0;
+ gap: 24px;
+ }
+ .brand { display: flex; align-items: center; gap: 14px; }
+ .crest {
+ width: 46px; height: 46px;
+ flex: 0 0 auto;
+ display: grid; place-items: center;
+ border: 2px solid var(--brass);
+ border-radius: 50%;
+ background: radial-gradient(circle at 50% 32%, var(--orange), var(--terracotta-deep));
+ box-shadow: inset 0 0 0 3px rgba(246, 236, 216, 0.10);
+ }
+ .crest svg { width: 28px; height: 28px; }
+ .brand-text { display: flex; flex-direction: column; line-height: 1.05; }
+ .brand-text .name {
+ font-family: 'Oswald', sans-serif;
+ font-weight: 600;
+ letter-spacing: 0.16em;
+ text-transform: uppercase;
+ font-size: 1.18rem;
+ color: var(--cream);
+ }
+ .brand-text .sub {
+ font-family: 'Oswald', sans-serif;
+ font-size: 0.62rem;
+ letter-spacing: 0.34em;
+ text-transform: uppercase;
+ color: var(--brass);
+ }
+ nav.links { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+ nav.links a {
+ font-family: 'Oswald', sans-serif;
+ font-size: 0.82rem;
+ letter-spacing: 0.12em;
+ text-transform: uppercase;
+ color: var(--cream);
+ padding: 8px 13px;
+ border-radius: 4px;
+ position: relative;
+ transition: color 0.2s ease, background 0.2s ease;
+ }
+ nav.links a::after {
+ content: "";
+ position: absolute;
+ left: 13px; right: 13px; bottom: 4px;
+ height: 2px;
+ background: var(--brass);
+ transform: scaleX(0);
+ transform-origin: left;
+ transition: transform 0.25s ease;
+ }
+ nav.links a:hover { color: var(--sand); }
+ nav.links a:hover::after { transform: scaleX(1); }
+
+ .menu-toggle {
+ display: none;
+ background: none;
+ border: 1px solid var(--brass);
+ color: var(--cream);
+ border-radius: 4px;
+ padding: 8px 10px;
+ cursor: pointer;
+ font-family: 'Oswald', sans-serif;
+ letter-spacing: 0.1em;
+ }
+
+ /* ---------- BACK BAR ---------- */
+ .backbar { padding: 24px 0 0; }
+ .back {
+ display: inline-flex;
+ align-items: center;
+ gap: 9px;
+ font-family: 'Oswald', sans-serif;
+ font-size: 0.78rem;
+ letter-spacing: 0.16em;
+ text-transform: uppercase;
+ color: var(--saguaro);
+ border: 1px solid var(--line);
+ background: var(--cream);
+ padding: 9px 16px;
+ border-radius: 5px;
+ transition: transform 0.18s ease, color 0.2s ease, border-color 0.2s ease;
+ }
+ .back::before { content: "←"; transition: transform 0.2s ease; }
+ .back:hover { color: var(--terracotta-deep); border-color: var(--orange); transform: translateX(-3px); }
+
+ /* ---------- PROFILE HERO ---------- */
+ .profile-hero {
+ position: relative;
+ margin-top: 28px;
+ border: 2px solid var(--brass);
+ border-radius: 10px;
+ overflow: hidden;
+ color: var(--cream);
+ box-shadow: var(--shadow);
+ }
+ .profile-hero .bg {
+ position: absolute; inset: 0;
+ background: url("img/house.jpg") center/cover no-repeat;
+ filter: saturate(0.6) contrast(1.08) brightness(0.55) sepia(0.4) hue-rotate(-15deg);
+ }
+ .profile-hero::before {
+ content: "";
+ position: absolute; inset: 0;
+ background: linear-gradient(160deg, rgba(124,47,28,0.85), rgba(75,44,63,0.55) 55%, rgba(224,138,60,0.3));
+ z-index: 1;
+ }
+ .profile-hero-inner {
+ position: relative;
+ z-index: 2;
+ padding: 48px 44px 44px;
+ display: flex;
+ align-items: center;
+ gap: 36px;
+ flex-wrap: wrap;
+ }
+ .portrait-stack { display: flex; gap: 16px; }
+ .portrait-stack .pf {
+ width: 116px; height: 116px;
+ border-radius: 50%;
+ padding: 5px;
+ background: linear-gradient(135deg, var(--brass), var(--saguaro));
+ flex: 0 0 auto;
+ }
+ .portrait-stack .pf img {
+ width: 100%; height: 100%;
+ object-fit: cover;
+ border-radius: 50%;
+ border: 3px solid var(--cream);
+ filter: saturate(0.85) sepia(0.12);
+ }
+ .portrait-stack .pf:nth-child(2) { margin-left: -28px; }
+ .profile-head { flex: 1; min-width: 260px; }
+ .profile-head .eyebrow {
+ font-family: 'Oswald', sans-serif;
+ font-size: 0.74rem;
+ letter-spacing: 0.34em;
+ text-transform: uppercase;
+ color: var(--brass);
+ }
+ .profile-head h1 {
+ font-family: 'Rye', 'Bitter', serif;
+ font-weight: 400;
+ font-size: clamp(2rem, 5vw, 3.4rem);
+ line-height: 1.02;
+ color: var(--cream);
+ text-shadow: 0 2px 0 rgba(0,0,0,0.25);
+ margin: 6px 0 10px;
+ }
+ .meta-row {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 10px 22px;
+ font-family: 'Oswald', sans-serif;
+ font-size: 0.82rem;
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+ color: var(--cream-soft);
+ }
+ .meta-row .mi { display: inline-flex; align-items: center; gap: 8px; }
+ .meta-row .mi svg { width: 16px; height: 16px; stroke: var(--orange); }
+
+ /* ---------- LAYOUT ---------- */
+ .profile-grid {
+ display: grid;
+ grid-template-columns: 1.7fr 1fr;
+ gap: 30px;
+ padding: 48px 0 24px;
+ align-items: start;
+ }
+
+ .card {
+ background: var(--cream);
+ border: 1px solid rgba(92,66,49,0.25);
+ border-radius: 10px;
+ box-shadow: var(--shadow);
+ position: relative;
+ }
+ .card.framed::before {
+ content: "";
+ position: absolute;
+ inset: 8px;
+ border: 1px solid var(--line);
+ border-radius: 7px;
+ pointer-events: none;
+ }
+ .card-head {
+ display: flex; align-items: center; gap: 14px;
+ padding: 22px 28px 0;
+ }
+ .card-head .tick {
+ width: 36px; height: 36px;
+ flex: 0 0 auto;
+ display: grid; place-items: center;
+ border: 2px solid var(--saguaro);
+ border-radius: 6px;
+ background: var(--cream);
+ color: var(--saguaro);
+ }
+ .card-head .tick svg { width: 20px; height: 20px; }
+ .card-head h2 {
+ font-family: 'Oswald', sans-serif;
+ font-weight: 600;
+ font-size: 1.1rem;
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+ color: var(--terracotta-deep);
+ }
+ .card-body { padding: 18px 28px 28px; }
+
+ .bio p {
+ font-size: 1.06rem;
+ color: var(--ink-soft);
+ }
+ .bio p + p { margin-top: 14px; }
+
+ /* residence photo */
+ .home-photo {
+ margin-top: 4px;
+ border-radius: 8px;
+ overflow: hidden;
+ border: 1px solid rgba(92,66,49,0.3);
+ }
+ .home-photo img {
+ display: block;
+ width: 100%;
+ height: 320px;
+ object-fit: cover;
+ filter: saturate(0.68) contrast(1.06) sepia(0.28) hue-rotate(-12deg) brightness(0.97);
+ }
+ .home-caption {
+ font-family: 'Oswald', sans-serif;
+ font-size: 0.74rem;
+ letter-spacing: 0.16em;
+ text-transform: uppercase;
+ color: var(--ink-soft);
+ padding: 10px 4px 0;
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ }
+ .home-caption svg { width: 15px; height: 15px; stroke: var(--orange-deep); }
+
+ /* contact */
+ .contact-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+ .contact-list li { display: flex; align-items: center; gap: 13px; }
+ .contact-list .ic {
+ width: 36px; height: 36px;
+ flex: 0 0 auto;
+ display: grid; place-items: center;
+ border-radius: 50%;
+ background: var(--saguaro-deep);
+ color: var(--cream);
+ }
+ .contact-list .ic svg { width: 18px; height: 18px; }
+ .contact-list .lbl {
+ font-family: 'Oswald', sans-serif;
+ font-size: 0.66rem;
+ letter-spacing: 0.18em;
+ text-transform: uppercase;
+ color: var(--ink-soft);
+ display: block;
+ }
+ .contact-list .val {
+ font-family: 'Bitter', serif;
+ font-weight: 600;
+ color: var(--terracotta-deep);
+ }
+ .contact-list a.val:hover { color: var(--orange-deep); }
+
+ /* pets */
+ .pets { display: flex; flex-direction: column; gap: 18px; }
+ .pet-card {
+ display: flex;
+ gap: 16px;
+ align-items: center;
+ background: var(--paper);
+ border: 1px solid rgba(92,66,49,0.22);
+ border-left: 5px solid var(--orange);
+ border-radius: 8px;
+ padding: 12px;
+ transition: transform 0.18s ease, box-shadow 0.2s ease;
+ }
+ .pet-card:hover { transform: translateY(-3px); box-shadow: 0 16px 34px -20px rgba(124,47,28,0.5); }
+ .pet-card img {
+ width: 92px; height: 72px;
+ object-fit: cover;
+ border-radius: 6px;
+ border: 2px solid var(--cream);
+ box-shadow: 0 0 0 1px rgba(92,66,49,0.25);
+ filter: saturate(0.82) sepia(0.08);
+ flex: 0 0 auto;
+ }
+ .pet-card .pet-name {
+ font-family: 'Bitter', serif;
+ font-weight: 700;
+ font-size: 1.16rem;
+ color: var(--terracotta-deep);
+ line-height: 1.1;
+ }
+ .pet-card .pet-breed {
+ font-family: 'Oswald', sans-serif;
+ font-size: 0.72rem;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ color: var(--saguaro);
+ margin-top: 4px;
+ }
+
+ .opt-note {
+ margin: 8px 0 44px;
+ text-align: center;
+ font-style: italic;
+ font-size: 0.92rem;
+ color: var(--ink-soft);
+ }
+ .opt-note span {
+ display: inline-flex;
+ align-items: center;
+ gap: 9px;
+ border-top: 1px solid var(--line);
+ border-bottom: 1px solid var(--line);
+ padding: 10px 18px;
+ }
+ .opt-note svg { width: 16px; height: 16px; stroke: var(--saguaro); }
+
+ /* ---------- FOOTER ---------- */
+ footer {
+ background: var(--terracotta-deep);
+ color: var(--cream);
+ padding: 54px 0 40px;
+ border-top: 3px solid var(--brass);
+ }
+ .foot-inner {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 22px;
+ text-align: center;
+ }
+ .foot-crest { display: flex; align-items: center; gap: 14px; }
+ .foot-crest .crest { width: 40px; height: 40px; }
+ .foot-crest .name { font-family: 'Rye', serif; font-size: 1.5rem; color: var(--cream); }
+ .foot-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 4px; }
+ .foot-links a {
+ font-family: 'Oswald', sans-serif;
+ font-size: 0.8rem;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ color: var(--cream-soft);
+ padding: 6px 14px;
+ border-radius: 4px;
+ transition: color 0.2s ease;
+ }
+ .foot-links a:hover { color: var(--orange); }
+ .foot-divider {
+ width: 220px; height: 1px;
+ background: linear-gradient(90deg, transparent, var(--brass), transparent);
+ }
+ .estd {
+ font-family: 'Oswald', sans-serif;
+ font-size: 0.78rem;
+ letter-spacing: 0.24em;
+ text-transform: uppercase;
+ color: var(--brass);
+ }
+
+ /* ---------- RESPONSIVE ---------- */
+ @media (max-width: 880px) {
+ .profile-grid { grid-template-columns: 1fr; }
+ }
+ @media (max-width: 760px) {
+ .menu-toggle { display: inline-block; }
+ nav.links {
+ display: none;
+ position: absolute;
+ top: 100%; left: 0; right: 0;
+ background: var(--terracotta-deep);
+ flex-direction: column;
+ align-items: stretch;
+ padding: 10px 0 16px;
+ border-bottom: 3px solid var(--brass);
+ gap: 0;
+ }
+ nav.links.open { display: flex; }
+ nav.links a { padding: 13px 24px; border-radius: 0; }
+ nav.links a::after { display: none; }
+ .nav { position: relative; }
+ .profile-hero-inner { padding: 36px 26px 32px; }
+ }
+ @media (max-width: 480px) {
+ .portrait-stack .pf { width: 92px; height: 92px; }
+ .home-photo img { height: 220px; }
+ }
+</style>
+</head>
+<body>
+ <div class="topo-bg" aria-hidden="true"></div>
+
+ <div class="ribbon">Elevation 2,389 ft &nbsp;·&nbsp; <span>A Sonoran Desert Community Since 1987</span> &nbsp;·&nbsp; Winterhaven Village, Tucson, Arizona</div>
+
+ <header>
+ <div class="wrap nav">
+ <a class="brand" href="05-desert-lodge.html">
+ <span class="crest" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="#f6ecd8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M12 22 V7"/>
+ <path d="M12 13 C12 10 9.5 9.5 9 11 C8.6 12.4 9.2 15 9 16 V17"/>
+ <path d="M12 11 C12 8.5 14.5 8 15 9.5 C15.4 10.8 14.8 13.5 15 14.5 V15.5"/>
+ <path d="M7 22 H17"/>
+</svg>
+</span>
+ <span class="brand-text">
+ <span class="name">Winterhaven Village</span>
+ <span class="sub">Homeowners Assn.</span>
+</span>
+</a>
+ <button class="menu-toggle" aria-label="Toggle menu" onclick="document.getElementById('navlinks').classList.toggle('open')">Menu</button>
+ <nav class="links" id="navlinks">
+ <a href="05-desert-lodge.html">Home</a>
+ <a href="05-desert-lodge.html#neighbors">Directory</a>
+ <a href="05-desert-lodge.html#board">Board</a>
+ <a href="05-desert-lodge.html#news">News</a>
+ <a href="05-desert-lodge.html#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+</div>
+</header>
+
+ <div class="wrap backbar">
+ <a class="back" href="05-desert-lodge.html#neighbors">Back to Directory</a>
+</div>
+
+ <!-- PROFILE HERO -->
+ <div class="wrap">
+ <section class="profile-hero">
+ <div class="bg" aria-hidden="true"></div>
+ <div class="profile-hero-inner">
+ <div class="portrait-stack">
+ <span class="pf"><img src="https://i.pravatar.cc/400?img=32" alt="Margaret Ellis" /></span>
+ <span class="pf"><img src="https://i.pravatar.cc/400?img=11" alt="Tom Ellis" /></span>
+</div>
+ <div class="profile-head">
+ <span class="eyebrow">Resident Directory</span>
+ <h1>Margaret &amp; Tom Ellis</h1>
+ <div class="meta-row">
+ <span class="mi">
+ <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ 12 Ocotillo Court
+</span>
+ <span class="mi">
+ <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+ Residents since 1994
+</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+
+ <!-- MAIN GRID -->
+ <div class="wrap">
+ <div class="profile-grid">
+ <!-- LEFT COLUMN -->
+ <div>
+ <section class="card framed">
+ <div class="card-head">
+ <span class="tick" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</span>
+ <h2>About the Ellises</h2>
+</div>
+ <div class="card-body bio">
+ <p>Margaret taught third grade for thirty years and now runs the village book club with the same gentle authority. Tom, a retired civil engineer, spends his mornings on the loop trail before the heat sets in, photographing whatever the desert offers up.</p>
+ <p>Their courtyard garden — penstemon, agave, and one stubborn rosebush — wins the spring garden walk more years than not, and they host the first porch gathering of every monsoon season.</p>
+</div>
+</section>
+
+ <section class="card framed" style="margin-top:30px;">
+ <div class="card-head">
+ <span class="tick" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+</span>
+ <h2>Their Home</h2>
+</div>
+ <div class="card-body">
+ <div class="home-photo">
+ <img src="img/house.jpg" alt="The Ellis residence at 12 Ocotillo Court" />
+</div>
+ <p class="home-caption">
+ <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ The Ellis adobe at 12 Ocotillo Court, courtyard garden out front
+</p>
+</div>
+</section>
+</div>
+
+ <!-- RIGHT COLUMN -->
+ <div>
+ <section class="card framed">
+ <div class="card-head">
+ <span class="tick" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+</span>
+ <h2>Contact</h2>
+</div>
+ <div class="card-body">
+ <ul class="contact-list">
+ <li>
+ <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+ <span><span class="lbl">Phone</span><a class="val" href="tel:+15550123847">(555) 012-3847</a></span>
+</li>
+ <li>
+ <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
+ <span><span class="lbl">Email</span><a class="val" href="mailto:m.ellis@example.com">m.ellis@example.com</a></span>
+</li>
+</ul>
+</div>
+</section>
+
+ <section class="card framed" style="margin-top:30px;">
+ <div class="card-head">
+ <span class="tick" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="4" cy="8" r="2"/><circle cx="6.5" cy="14.5" r="2.5"/><path d="M8.5 16.5c1.5 1.5 4.5 1.5 6 0 1-1 1.2-2.6.4-3.8C13.6 10.5 12 9 11 9s-2.6 1.5-3.9 3.7c-.8 1.2-.6 2.8.4 3.8z"/></svg>
+</span>
+ <h2>Their Pets</h2>
+</div>
+ <div class="card-body">
+ <div class="pets">
+ <div class="pet-card">
+ <img src="https://placedog.net/600/450?id=12" alt="Biscuit the corgi" />
+ <div>
+ <div class="pet-name">Biscuit</div>
+ <div class="pet-breed">Pembroke Welsh Corgi</div>
+</div>
+</div>
+ <div class="pet-card">
+ <img src="https://placecats.com/400/300" alt="Clementine the tabby cat" />
+ <div>
+ <div class="pet-name">Clementine</div>
+ <div class="pet-breed">Tabby Cat</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+
+ <p class="opt-note">
+ <span>
+ <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+ Directory listings are opt-in. Residents choose what to share.
+</span>
+</p>
+</div>
+
+ <!-- FOOTER -->
+ <footer>
+ <div class="wrap foot-inner">
+ <div class="foot-crest">
+ <span class="crest" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="#f6ecd8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M12 22 V7"/>
+ <path d="M12 13 C12 10 9.5 9.5 9 11 C8.6 12.4 9.2 15 9 16 V17"/>
+ <path d="M12 11 C12 8.5 14.5 8 15 9.5 C15.4 10.8 14.8 13.5 15 14.5 V15.5"/>
+ <path d="M7 22 H17"/>
+</svg>
+</span>
+ <span class="name">Winterhaven Village</span>
+</div>
+ <div class="foot-divider"></div>
+ <nav class="foot-links">
+ <a href="05-desert-lodge.html">Home</a>
+ <a href="05-desert-lodge.html#neighbors">Directory</a>
+ <a href="05-desert-lodge.html#board">Board</a>
+ <a href="05-desert-lodge.html#news">News</a>
+ <a href="05-desert-lodge.html#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+ <p class="estd">Winterhaven Village Homeowners Association · Tucson, Arizona · Est. 1987</p>
+</div>
+</footer>
+</body>
+</html>

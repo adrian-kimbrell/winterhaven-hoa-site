@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Winterhaven Village &middot; A Hillside Community</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --ivory: #f7f4ee;
+ --ivory-deep: #efeae0;
+ --charcoal: #1c1b18;
+ --charcoal-soft: #2c2a26;
+ --ink: #36332d;
+ --mist: #8a857a;
+ --gold: #b69763;
+ --gold-soft: #c8ad81;
+ --hair: rgba(28, 27, 24, 0.14);
+ --serif: 'Cormorant', Georgia, serif;
+ --sans: 'Jost', 'Helvetica Neue', sans-serif;
+ }
+
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ background: var(--ivory);
+ color: var(--ink);
+ font-family: var(--serif);
+ font-size: 19px;
+ line-height: 1.65;
+ -webkit-font-smoothing: antialiased;
+ text-rendering: optimizeLegibility;
+ }
+
+ ::selection { background: var(--gold-soft); color: #fff; }
+
+ /* ---------- shared typographic atoms ---------- */
+ .eyebrow {
+ font-family: var(--sans);
+ font-weight: 400;
+ font-size: 11px;
+ letter-spacing: 0.42em;
+ text-transform: uppercase;
+ color: var(--gold);
+ display: inline-block;
+ }
+
+ .rule {
+ width: 64px;
+ height: 1px;
+ background: var(--gold);
+ border: none;
+ margin: 26px auto;
+ }
+ .rule.left { margin: 22px 0; }
+
+ h1, h2, h3 { font-weight: 400; line-height: 1.08; letter-spacing: 0.01em; }
+
+ a { color: inherit; text-decoration: none; }
+
+ .wrap { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
+
+ /* ---------- top bar ---------- */
+ header.site {
+ position: absolute;
+ top: 0; left: 0; right: 0;
+ z-index: 30;
+ padding: 34px 0;
+ }
+ header.site .wrap {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ }
+ .brandmark {
+ font-family: var(--serif);
+ font-size: 24px;
+ letter-spacing: 0.32em;
+ text-transform: uppercase;
+ color: #fff;
+ font-weight: 500;
+ padding-left: 0.32em;
+ }
+ nav.primary {
+ display: flex;
+ gap: 38px;
+ }
+ nav.primary a {
+ font-family: var(--sans);
+ font-weight: 300;
+ font-size: 12.5px;
+ letter-spacing: 0.18em;
+ text-transform: uppercase;
+ color: rgba(255,255,255,0.82);
+ position: relative;
+ padding-bottom: 4px;
+ transition: color 0.6s ease;
+ }
+ nav.primary a::after {
+ content: "";
+ position: absolute;
+ left: 0; bottom: 0;
+ width: 0; height: 1px;
+ background: var(--gold-soft);
+ transition: width 0.6s cubic-bezier(0.22,1,0.36,1);
+ }
+ nav.primary a:hover { color: #fff; }
+ nav.primary a:hover::after { width: 100%; }
+
+ .menu-toggle { display: none; }
+
+ /* ---------- hero ---------- */
+ .hero {
+ position: relative;
+ min-height: 100vh;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ text-align: center;
+ color: #fff;
+ overflow: hidden;
+ }
+ .hero .bg {
+ position: absolute; inset: 0;
+ background:
+ linear-gradient(180deg, rgba(20,19,16,0.46) 0%, rgba(20,19,16,0.18) 38%, rgba(20,19,16,0.58) 100%),
+ url('https://picsum.photos/seed/cedarridge7/1600/900') center/cover no-repeat;
+ transform: scale(1.04);
+ animation: drift 24s ease-in-out infinite alternate;
+ }
+ @keyframes drift { to { transform: scale(1.10); } }
+
+ .hero-inner { position: relative; z-index: 2; padding: 0 24px; }
+ .hero .eyebrow { color: var(--gold-soft); }
+ .hero h1 {
+ font-size: clamp(56px, 12vw, 138px);
+ font-weight: 300;
+ letter-spacing: 0.02em;
+ margin: 26px 0 18px;
+ text-shadow: 0 2px 40px rgba(0,0,0,0.25);
+ }
+ .hero .tagline {
+ font-family: var(--serif);
+ font-style: italic;
+ font-weight: 400;
+ font-size: clamp(20px, 2.6vw, 30px);
+ color: rgba(255,255,255,0.92);
+ letter-spacing: 0.02em;
+ }
+ .hero .hairline {
+ width: 1px; height: 70px;
+ background: linear-gradient(var(--gold-soft), transparent);
+ margin: 40px auto 36px;
+ }
+
+ .btn {
+ display: inline-block;
+ font-family: var(--sans);
+ font-weight: 400;
+ font-size: 12px;
+ letter-spacing: 0.28em;
+ text-transform: uppercase;
+ color: #fff;
+ border: 1px solid rgba(255,255,255,0.55);
+ padding: 18px 40px;
+ transition: all 0.6s cubic-bezier(0.22,1,0.36,1);
+ background: transparent;
+ }
+ .btn:hover {
+ border-color: var(--gold-soft);
+ background: rgba(182,151,99,0.92);
+ letter-spacing: 0.34em;
+ }
+ .btn.dark {
+ color: var(--charcoal);
+ border-color: var(--hair);
+ }
+ .btn.dark:hover { color: #fff; border-color: var(--gold); }
+
+ .scrollcue {
+ position: absolute;
+ bottom: 34px; left: 50%;
+ transform: translateX(-50%);
+ z-index: 2;
+ font-family: var(--sans);
+ font-size: 10px;
+ letter-spacing: 0.3em;
+ text-transform: uppercase;
+ color: rgba(255,255,255,0.7);
+ }
+
+ /* ---------- section scaffolding ---------- */
+ section { padding: 120px 0; }
+ .section-head { text-align: center; margin-bottom: 70px; }
+ .section-head h2 {
+ font-size: clamp(34px, 5vw, 56px);
+ color: var(--charcoal);
+ }
+ .section-head p.sub {
+ font-style: italic;
+ color: var(--mist);
+ font-size: 21px;
+ margin-top: 10px;
+ }
+
+ .alt { background: var(--ivory-deep); }
+
+ /* ---------- this week (news) ---------- */
+ .news-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 44px;
+ }
+ .news-card {
+ background: #fff;
+ padding: 14px;
+ border: 1px solid var(--hair);
+ transition: transform 0.7s cubic-bezier(0.22,1,0.36,1), box-shadow 0.7s ease;
+ }
+ .news-card:hover {
+ transform: translateY(-6px);
+ box-shadow: 0 30px 60px -34px rgba(28,27,24,0.45);
+ }
+ .news-card .frame {
+ overflow: hidden;
+ aspect-ratio: 4/3;
+ }
+ .news-card .frame img {
+ width: 100%; height: 100%;
+ object-fit: cover;
+ display: block;
+ filter: saturate(0.92);
+ transition: transform 1.4s cubic-bezier(0.22,1,0.36,1);
+ }
+ .news-card:hover .frame img { transform: scale(1.06); }
+ .news-card .body { padding: 28px 22px 30px; text-align: center; }
+ .news-card .date {
+ font-family: var(--sans);
+ font-size: 10.5px;
+ letter-spacing: 0.28em;
+ text-transform: uppercase;
+ color: var(--gold);
+ }
+ .news-card h3 {
+ font-size: 27px;
+ margin: 16px 0 0;
+ color: var(--charcoal);
+ }
+
+ /* ---------- lighter side ---------- */
+ .lighter {
+ background: var(--charcoal);
+ color: var(--ivory);
+ text-align: center;
+ }
+ .lighter .eyebrow { color: var(--gold-soft); }
+ .lighter blockquote {
+ font-size: clamp(28px, 4.4vw, 48px);
+ font-weight: 300;
+ font-style: italic;
+ line-height: 1.3;
+ max-width: 880px;
+ margin: 30px auto 0;
+ color: var(--ivory);
+ }
+ .lighter blockquote span { color: var(--gold-soft); }
+ .lighter .closing {
+ font-family: var(--sans);
+ font-size: 11px;
+ letter-spacing: 0.3em;
+ text-transform: uppercase;
+ color: rgba(247,244,238,0.55);
+ margin-top: 30px;
+ }
+
+ /* ---------- from the board ---------- */
+ .board-grid {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 0;
+ border: 1px solid var(--hair);
+ background: #fff;
+ }
+ .board-cell {
+ padding: 64px 56px;
+ }
+ .board-cell + .board-cell { border-left: 1px solid var(--hair); }
+ .board-cell .eyebrow { color: var(--gold); }
+ .board-cell h3 {
+ font-size: 32px;
+ margin: 18px 0 14px;
+ color: var(--charcoal);
+ }
+ .board-cell p { color: var(--ink); }
+ .arrowlink {
+ display: inline-block;
+ margin-top: 22px;
+ font-family: var(--sans);
+ font-size: 11.5px;
+ letter-spacing: 0.22em;
+ text-transform: uppercase;
+ color: var(--charcoal);
+ border-bottom: 1px solid var(--gold);
+ padding-bottom: 5px;
+ transition: color 0.5s ease, letter-spacing 0.5s ease;
+ }
+ .arrowlink:hover { color: var(--gold); letter-spacing: 0.3em; }
+ .arrowlink span { transition: margin 0.5s cubic-bezier(0.22,1,0.36,1); }
+ .arrowlink:hover span { margin-left: 8px; }
+
+ /* ---------- cc&r corner ---------- */
+ .ccr {
+ text-align: center;
+ }
+ .ccr .qa {
+ max-width: 760px;
+ margin: 0 auto;
+ border-top: 1px solid var(--hair);
+ border-bottom: 1px solid var(--hair);
+ padding: 56px 0;
+ }
+ .ccr .q-label, .ccr .a-label {
+ font-family: var(--sans);
+ font-size: 11px;
+ letter-spacing: 0.3em;
+ text-transform: uppercase;
+ color: var(--gold);
+ display: block;
+ margin-bottom: 12px;
+ }
+ .ccr .question {
+ font-size: clamp(28px, 4vw, 42px);
+ font-style: italic;
+ color: var(--charcoal);
+ line-height: 1.25;
+ }
+ .ccr .answer {
+ font-size: 23px;
+ color: var(--ink);
+ margin-top: 40px;
+ max-width: 600px;
+ margin-left: auto; margin-right: auto;
+ }
+ .ccr .answer em { color: var(--gold); font-style: normal; }
+
+ /* ---------- neighbors ---------- */
+ .neighbors-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 44px;
+ }
+ .resident {
+ display: block;
+ text-align: center;
+ padding: 46px 30px;
+ border: 1px solid var(--hair);
+ background: #fff;
+ transition: border-color 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1), box-shadow 0.7s ease;
+ }
+ .resident:hover { border-color: var(--gold-soft); transform: translateY(-5px); }
+ a.resident:hover { box-shadow: 0 30px 60px -34px rgba(28,27,24,0.45); }
+ a.resident .view {
+ display: inline-block;
+ margin-top: 16px;
+ font-family: var(--sans);
+ font-size: 10px;
+ letter-spacing: 0.26em;
+ text-transform: uppercase;
+ color: var(--gold);
+ opacity: 0;
+ transform: translateY(4px);
+ transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1);
+ }
+ a.resident:hover .view { opacity: 1; transform: translateY(0); }
+ .resident .portrait {
+ width: 132px; height: 132px;
+ border-radius: 50%;
+ margin: 0 auto 26px;
+ padding: 7px;
+ border: 1px solid var(--gold-soft);
+ }
+ .resident .portrait img {
+ width: 100%; height: 100%;
+ border-radius: 50%;
+ object-fit: cover;
+ filter: grayscale(0.18) saturate(0.95);
+ transition: filter 0.8s ease;
+ }
+ .resident:hover .portrait img { filter: grayscale(0) saturate(1); }
+ .resident h3 { font-size: 26px; color: var(--charcoal); }
+ .resident .meta {
+ font-family: var(--sans);
+ font-size: 11px;
+ letter-spacing: 0.22em;
+ text-transform: uppercase;
+ color: var(--mist);
+ margin-top: 12px;
+ }
+ .neighbors-cta { text-align: center; margin-top: 64px; }
+
+ /* ---------- footer ---------- */
+ footer.site {
+ background: var(--charcoal);
+ color: var(--ivory);
+ text-align: center;
+ padding: 88px 0 60px;
+ }
+ footer.site .brandmark { color: #fff; font-size: 22px; }
+ footer.site nav {
+ display: flex;
+ justify-content: center;
+ flex-wrap: wrap;
+ gap: 34px;
+ margin: 38px 0 30px;
+ }
+ footer.site nav a {
+ font-family: var(--sans);
+ font-size: 11.5px;
+ letter-spacing: 0.2em;
+ text-transform: uppercase;
+ color: rgba(247,244,238,0.7);
+ transition: color 0.5s ease;
+ }
+ footer.site nav a:hover { color: var(--gold-soft); }
+ footer.site .est {
+ font-family: var(--sans);
+ font-size: 11px;
+ letter-spacing: 0.26em;
+ text-transform: uppercase;
+ color: rgba(247,244,238,0.42);
+ margin-top: 26px;
+ }
+ footer.site .footrule {
+ width: 50px; height: 1px;
+ background: var(--gold);
+ margin: 0 auto 34px;
+ }
+
+ /* ---------- responsive ---------- */
+ @media (max-width: 900px) {
+ body { font-size: 18px; }
+ .wrap { padding: 0 28px; }
+ section { padding: 84px 0; }
+ nav.primary { display: none; }
+ .news-grid, .neighbors-grid { grid-template-columns: 1fr; gap: 30px; }
+ .board-grid { grid-template-columns: 1fr; }
+ .board-cell + .board-cell { border-left: none; border-top: 1px solid var(--hair); }
+ .board-cell { padding: 48px 36px; }
+ }
+ @media (max-width: 520px) {
+ .wrap { padding: 0 20px; }
+ header.site { padding: 24px 0; }
+ .brandmark { font-size: 18px; letter-spacing: 0.24em; }
+ .hero h1 { letter-spacing: 0; }
+ .btn { padding: 16px 28px; }
+ }
+</style>
+</head>
+<body>
+
+<header class="site">
+ <div class="wrap">
+ <a class="brandmark" href="#">Winterhaven Village</a>
+ <nav class="primary">
+ <a href="#">Home</a>
+ <a href="#directory">Directory</a>
+ <a href="#board">Board</a>
+ <a href="#news">News</a>
+ <a href="#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+ <div class="bg"></div>
+ <div class="hero-inner">
+ <span class="eyebrow">A Private Hillside Community</span>
+ <h1>Winterhaven Village</h1>
+ <p class="tagline">Life in the village, together.</p>
+ <div class="hairline"></div>
+ <a href="#directory" class="btn">Resident Directory</a>
+</div>
+ <div class="scrollcue">Scroll</div>
+</div>
+
+<!-- THIS WEEK -->
+<section id="news">
+ <div class="wrap">
+ <div class="section-head">
+ <span class="eyebrow">The Week Ahead</span>
+ <hr class="rule" />
+ <h2>This Week at Winterhaven Village</h2>
+ <p class="sub">A few notes from around the community.</p>
+</div>
+ <div class="news-grid">
+ <article class="news-card">
+ <div class="frame"><img src="https://picsum.photos/seed/cedarridgepool/800/600" alt="Pool" /></div>
+ <div class="body">
+ <span class="date">Maintenance</span>
+ <h3>Pool resurfacing begins Monday</h3>
+</div>
+</article>
+ <article class="news-card">
+ <div class="frame"><img src="https://picsum.photos/seed/cedarridgegarden/800/600" alt="Garden" /></div>
+ <div class="body">
+ <span class="date">Grounds</span>
+ <h3>New native plant garden at the north entrance</h3>
+</div>
+</article>
+ <article class="news-card">
+ <div class="frame"><img src="https://picsum.photos/seed/cedarridgepotluck/800/600" alt="Gathering" /></div>
+ <div class="body">
+ <span class="date">June 21 &middot; Save the Date</span>
+ <h3>Summer potluck</h3>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<!-- LIGHTER SIDE -->
+<section class="lighter">
+ <div class="wrap">
+ <span class="eyebrow">The Lighter Side</span>
+ <blockquote>
+ Caption contest: the Hendersons&rsquo; cat <span>vs.</span> the sprinkler system.
+</blockquote>
+ <p class="closing">Voting closes Friday</p>
+</div>
+</section>
+
+<!-- FROM THE BOARD -->
+<section id="board" class="alt">
+ <div class="wrap">
+ <div class="section-head">
+ <span class="eyebrow">Governance</span>
+ <hr class="rule" />
+ <h2>From the Board</h2>
+</div>
+ <div class="board-grid">
+ <div class="board-cell">
+ <span class="eyebrow">Meeting Minutes</span>
+ <h3>May minutes posted</h3>
+ <p>The record of our most recent session is now available for review by all residents.</p>
+ <a class="arrowlink" href="#">Read the minutes <span>&rarr;</span></a>
+</div>
+ <div class="board-cell">
+ <span class="eyebrow">Project Update</span>
+ <h3>Clubhouse facelift</h3>
+ <p>Bids are currently under review as we prepare to refresh our shared gathering spaces.</p>
+ <a class="arrowlink" href="#">View the proposals <span>&rarr;</span></a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CC&R CORNER -->
+<section id="ccr" class="ccr">
+ <div class="wrap">
+ <div class="section-head">
+ <span class="eyebrow">CC&amp;R Corner</span>
+ <hr class="rule" />
+ <h2>Question of the Week</h2>
+</div>
+ <div class="qa">
+ <span class="q-label">The Question</span>
+ <p class="question">&ldquo;Can I park my RV in my driveway overnight?&rdquo;</p>
+ <p class="answer"><span class="a-label">The Answer</span>Up to 72 hours for loading or unloading &mdash; <em>see section 4.3.</em></p>
+</div>
+</div>
+</section>
+
+<!-- MEET YOUR NEIGHBORS -->
+<section id="directory" class="alt">
+ <div class="wrap">
+ <div class="section-head">
+ <span class="eyebrow">The Directory</span>
+ <hr class="rule" />
+ <h2>Meet Your Neighbors</h2>
+ <p class="sub">The families who make the village a home.</p>
+</div>
+ <div class="neighbors-grid">
+ <a class="resident" href="06-quiet-luxury-profile.html">
+ <div class="portrait"><img src="https://i.pravatar.cc/300?img=32" alt="Margaret &amp; Tom Ellis" /></div>
+ <h3>Margaret &amp; Tom Ellis</h3>
+ <p class="meta">&amp; Biscuit the Corgi</p>
+ <span class="view">View Profile &rarr;</span>
+</a>
+ <article class="resident">
+ <div class="portrait"><img src="https://i.pravatar.cc/300?img=12" alt="Robin Calloway" /></div>
+ <h3>Robin Calloway</h3>
+ <p class="meta">Ridgecrest Lane</p>
+</article>
+ <article class="resident">
+ <div class="portrait"><img src="https://i.pravatar.cc/300?img=56" alt="The Okafor Family" /></div>
+ <h3>The Okafor Family</h3>
+ <p class="meta">&amp; Mango the Parrot</p>
+</article>
+</div>
+ <div class="neighbors-cta">
+ <a href="#" class="btn dark">View Full Directory</a>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site">
+ <div class="wrap">
+ <div class="footrule"></div>
+ <a class="brandmark" href="#">Winterhaven Village</a>
+ <nav>
+ <a href="#">Home</a>
+ <a href="#directory">Directory</a>
+ <a href="#board">Board</a>
+ <a href="#news">News</a>
+ <a href="#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+ <p class="est">Winterhaven Village Homeowners Association &middot; Est. 1987</p>
+</div>
+</footer>
+
+</body>
+</html>

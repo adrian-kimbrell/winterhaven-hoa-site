@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Margaret &amp; Tom Ellis — Winterhaven Village</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --ink: #0c0d16;
+ --ink-2: #11121d;
+ --panel: #161827;
+ --panel-2: #1b1d2e;
+ --line: rgba(255, 224, 210, 0.08);
+ --line-strong: rgba(255, 224, 210, 0.15);
+ --text: #ece4dc;
+ --text-dim: #9d96a8;
+ --text-faint: #6a6578;
+ --coral: #f0795f;
+ --coral-soft: #ff9d82;
+ --amber: #f2b157;
+ --amber-soft: #ffd28a;
+ --dusk: #c5527a;
+ --indigo: #4a4a8c;
+ --glow: rgba(240, 121, 95, 0.5);
+ --radius: 18px;
+ --radius-lg: 26px;
+ --maxw: 1200px;
+ }
+
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: "Sora", system-ui, sans-serif;
+ background:
+ radial-gradient(1300px 760px at 78% -12%, rgba(240, 121, 95, 0.16), transparent 60%),
+ radial-gradient(900px 620px at 10% -5%, rgba(197, 82, 122, 0.14), transparent 55%),
+ radial-gradient(1100px 700px at 50% 8%, rgba(74, 74, 140, 0.12), transparent 60%),
+ var(--ink);
+ color: var(--text);
+ line-height: 1.6;
+ -webkit-font-smoothing: antialiased;
+ overflow-x: hidden;
+ position: relative;
+ }
+ body::before {
+ content: "";
+ position: fixed;
+ inset: 0;
+ pointer-events: none;
+ z-index: 0;
+ background-image:
+ radial-gradient(1px 1px at 20% 30%, rgba(255, 236, 220, 0.55), transparent),
+ radial-gradient(1px 1px at 70% 12%, rgba(255, 236, 220, 0.42), transparent),
+ radial-gradient(1px 1px at 40% 64%, rgba(255, 236, 220, 0.32), transparent),
+ radial-gradient(1.5px 1.5px at 85% 50%, rgba(255, 236, 220, 0.45), transparent),
+ radial-gradient(1px 1px at 12% 82%, rgba(255, 236, 220, 0.3), transparent),
+ radial-gradient(1px 1px at 55% 40%, rgba(255, 236, 220, 0.3), transparent),
+ radial-gradient(1.5px 1.5px at 92% 86%, rgba(255, 236, 220, 0.35), transparent),
+ radial-gradient(1px 1px at 33% 18%, rgba(255, 236, 220, 0.3), transparent);
+ background-repeat: repeat;
+ background-size: 620px 620px;
+ opacity: 0.5;
+ }
+
+ .wrap { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+ a { color: inherit; text-decoration: none; }
+
+ .eyebrow {
+ font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase;
+ color: var(--coral-soft); font-weight: 600;
+ display: inline-flex; align-items: center; gap: 10px;
+ }
+ .eyebrow::before { content: ""; width: 26px; height: 1px; background: linear-gradient(90deg, var(--coral), transparent); }
+
+ h1, h2, h3 { line-height: 1.12; font-weight: 600; letter-spacing: -0.01em; }
+ .serif { font-family: "Fraunces", Georgia, serif; font-weight: 500; }
+
+ /* ---------- SAGUARO HORIZON DIVIDER ---------- */
+ .horizon { position: relative; z-index: 1; width: 100%; line-height: 0; color: var(--ink-2); opacity: 0.9; filter: drop-shadow(0 -12px 30px rgba(240, 121, 95, 0.12)); }
+ .horizon svg { width: 100%; height: 80px; display: block; }
+
+ /* ---------- NAV ---------- */
+ header {
+ position: sticky; top: 0; z-index: 50;
+ backdrop-filter: blur(14px);
+ background: linear-gradient(180deg, rgba(12, 13, 22, 0.88), rgba(12, 13, 22, 0.45));
+ border-bottom: 1px solid var(--line);
+ }
+ .nav { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+ .brand { display: flex; align-items: center; gap: 12px; font-family: "Fraunces", serif; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
+ .brand .mark {
+ width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px;
+ background: linear-gradient(145deg, rgba(240, 121, 95, 0.24), rgba(197, 82, 122, 0.14));
+ border: 1px solid var(--line-strong); box-shadow: 0 0 24px rgba(240, 121, 95, 0.2);
+ }
+ .brand .mark svg { width: 19px; height: 19px; }
+ .navlinks { display: flex; align-items: center; gap: 6px; }
+ .navlinks a { font-size: 14px; color: var(--text-dim); padding: 9px 14px; border-radius: 10px; transition: color 0.2s, background 0.2s; }
+ .navlinks a:hover { color: var(--text); background: rgba(255, 224, 210, 0.05); }
+ .menu-btn { display: none; background: none; border: 1px solid var(--line-strong); color: var(--text); width: 42px; height: 42px; border-radius: 10px; cursor: pointer; }
+
+ /* ---------- BUTTONS ---------- */
+ .btn { display: inline-flex; align-items: center; gap: 10px; font-family: "Sora", sans-serif; font-weight: 500; font-size: 15px; padding: 14px 24px; border-radius: 999px; border: 1px solid transparent; cursor: pointer; transition: transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s, background 0.25s; }
+ .btn-ghost { color: var(--text); border-color: var(--line-strong); background: rgba(255, 224, 210, 0.02); }
+ .btn-ghost:hover { background: rgba(255, 224, 210, 0.06); border-color: var(--coral); transform: translateY(-2px); }
+
+ /* ---------- BACK LINK ---------- */
+ .backbar { padding: 30px 0 0; }
+ .back {
+ display: inline-flex; align-items: center; gap: 9px;
+ font-size: 14px; color: var(--text-dim);
+ padding: 9px 16px; border-radius: 999px;
+ border: 1px solid var(--line); background: rgba(255,224,210,0.02);
+ transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+ }
+ .back:hover { color: var(--text); border-color: var(--coral); background: rgba(240,121,95,0.06); transform: translateX(-2px); }
+ .back svg { transition: transform 0.2s; }
+ .back:hover svg { transform: translateX(-3px); }
+
+ /* ---------- PROFILE HERO ---------- */
+ .profile-hero { padding: 34px 0 60px; }
+ .profile-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 56px; align-items: center; }
+
+ .portraits { position: relative; display: flex; justify-content: center; }
+ .portrait-pair { display: flex; }
+ .portrait {
+ width: 190px; height: 230px; object-fit: cover;
+ border-radius: 22px;
+ border: 1px solid var(--line-strong);
+ box-shadow: 0 30px 70px -28px rgba(0,0,0,0.85), 0 0 70px -22px rgba(240,121,95,0.35);
+ }
+ .portrait.a { transform: rotate(-4deg) translateX(14px); z-index: 2; }
+ .portrait.b { transform: rotate(4deg) translateX(-14px); margin-top: 36px; }
+
+ .profile-copy h1 { font-family: "Fraunces", serif; font-size: clamp(38px, 5vw, 60px); font-weight: 500; margin: 18px 0 12px; letter-spacing: -0.025em; }
+ .profile-copy h1 .accent { background: linear-gradient(120deg, var(--amber-soft), var(--coral) 55%, var(--dusk)); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; }
+ .meta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+ .pill {
+ display: inline-flex; align-items: center; gap: 8px;
+ font-size: 13px; color: var(--text-dim);
+ padding: 8px 15px; border-radius: 999px;
+ border: 1px solid var(--line); background: rgba(255,224,210,0.02);
+ }
+ .pill svg { width: 14px; height: 14px; color: var(--coral-soft); }
+ .pill a { color: var(--coral-soft); }
+ .pill a:hover { color: var(--amber-soft); text-decoration: underline; }
+
+ /* ---------- SECTION SHELL ---------- */
+ section { padding: 30px 0; }
+ .card {
+ background: linear-gradient(180deg, var(--panel), var(--ink-2));
+ border: 1px solid var(--line);
+ border-radius: var(--radius);
+ }
+
+ .content-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
+
+ /* ---------- BIO ---------- */
+ .bio { padding: 44px 46px; position: relative; overflow: hidden; }
+ .bio::before {
+ content: "\201C"; position: absolute; top: -50px; right: 18px;
+ font-family: "Fraunces", serif; font-size: 280px; color: rgba(240,121,95,0.06); line-height: 1;
+ }
+ .bio .eyebrow { margin-bottom: 18px; }
+ .bio p { font-family: "Fraunces", serif; font-size: clamp(18px, 1.9vw, 22px); font-weight: 400; line-height: 1.55; color: var(--text); position: relative; }
+ .bio p + p { margin-top: 18px; }
+
+ /* ---------- HOME PHOTO ---------- */
+ .home-photo { overflow: hidden; }
+ .home-photo .ph { position: relative; height: 100%; min-height: 280px; }
+ .home-photo .ph img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(1.02) brightness(0.92); }
+ .home-photo .ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(12,13,22,0.85)); }
+ .home-photo .cap {
+ position: absolute; bottom: 18px; left: 18px; z-index: 2;
+ display: flex; align-items: center; gap: 9px;
+ font-size: 13px; color: var(--text);
+ padding: 9px 15px; border-radius: 999px;
+ background: rgba(12,13,22,0.55); backdrop-filter: blur(8px);
+ border: 1px solid var(--line-strong);
+ }
+ .home-photo .cap .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 12px var(--coral); }
+
+ /* ---------- PETS ---------- */
+ .sec-head { margin-bottom: 28px; }
+ .sec-head h2 { font-family: "Fraunces", serif; font-size: clamp(26px, 3vw, 36px); font-weight: 500; }
+ .sec-head .sub { color: var(--text-dim); font-size: 15px; margin-top: 8px; }
+
+ .pets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+ .pet-card { overflow: hidden; transition: transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s, box-shadow 0.3s; }
+ .pet-card:hover { transform: translateY(-4px); border-color: var(--line-strong); box-shadow: 0 24px 50px -24px rgba(0,0,0,0.7), 0 0 40px -18px var(--glow); }
+ .pet-card .ph { position: relative; height: 240px; overflow: hidden; }
+ .pet-card .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; filter: saturate(1); }
+ .pet-card:hover .ph img { transform: scale(1.05); }
+ .pet-card .ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(17,18,29,0.9)); }
+ .pet-card .body { padding: 20px 24px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+ .pet-card h3 { font-size: 20px; font-weight: 600; }
+ .pet-card .breed { font-size: 13px; color: var(--text-dim); margin-top: 3px; }
+ .pet-card .emoji { font-size: 28px; }
+
+ /* ---------- OPT-IN NOTE ---------- */
+ .optin {
+ margin-top: 26px;
+ display: flex; align-items: center; gap: 14px;
+ padding: 18px 22px; border-radius: 14px;
+ border: 1px solid var(--line); background: rgba(74,74,140,0.08);
+ font-size: 13.5px; color: var(--text-dim);
+ }
+ .optin svg { flex: none; width: 20px; height: 20px; color: var(--coral-soft); }
+ .optin strong { color: var(--text); font-weight: 600; }
+
+ /* ---------- FOOTER ---------- */
+ footer { position: relative; z-index: 1; margin-top: 50px; border-top: 1px solid var(--line); background: linear-gradient(180deg, transparent, rgba(197,82,122,0.06)); }
+ .footer-inner { padding: 60px 0 50px; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+ .footer-brand { display: flex; flex-direction: column; gap: 8px; }
+ .footer-brand .name { font-family: "Fraunces", serif; font-size: 22px; }
+ .footer-brand .est { font-size: 13px; color: var(--text-faint); letter-spacing: 0.04em; }
+ .footer-links { display: flex; flex-wrap: wrap; gap: 8px 4px; }
+ .footer-links a { font-size: 14px; color: var(--text-dim); padding: 8px 14px; border-radius: 9px; transition: color 0.2s, background 0.2s; }
+ .footer-links a:hover { color: var(--coral-soft); background: rgba(255,224,210,0.04); }
+ .footer-bottom { border-top: 1px solid var(--line); padding: 22px 0; font-size: 12.5px; color: var(--text-faint); text-align: center; }
+
+ /* ---------- RESPONSIVE ---------- */
+ @media (max-width: 940px) {
+ .profile-grid { grid-template-columns: 1fr; gap: 40px; }
+ .content-grid { grid-template-columns: 1fr; }
+ .home-photo .ph { min-height: 320px; }
+ }
+ @media (max-width: 680px) {
+ .wrap { padding: 0 20px; }
+ .navlinks { display: none; }
+ .navlinks.open { display: flex; position: absolute; top: 76px; left: 0; right: 0; flex-direction: column; align-items: stretch; padding: 14px 20px 22px; background: var(--ink-2); border-bottom: 1px solid var(--line); gap: 2px; }
+ .menu-btn { display: grid; place-items: center; }
+ .bio { padding: 32px 26px; }
+ .pets-grid { grid-template-columns: 1fr; }
+ .portrait { width: 150px; height: 185px; }
+ .horizon svg { height: 50px; }
+ }
+</style>
+</head>
+<body>
+
+<header>
+ <div class="wrap nav">
+ <a href="08-sonoran-dusk.html" class="brand">
+ <span class="mark">
+ <svg viewBox="0 0 24 24" fill="none" stroke="#f0795f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M12 22V7M12 7c0-2 1.6-3.6 3.6-3.6S19 5 19 7v4c0 1.4-1.1 2.5-2.5 2.5H12M12 11H8.4C7 11 5.9 9.9 5.9 8.5V6.5"/>
+ <circle cx="17.5" cy="3.5" r="1.6" fill="#f2b157" stroke="none"/>
+</svg>
+</span>
+ Winterhaven Village
+</a>
+ <nav class="navlinks" id="nav">
+ <a href="08-sonoran-dusk.html">Home</a>
+ <a href="08-sonoran-dusk.html#neighbors">Directory</a>
+ <a href="08-sonoran-dusk.html#board">Board</a>
+ <a href="08-sonoran-dusk.html#news">News</a>
+ <a href="08-sonoran-dusk.html#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+ <button class="menu-btn" id="menuBtn" aria-label="Menu">
+ <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+</button>
+</div>
+</header>
+
+<!-- BACK -->
+<div class="backbar">
+ <div class="wrap">
+ <a href="08-sonoran-dusk.html#neighbors" class="back">
+ <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+ Back to Directory
+</a>
+</div>
+</div>
+
+<!-- PROFILE HERO -->
+<section class="profile-hero">
+ <div class="wrap profile-grid">
+ <div class="portraits">
+ <div class="portrait-pair">
+ <img class="portrait a" src="https://i.pravatar.cc/400?img=32" alt="Margaret Ellis" />
+ <img class="portrait b" src="https://i.pravatar.cc/400?img=11" alt="Tom Ellis" />
+</div>
+</div>
+ <div class="profile-copy">
+ <span class="eyebrow">Resident Directory · Since 1994</span>
+ <h1>Margaret &amp; <span class="accent serif">Tom Ellis</span></h1>
+ <div class="meta-row">
+ <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> 12 Ocotillo Court</span>
+ <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.5-1.1a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"/></svg> <a href="tel:+15550123847">(555) 012-3847</a></span>
+ <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/><path d="M22 6l-10 7L2 6"/></svg> <a href="mailto:m.ellis@example.com">m.ellis@example.com</a></span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Saguaro horizon divider -->
+<div class="horizon" aria-hidden="true">
+ <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="currentColor">
+ <path d="M0,80 L0,52 C40,52 70,50 110,50 L118,50 L118,30 C118,27 122,27 122,30 L122,44 C122,46 126,46 126,44 L126,38 C126,35 130,35 130,38 L130,50 L150,50 C200,50 230,46 280,46 L300,46 L300,22 C300,19 305,19 305,22 L305,40 C305,43 310,43 310,40 L310,33 C310,30 315,30 315,33 L315,46 L340,46 C400,46 440,52 510,52 L560,52 L560,34 C560,31 565,31 565,34 L565,48 C565,50 569,50 569,48 L569,42 C569,39 573,39 573,42 L573,52 L620,52 C690,52 740,48 820,48 L870,48 L870,18 C870,15 875,15 875,18 L875,42 C875,45 880,45 880,42 L880,30 C880,27 885,27 885,30 L885,48 L930,48 C1000,48 1040,52 1110,52 L1150,52 L1150,36 C1150,33 1155,33 1155,36 L1155,50 C1155,52 1159,52 1159,50 L1159,44 C1159,41 1163,41 1163,44 L1163,52 L1200,52 C1280,52 1340,50 1400,50 L1440,50 L1440,80 Z"/>
+</svg>
+</div>
+
+<!-- BIO + HOME -->
+<section style="padding-top:46px;">
+ <div class="wrap content-grid">
+ <div class="card bio">
+ <span class="eyebrow">In their words</span>
+ <p>Margaret taught third grade for thirty years and now runs the village book club with the same gentle authority. Tom, a retired civil engineer, spends his mornings on the loop trail before the heat sets in, photographing whatever the desert offers up.</p>
+ <p>Their courtyard garden — penstemon, agave, and one stubborn rosebush — wins the spring garden walk more years than not, and they host the first porch gathering of every monsoon season.</p>
+</div>
+ <div class="card home-photo">
+ <div class="ph">
+ <img src="img/house.jpg" alt="The Ellis home on Ocotillo Court" />
+ <span class="cap"><span class="dot"></span> Their home · 12 Ocotillo Court</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PETS -->
+<section>
+ <div class="wrap">
+ <div class="sec-head">
+ <span class="eyebrow">The household</span>
+ <h2>Meet the menagerie</h2>
+ <p class="sub">No introduction to the Ellises is complete without these two.</p>
+</div>
+ <div class="pets-grid">
+ <article class="card pet-card">
+ <div class="ph"><img src="https://placedog.net/600/450?id=12" alt="Biscuit the Pembroke Welsh Corgi" /></div>
+ <div class="body">
+ <div>
+ <h3>Biscuit</h3>
+ <div class="breed">Pembroke Welsh Corgi</div>
+</div>
+ </div>
+</article>
+ <article class="card pet-card">
+ <div class="ph"><img src="https://placecats.com/400/300" alt="Clementine the tabby cat" /></div>
+ <div class="body">
+ <div>
+ <h3>Clementine</h3>
+ <div class="breed">Tabby cat</div>
+</div>
+ </div>
+</article>
+</div>
+
+ <div class="optin">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+ <span><strong>Directory listings are opt-in.</strong> Residents choose what to share.</span>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+ <div class="wrap">
+ <div class="footer-inner">
+ <div class="footer-brand">
+ <span class="name serif">Winterhaven Village</span>
+ <span class="est">Homeowners Association · Tucson, Arizona · Est. 1987</span>
+</div>
+ <nav class="footer-links">
+ <a href="08-sonoran-dusk.html">Home</a>
+ <a href="08-sonoran-dusk.html#neighbors">Directory</a>
+ <a href="08-sonoran-dusk.html#board">Board</a>
+ <a href="08-sonoran-dusk.html#news">News</a>
+ <a href="08-sonoran-dusk.html#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+</div>
+ <div class="footer-bottom">© 1987–2026 Winterhaven Village Homeowners Association · Tucson, Arizona · Where the desert glows coral every dusk.</div>
+</div>
+</footer>
+
+<script>
+ var btn = document.getElementById('menuBtn');
+ var nav = document.getElementById('nav');
+ btn.addEventListener('click', function () { nav.classList.toggle('open'); });
+ nav.addEventListener('click', function (e) { if (e.target.tagName === 'A') nav.classList.remove('open'); });
+</script>
+</body>
+</html>

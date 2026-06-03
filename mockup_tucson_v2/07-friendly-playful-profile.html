@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Margaret &amp; Tom Ellis — Winterhaven Village Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --sand: #fdf3e3;
+ --sand-deep: #f6e3c5;
+ --ink: #3a2c20;
+ --ink-soft: #7a6452;
+ --marigold: #ffbe3d;
+ --marigold-deep: #f4a01f;
+ --chile: #e2523a;
+ --chile-deep: #cf3b25;
+ --cactus: #4f9d6b;
+ --cactus-deep: #3a8055;
+ --cactus-soft: #dcefdf;
+ --sky: #6ba8d8;
+ --white: #fffaf2;
+ --shadow-soft: 0 14px 30px -12px rgba(58, 44, 32, 0.28);
+ --shadow-pop: 0 22px 44px -16px rgba(207, 59, 37, 0.45);
+ --radius: 28px;
+ --radius-lg: 40px;
+ --font-display: "Baloo 2", system-ui, sans-serif;
+ --font-body: "Nunito", system-ui, sans-serif;
+ }
+
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: var(--font-body);
+ color: var(--ink);
+ background:
+ radial-gradient(circle at 12% 8%, rgba(255, 190, 61, 0.24), transparent 30%),
+ radial-gradient(circle at 88% 4%, rgba(79, 157, 107, 0.18), transparent 28%),
+ var(--sand);
+ line-height: 1.6;
+ overflow-x: hidden;
+ }
+
+ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.1; }
+
+ a { color: inherit; text-decoration: none; }
+
+ .wrap { width: min(1180px, 92vw); margin-inline: auto; }
+
+ /* ---------- Badges / stickers ---------- */
+ .sticker {
+ display: inline-flex;
+ align-items: center;
+ gap: 6px;
+ font-family: var(--font-display);
+ font-weight: 700;
+ font-size: 0.78rem;
+ letter-spacing: 0.3px;
+ padding: 6px 14px;
+ border-radius: 999px;
+ color: var(--white);
+ box-shadow: 0 8px 16px -8px rgba(58, 44, 32, 0.5);
+ transform: rotate(-3deg);
+ }
+ .sticker--sun { background: var(--marigold-deep); color: var(--ink); }
+ .sticker--chile { background: var(--chile-deep); }
+ .sticker--cactus { background: var(--cactus-deep); }
+
+ /* ---------- Buttons ---------- */
+ .btn {
+ display: inline-flex;
+ align-items: center;
+ gap: 10px;
+ font-family: var(--font-display);
+ font-weight: 700;
+ font-size: 1.02rem;
+ padding: 15px 30px;
+ border-radius: 999px;
+ border: none;
+ cursor: pointer;
+ transition: transform 0.22s cubic-bezier(.34,1.56,.64,1), box-shadow 0.22s ease;
+ }
+ .btn--primary {
+ background: var(--chile-deep);
+ color: var(--white);
+ box-shadow: var(--shadow-pop);
+ }
+ .btn--primary:hover { transform: translateY(-3px) scale(1.03) rotate(-1deg); box-shadow: 0 28px 50px -16px rgba(207, 59, 37, 0.6); }
+ .btn--ghost {
+ background: var(--white);
+ color: var(--ink);
+ box-shadow: var(--shadow-soft);
+ }
+ .btn--ghost:hover { transform: translateY(-3px); }
+ .btn .emoji { font-size: 1.2rem; }
+
+ /* ---------- Nav ---------- */
+ header.nav-wrap {
+ position: sticky;
+ top: 0;
+ z-index: 50;
+ backdrop-filter: blur(10px);
+ background: rgba(253, 243, 227, 0.8);
+ border-bottom: 2px dashed rgba(244, 160, 31, 0.45);
+ }
+ .nav {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 16px 0;
+ }
+ .brand {
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ font-family: var(--font-display);
+ font-weight: 800;
+ font-size: 1.4rem;
+ }
+ .brand .mark {
+ width: 46px; height: 46px;
+ display: grid; place-items: center;
+ background: var(--cactus);
+ color: var(--white);
+ border-radius: 16px;
+ font-size: 1.4rem;
+ box-shadow: 0 8px 16px -8px var(--cactus-deep);
+ transform: rotate(-6deg);
+ }
+ nav ul { list-style: none; display: flex; gap: 6px; align-items: center; }
+ nav ul a {
+ font-weight: 700;
+ font-size: 0.96rem;
+ padding: 9px 16px;
+ border-radius: 999px;
+ color: var(--ink-soft);
+ transition: background 0.2s, color 0.2s, transform 0.2s;
+ }
+ nav ul a:hover { background: var(--marigold); color: var(--ink); transform: translateY(-2px); }
+ .nav-toggle { display: none; }
+
+ /* ---------- Back affordance ---------- */
+ .back-bar { padding: 28px 0 0; }
+ .back-link {
+ display: inline-flex; align-items: center; gap: 8px;
+ font-family: var(--font-display); font-weight: 700; font-size: 0.96rem;
+ color: var(--ink-soft);
+ background: var(--white);
+ padding: 10px 20px; border-radius: 999px;
+ box-shadow: var(--shadow-soft);
+ transition: transform 0.22s cubic-bezier(.34,1.56,.64,1), color 0.2s;
+ }
+ .back-link:hover { transform: translateX(-4px); color: var(--chile-deep); }
+
+ /* ---------- Profile hero ---------- */
+ .profile-hero { padding: 36px 0 20px; }
+ .profile-grid {
+ display: grid;
+ grid-template-columns: 1.1fr 1fr;
+ gap: 54px;
+ align-items: center;
+ }
+ .profile-copy .sticker { margin-bottom: 16px; }
+ .profile-copy h1 {
+ font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+ font-weight: 800;
+ letter-spacing: -1px;
+ }
+ .profile-copy h1 .amp { color: var(--chile-deep); }
+ .profile-meta {
+ display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0 8px;
+ }
+ .meta-pill {
+ display: inline-flex; align-items: center; gap: 8px;
+ background: var(--white); box-shadow: var(--shadow-soft);
+ padding: 10px 18px; border-radius: 999px;
+ font-weight: 700; font-size: 0.95rem; color: var(--ink-soft);
+ }
+ .meta-pill .ic { font-size: 1.1rem; }
+ .meta-pill a:hover { color: var(--chile-deep); }
+
+ /* portrait stack */
+ .portrait-stack { position: relative; min-height: 380px; }
+ .portrait-card {
+ position: absolute;
+ background: var(--white);
+ border-radius: var(--radius);
+ padding: 12px 12px 40px;
+ box-shadow: var(--shadow-soft);
+ transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+ }
+ .portrait-card img { width: 100%; height: 100%; object-fit: cover; border-radius: 18px; display: block; }
+ .portrait-card .cap {
+ position: absolute; bottom: 12px; left: 0; right: 0; text-align: center;
+ font-family: var(--font-display); font-weight: 600; font-size: 0.9rem; color: var(--ink-soft);
+ }
+ .portrait-a { width: 230px; height: 270px; top: 0; left: 0; transform: rotate(-4deg); z-index: 2; }
+ .portrait-a img { height: 218px; }
+ .portrait-a:hover { transform: rotate(-1deg) scale(1.03); z-index: 4; }
+ .portrait-b { width: 210px; height: 250px; bottom: 0; right: 0; transform: rotate(5deg); z-index: 1; }
+ .portrait-b img { height: 198px; }
+ .portrait-b:hover { transform: rotate(2deg) scale(1.03); z-index: 4; }
+ .tape {
+ position: absolute; top: -14px; left: 50%;
+ width: 92px; height: 28px;
+ transform: translateX(-50%) rotate(-3deg);
+ background: rgba(255, 190, 61, 0.72);
+ border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+ }
+ .pin {
+ position: absolute; width: 18px; height: 18px; border-radius: 50%;
+ top: -6px; left: 50%; transform: translateX(-50%);
+ background: radial-gradient(circle at 35% 30%, #ff8f76, var(--chile-deep));
+ box-shadow: 0 4px 8px rgba(0,0,0,0.18);
+ }
+
+ /* ---------- Section scaffolding ---------- */
+ section { padding: 40px 0; }
+ .sec-head h2 {
+ font-size: clamp(1.7rem, 3vw, 2.3rem);
+ font-weight: 800;
+ display: flex; align-items: center; gap: 12px;
+ margin-bottom: 22px;
+ }
+ .sec-head h2 .emoji { font-size: 1.7rem; }
+
+ .card {
+ background: var(--white);
+ border-radius: var(--radius);
+ padding: 26px;
+ box-shadow: var(--shadow-soft);
+ position: relative;
+ }
+
+ /* ---------- Bio + home ---------- */
+ .bio-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 30px; align-items: stretch; }
+ .bio-card { padding: 36px; border: 3px solid var(--sand-deep); border-radius: var(--radius-lg); }
+ .bio-card p { font-size: 1.12rem; color: var(--ink-soft); }
+ .bio-card .lead-first::first-letter {
+ font-family: var(--font-display); font-weight: 800;
+ font-size: 3.4rem; line-height: 0.8; float: left;
+ margin: 6px 12px 0 0; color: var(--chile-deep);
+ }
+ .home-card {
+ border-radius: var(--radius-lg);
+ overflow: hidden; padding: 12px 12px 0;
+ background: var(--white); box-shadow: var(--shadow-soft);
+ transform: rotate(1.5deg);
+ transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+ position: relative;
+ }
+ .home-card:hover { transform: rotate(0deg) scale(1.01); }
+ .home-card img { width: 100%; height: 300px; object-fit: cover; border-radius: 26px 26px 0 0; display: block; }
+ .home-card .home-label {
+ padding: 16px 14px 20px; text-align: center;
+ font-family: var(--font-display); font-weight: 700; font-size: 1.05rem;
+ }
+ .home-card .home-sticker { position: absolute; top: 18px; left: 18px; z-index: 3; }
+
+ /* ---------- Pets ---------- */
+ .pets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+ .pet-card {
+ display: flex; align-items: center; gap: 20px;
+ padding: 22px;
+ transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s;
+ }
+ .pet-card:hover { transform: translateY(-6px); box-shadow: 0 26px 46px -16px rgba(58, 44, 32, 0.32); }
+ .pet-card img {
+ width: 140px; height: 110px; object-fit: cover; border-radius: 18px;
+ flex-shrink: 0; border: 4px solid var(--white);
+ box-shadow: 0 8px 16px -8px rgba(58,44,32,0.35);
+ }
+ .pet-card .pet-name { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; }
+ .pet-card .pet-breed { color: var(--ink-soft); font-weight: 600; margin-top: 2px; }
+ .pet-card .pet-tag { margin-top: 10px; }
+
+ /* ---------- Opt-in note ---------- */
+ .optin {
+ margin-top: 8px;
+ display: flex; align-items: center; gap: 16px;
+ background: var(--cactus-soft);
+ border-radius: var(--radius);
+ padding: 22px 28px;
+ }
+ .optin .ic {
+ width: 54px; height: 54px; flex-shrink: 0;
+ display: grid; place-items: center;
+ background: var(--cactus); color: var(--white);
+ border-radius: 16px; font-size: 1.5rem;
+ transform: rotate(-6deg);
+ box-shadow: 0 8px 16px -8px var(--cactus-deep);
+ }
+ .optin p { font-weight: 700; color: var(--cactus-deep); }
+ .optin p span { display: block; font-weight: 600; color: var(--ink-soft); font-size: 0.95rem; }
+
+ .profile-cta { text-align: center; margin-top: 36px; }
+
+ /* ---------- Footer ---------- */
+ footer {
+ margin-top: 30px;
+ background: var(--ink);
+ color: var(--sand);
+ border-radius: 48px 48px 0 0;
+ padding: 56px 0 40px;
+ }
+ .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 30px; flex-wrap: wrap; }
+ .footer-brand { display: flex; align-items: center; gap: 12px; font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; }
+ .footer-brand .mark { background: var(--marigold); color: var(--ink); }
+ footer .est { color: rgba(253,243,227,0.6); font-weight: 600; margin-top: 6px; font-size: 0.95rem; }
+ .footer-nav { list-style: none; display: flex; gap: 8px; flex-wrap: wrap; }
+ .footer-nav a {
+ font-weight: 700; font-size: 0.95rem;
+ padding: 8px 16px; border-radius: 999px;
+ background: rgba(253,243,227,0.08);
+ transition: background 0.2s, transform 0.2s;
+ }
+ .footer-nav a:hover { background: var(--marigold); color: var(--ink); transform: translateY(-2px); }
+ .footer-bottom { text-align: center; margin-top: 34px; color: rgba(253,243,227,0.45); font-size: 0.88rem; }
+
+ /* ---------- Responsive ---------- */
+ @media (max-width: 900px) {
+ .profile-grid { grid-template-columns: 1fr; gap: 40px; }
+ .portrait-stack { min-height: 360px; max-width: 460px; }
+ .bio-grid { grid-template-columns: 1fr; }
+ .pets-grid { grid-template-columns: 1fr; }
+ nav ul {
+ position: absolute; top: 72px; right: 4vw;
+ flex-direction: column; align-items: stretch;
+ background: var(--white); padding: 12px; border-radius: 24px;
+ box-shadow: var(--shadow-soft); min-width: 200px;
+ display: none;
+ }
+ nav ul.open { display: flex; }
+ .nav-toggle {
+ display: grid; place-items: center;
+ width: 46px; height: 46px; border: none; cursor: pointer;
+ background: var(--marigold); border-radius: 14px; font-size: 1.3rem;
+ }
+ }
+ @media (max-width: 520px) {
+ .bio-card, .optin { padding: 24px; }
+ .pet-card { flex-direction: column; text-align: center; }
+ }
+</style>
+</head>
+<body>
+
+<header class="nav-wrap">
+ <div class="wrap nav">
+ <a class="brand" href="07-friendly-playful.html"><span class="mark">W</span> Winterhaven Village</a>
+ <button class="nav-toggle" id="navToggle" aria-label="Menu">≡</button>
+ <nav>
+ <ul id="navMenu">
+ <li><a href="07-friendly-playful.html">Home</a></li>
+ <li><a href="07-friendly-playful.html#neighbors">Directory</a></li>
+ <li><a href="07-friendly-playful.html#board">Board</a></li>
+ <li><a href="07-friendly-playful.html#news">News</a></li>
+ <li><a href="07-friendly-playful.html#ccr">CC&amp;Rs</a></li>
+ <li><a href="#">Community Board</a></li>
+</ul>
+</nav>
+</div>
+</header>
+
+<main>
+ <div class="wrap back-bar">
+ <a class="back-link" href="07-friendly-playful.html#neighbors">← Back to Directory</a>
+</div>
+
+ <!-- PROFILE HERO -->
+ <section class="profile-hero">
+ <div class="wrap profile-grid">
+ <div class="profile-copy">
+ <span class="sticker sticker--sun"> Resident since 1994</span>
+ <h1>Margaret <span class="amp">&amp;</span> Tom Ellis</h1>
+ <div class="profile-meta">
+ <span class="meta-pill">12 Ocotillo Court</span>
+ <span class="meta-pill"><a href="tel:+15550123847">(555) 012-3847</a></span>
+ <span class="meta-pill"><a href="mailto:m.ellis@example.com">m.ellis@example.com</a></span>
+</div>
+</div>
+ <div class="portrait-stack">
+ <div class="portrait-card portrait-a">
+ <span class="tape"></span>
+ <img src="https://i.pravatar.cc/400?img=32" alt="Margaret Ellis" />
+ <span class="cap">Margaret</span>
+</div>
+ <div class="portrait-card portrait-b">
+ <span class="pin"></span>
+ <img src="https://i.pravatar.cc/400?img=11" alt="Tom Ellis" />
+ <span class="cap">Tom</span>
+</div>
+</div>
+</div>
+</section>
+
+ <!-- BIO + HOME -->
+ <section>
+ <div class="wrap">
+ <div class="bio-grid">
+ <div class="card bio-card">
+ <span class="sticker sticker--cactus" style="transform:rotate(-2deg);"> Say hola</span>
+ <p class="lead-first" style="margin-top:16px;">Margaret taught third grade for thirty years and now runs the village book club with the same gentle authority. Tom, a retired civil engineer, spends his mornings on the loop trail before the heat sets in, photographing whatever the desert offers up. Their courtyard garden — penstemon, agave, and one stubborn rosebush — wins the spring garden walk more years than not, and they host the first porch gathering of every monsoon season.</p>
+</div>
+ <div class="home-card">
+ <span class="sticker sticker--chile home-sticker"> Their home</span>
+ <img src="img/house.jpg" alt="The Ellis home on Ocotillo Court" />
+ <div class="home-label">12 Ocotillo Court — the adobe with the prize courtyard</div>
+</div>
+</div>
+</div>
+</section>
+
+ <!-- PETS -->
+ <section>
+ <div class="wrap">
+ <div class="sec-head">
+ <h2>The Family Critters</h2>
+</div>
+ <div class="pets-grid">
+ <article class="card pet-card">
+ <img src="https://placedog.net/600/450?id=12" alt="Biscuit the corgi" />
+ <div>
+ <div class="pet-name">Biscuit</div>
+ <div class="pet-breed">Pembroke Welsh Corgi</div>
+ <span class="sticker sticker--sun pet-tag" style="transform:rotate(-2deg);"> trail supervisor</span>
+</div>
+</article>
+ <article class="card pet-card">
+ <img src="https://placecats.com/400/300" alt="Clementine the tabby cat" />
+ <div>
+ <div class="pet-name">Clementine</div>
+ <div class="pet-breed">Tabby cat</div>
+ <span class="sticker sticker--chile pet-tag" style="transform:rotate(-2deg);"> windowsill napper</span>
+</div>
+</article>
+</div>
+
+ <div class="optin">
+  <p>Directory listings are opt-in.<span>Residents choose what to share.</span></p>
+</div>
+
+ <div class="profile-cta">
+ <a class="btn btn--primary" href="07-friendly-playful.html#neighbors">Back to the directory</a>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+ <div class="wrap">
+ <div class="footer-inner">
+ <div>
+ <div class="footer-brand"><span class="mark" style="display:grid;place-items:center;width:46px;height:46px;border-radius:16px;font-size:1.4rem;transform:rotate(-6deg);">W</span> Winterhaven Village</div>
+ <div class="est">Winterhaven Village Homeowners Association · Tucson, Arizona · Est. 1987</div>
+</div>
+ <ul class="footer-nav">
+ <li><a href="07-friendly-playful.html">Home</a></li>
+ <li><a href="07-friendly-playful.html#neighbors">Directory</a></li>
+ <li><a href="07-friendly-playful.html#board">Board</a></li>
+ <li><a href="07-friendly-playful.html#news">News</a></li>
+ <li><a href="07-friendly-playful.html#ccr">CC&amp;Rs</a></li>
+ <li><a href="#">Community Board</a></li>
+</ul>
+</div>
+ <div class="footer-bottom">Made with care in the desert — see you at the sunset potluck!</div>
+</div>
+</footer>
+
+<script>
+ var t = document.getElementById('navToggle');
+ var m = document.getElementById('navMenu');
+ if (t) { t.addEventListener('click', function () { m.classList.toggle('open'); }); }
+ m && m.querySelectorAll('a').forEach(function (a) {
+ a.addEventListener('click', function () { m.classList.remove('open'); });
+ });
+</script>
+</body>
+</html>

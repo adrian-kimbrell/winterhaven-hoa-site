@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Margaret &amp; Tom Ellis — Winterhaven Village Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,500&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --clay: #c2643f;
+ --clay-deep: #9d4a2b;
+ --adobe: #d98e5a;
+ --adobe-pink: #e6a98a;
+ --sage: #8a9b6e;
+ --sage-deep: #677a4d;
+ --sand: #e6d3b6;
+ --sand-light: #f2e6d2;
+ --cream: #faf2e4;
+ --cream-deep: #f4e7d2;
+ --ink: #3a2c22;
+ --ink-soft: #6b5746;
+ --gold: #e2a54f;
+ --prickly: #7c8f5a;
+ --shadow: 0 18px 40px -18px rgba(120, 64, 36, 0.38);
+ --shadow-soft: 0 10px 30px -16px rgba(120, 64, 36, 0.30);
+ --radius-lg: 40px;
+ --radius-md: 28px;
+ --radius-sm: 18px;
+ }
+
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: "Nunito Sans", system-ui, sans-serif;
+ color: var(--ink);
+ background-color: var(--cream);
+ background-image:
+ radial-gradient(circle at 12% 8%, rgba(216, 142, 90, 0.12), transparent 36%),
+ radial-gradient(circle at 88% 26%, rgba(138, 155, 110, 0.12), transparent 40%),
+ radial-gradient(circle at 50% 100%, rgba(194, 100, 63, 0.08), transparent 50%);
+ line-height: 1.6;
+ -webkit-font-smoothing: antialiased;
+ position: relative;
+ }
+ body::before {
+ content: "";
+ position: fixed;
+ inset: 0;
+ pointer-events: none;
+ z-index: 9999;
+ opacity: 0.05;
+ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+ mix-blend-mode: multiply;
+ }
+
+ h1, h2, h3, h4, .serif {
+ font-family: "Fraunces", Georgia, serif;
+ font-weight: 600;
+ line-height: 1.1;
+ letter-spacing: -0.01em;
+ }
+
+ a { color: inherit; text-decoration: none; }
+ .wrap { width: min(1180px, 92vw); margin: 0 auto; }
+
+ /* ---------- Nav (shared) ---------- */
+ header.site {
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ backdrop-filter: blur(10px);
+ background: rgba(250, 242, 228, 0.84);
+ border-bottom: 1px solid rgba(194, 100, 63, 0.14);
+ }
+ .nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; gap: 20px; }
+ .brand { display: flex; align-items: center; gap: 12px; }
+ .brand .mark {
+ width: 46px; height: 46px; flex-shrink: 0;
+ border-radius: 50% 50% 10px 10px;
+ background: linear-gradient(155deg, var(--clay), var(--gold));
+ display: grid; place-items: center; box-shadow: var(--shadow-soft);
+ }
+ .brand .mark svg { width: 24px; height: 24px; }
+ .brand .name { font-family: "Fraunces", serif; font-weight: 600; font-size: 1.35rem; color: var(--ink); letter-spacing: -0.02em; }
+ .brand .est { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--clay); font-weight: 700; }
+ nav.links { display: flex; gap: 4px; align-items: center; }
+ nav.links a { padding: 9px 16px; border-radius: 999px; font-weight: 600; font-size: 0.94rem; color: var(--ink-soft); transition: background .25s, color .25s, transform .25s; }
+ nav.links a:hover { background: var(--sand); color: var(--clay-deep); transform: translateY(-1px); }
+ .nav-toggle { display: none; background: none; border: none; cursor: pointer; }
+ .nav-toggle span { display:block; width:26px; height:2.5px; background: var(--ink); margin:5px 0; border-radius:2px; }
+
+ /* ---------- Back affordance ---------- */
+ .backbar { padding: 26px 0 6px; }
+ .back {
+ display:inline-flex; align-items:center; gap:9px;
+ font-weight:800; font-size:.92rem; color: var(--clay-deep);
+ background: var(--cream-deep); padding: 10px 20px; border-radius: 999px;
+ box-shadow: var(--shadow-soft); border:1px solid rgba(194,100,63,.10);
+ transition: transform .25s, gap .25s, background .25s;
+ }
+ .back svg { width:16px; height:16px; transition: transform .25s; }
+ .back:hover { transform: translateY(-2px); gap: 13px; background: var(--sand-light); }
+ .back:hover svg { transform: translateX(-3px); }
+
+ /* ---------- Profile hero ---------- */
+ .profile { padding: 26px 0 20px; }
+ .profile-grid { display:grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; }
+
+ .portraits { position: relative; display:flex; justify-content:center; }
+ .portrait {
+ position: relative;
+ width: 60%;
+ aspect-ratio: 4/5;
+ border-radius: 50% 50% 14px 14px / 42% 42% 14px 14px;
+ overflow:hidden;
+ border:6px solid var(--cream);
+ box-shadow: var(--shadow);
+ }
+ .portrait img { width:100%; height:100%; object-fit:cover; display:block; }
+ .portrait.p1 { z-index:2; margin-right:-14%; transform: translateY(14px) rotate(-2deg); }
+ .portrait.p2 { z-index:1; transform: translateY(-14px) rotate(2deg); }
+ .portraits .ocotillo {
+ position:absolute; z-index:3; width: 84px; right: -6%; top: -28px; color: var(--prickly);
+ animation: sway 6.5s ease-in-out infinite; transform-origin: bottom center;
+ }
+ @keyframes sway { 0%,100%{ transform: rotate(-5deg) } 50%{ transform: rotate(7deg) } }
+
+ .eyebrow {
+ display: inline-flex; align-items: center; gap: 8px;
+ font-weight: 700; font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase;
+ color: var(--sage-deep); background: rgba(138,155,110,0.18);
+ padding: 7px 16px; border-radius: 999px; margin-bottom: 20px;
+ }
+ .profile h1 { font-size: clamp(2.3rem, 4.6vw, 3.7rem); color: var(--ink); margin-bottom: 14px; }
+ .profile h1 em { font-style: italic; color: var(--clay); }
+ .meta-row { display:flex; flex-wrap:wrap; gap: 10px; margin-bottom: 24px; }
+ .meta {
+ display:inline-flex; align-items:center; gap:8px;
+ font-weight:700; font-size:.92rem; color: var(--ink-soft);
+ background: var(--cream-deep); padding: 9px 16px; border-radius: 999px;
+ border:1px solid rgba(194,100,63,.10);
+ }
+ .meta svg { width:16px; height:16px; color: var(--clay); }
+ .contact-row { display:flex; flex-wrap:wrap; gap: 14px; }
+ .contact {
+ display:inline-flex; align-items:center; gap:10px;
+ font-weight:800; font-size:.95rem; color: var(--clay-deep);
+ transition: gap .25s;
+ }
+ .contact:hover { gap: 14px; }
+ .contact svg { width:18px; height:18px; }
+
+ /* ---------- Section scaffolding ---------- */
+ section { padding: 26px 0; }
+ .sec-head { margin-bottom: 26px; }
+ .sec-head .kicker { display:block; font-weight:700; font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color: var(--sage-deep); margin-bottom:8px; }
+ .sec-head h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); color: var(--ink); }
+ .sec-head h2 em { font-style: italic; color: var(--clay); }
+
+ .divider { width: 100%; height: 50px; color: var(--prickly); opacity: .6; margin: 8px 0; }
+ .divider svg { width:100%; height:100%; display:block; }
+
+ /* ---------- Bio + home photo ---------- */
+ .bio-grid { display:grid; grid-template-columns: 1.15fr 1fr; gap: 44px; align-items: stretch; }
+ .bio-card {
+ background: var(--cream-deep); border-radius: var(--radius-lg);
+ padding: 40px 42px; box-shadow: var(--shadow-soft);
+ border:1px solid rgba(194,100,63,.10); position:relative; overflow:hidden;
+ }
+ .bio-card .quote-mark { font-family:"Fraunces",serif; font-size: 5rem; color: var(--adobe); opacity:.35; line-height: .6; margin-bottom: 4px; display:block; }
+ .bio-card p { font-family:"Fraunces",serif; font-size: 1.22rem; line-height:1.5; color: var(--ink); }
+ .bio-card .since { margin-top: 22px; font-family:"Nunito Sans"; font-size:.9rem; font-weight:700; color: var(--sage-deep); letter-spacing:.04em; }
+
+ .home-photo { position:relative; }
+ .home-photo .frame {
+ border-radius: 50% 50% 18px 18px / 30% 30% 18px 18px;
+ overflow:hidden; height:100%; min-height: 320px;
+ border:6px solid var(--cream); box-shadow: var(--shadow);
+ }
+ .home-photo .frame img { width:100%; height:100%; object-fit:cover; display:block; }
+ .home-photo .cap {
+ position:absolute; left: 50%; bottom: -16px; transform: translateX(-50%);
+ background: var(--gold); color: var(--cream);
+ font-family:"Fraunces",serif; font-weight:600; font-size:.9rem;
+ padding: 8px 20px; border-radius: 999px; box-shadow: var(--shadow-soft); white-space:nowrap;
+ }
+
+ /* ---------- Pets ---------- */
+ .pets-grid { display:grid; grid-template-columns: repeat(2,1fr); gap: 26px; }
+ .pet-card {
+ background: var(--cream-deep); border-radius: var(--radius-md);
+ overflow:hidden; box-shadow: var(--shadow-soft);
+ border:1px solid rgba(194,100,63,.10);
+ display:flex; align-items:center; gap: 22px; padding: 18px;
+ transition: transform .3s, box-shadow .3s;
+ }
+ .pet-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+ .pet-card .pic { width: 130px; height: 130px; flex-shrink:0; border-radius: 50% 50% 44% 44%; overflow:hidden; border:4px solid var(--cream); box-shadow: var(--shadow-soft); }
+ .pet-card .pic img { width:100%; height:100%; object-fit:cover; display:block; }
+ .pet-card h3 { font-size: 1.4rem; color: var(--ink); margin-bottom: 4px; }
+ .pet-card .breed { display:inline-block; font-weight:700; font-size:.82rem; color: var(--sage-deep); background: rgba(138,155,110,.16); padding:4px 12px; border-radius:999px; }
+
+ /* ---------- Opt-in note ---------- */
+ .optin {
+ margin-top: 8px;
+ background: var(--ink); color: var(--cream);
+ border-radius: var(--radius-lg); padding: 34px clamp(26px,4vw,48px);
+ display:flex; align-items:center; gap: 22px; position:relative; overflow:hidden;
+ box-shadow: var(--shadow);
+ }
+ .optin::after { content:""; position:absolute; right:-50px; top:-50px; width:220px; height:220px; border-radius:50%; background: radial-gradient(circle, rgba(226,165,79,.40), transparent 70%); }
+ .optin .ic { width:54px; height:54px; flex-shrink:0; border-radius: 50% 50% 14px 14px; background: var(--sage); color: var(--cream); display:grid; place-items:center; position:relative; z-index:2; }
+ .optin .ic svg { width:26px; height:26px; }
+ .optin p { position:relative; z-index:2; font-size:1.05rem; color: rgba(250,242,228,.9); }
+ .optin p strong { font-family:"Fraunces",serif; font-weight:600; color: var(--cream); }
+
+ /* ---------- Footer (shared) ---------- */
+ footer.site {
+ margin-top: 40px;
+ background: linear-gradient(160deg, var(--clay-deep), #7e3a20);
+ color: var(--cream); border-radius: 56px 56px 0 0;
+ padding: 60px 0 36px; position: relative; overflow: hidden;
+ }
+ footer.site .foot-cactus { position:absolute; right:4%; top:-10px; width:130px; color: rgba(250,242,228,.10); }
+ .foot-grid { display:flex; justify-content:space-between; gap:30px; flex-wrap:wrap; align-items:flex-start; position:relative; z-index:2; }
+ .foot-brand { max-width: 380px; }
+ .foot-brand .name { font-family:"Fraunces",serif; font-size:1.7rem; margin-bottom:8px; }
+ .foot-brand p { color: rgba(250,242,228,.80); }
+ footer nav { display:flex; flex-wrap:wrap; gap: 10px 26px; }
+ footer nav a { font-weight:700; opacity:.9; transition: opacity .25s; }
+ footer nav a:hover { opacity:1; text-decoration: underline; text-underline-offset:4px; }
+ .foot-bottom { margin-top: 40px; padding-top: 22px; border-top:1px solid rgba(250,242,228,.18); font-size:.86rem; color: rgba(250,242,228,.72); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; position:relative; z-index:2; }
+
+ /* ---------- Responsive ---------- */
+ @media (max-width: 920px) {
+ nav.links { position: fixed; inset: 72px 0 auto 0; flex-direction:column; background: var(--cream); padding: 18px; gap:6px; box-shadow: var(--shadow); transform: translateY(-140%); transition: transform .35s; }
+ nav.links.open { transform: translateY(0); }
+ nav.links a { width:100%; }
+ .nav-toggle { display:block; }
+ .profile-grid { grid-template-columns: 1fr; gap: 50px; }
+ .portraits { max-width: 420px; margin: 0 auto; }
+ .bio-grid { grid-template-columns: 1fr; }
+ .home-photo .frame { min-height: 280px; }
+ }
+ @media (max-width: 640px) {
+ .pets-grid { grid-template-columns: 1fr; }
+ .pet-card { flex-direction: column; text-align:center; }
+ .optin { flex-direction: column; text-align:center; }
+ .bio-card { padding: 30px 26px; }
+ }
+</style>
+</head>
+<body>
+
+<header class="site">
+ <div class="wrap nav">
+ <a class="brand" href="03-warm-organic.html">
+ <span class="mark" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="#faf2e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V10a8 8 0 0 1 16 0v11"/><path d="M9 21v-5a3 3 0 0 1 6 0v5"/></svg>
+</span>
+ <span>
+ <span class="name">Winterhaven Village</span><br />
+ <span class="est">Tucson · Est. 1987</span>
+</span>
+</a>
+ <button class="nav-toggle" aria-label="Menu" id="toggle"><span></span><span></span><span></span></button>
+ <nav class="links" id="menu">
+ <a href="03-warm-organic.html">Home</a>
+ <a href="03-warm-organic.html#neighbors">Directory</a>
+ <a href="03-warm-organic.html#board">Board</a>
+ <a href="03-warm-organic.html#news">News</a>
+ <a href="03-warm-organic.html#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+</div>
+</header>
+
+<main>
+ <div class="wrap backbar">
+ <a class="back" href="03-warm-organic.html#neighbors">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+ Back to Directory
+</a>
+</div>
+
+ <!-- PROFILE HERO -->
+ <section class="profile">
+ <div class="wrap profile-grid">
+ <div class="portraits">
+ <svg class="ocotillo" viewBox="0 0 60 90" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+ <path d="M30 90V14"/><path d="M30 30C24 24 18 22 12 22"/><path d="M30 42C36 36 42 34 50 34"/><path d="M30 54C24 48 18 47 13 47"/><path d="M30 22C36 16 41 14 47 14"/>
+ <path d="M30 14c-2-4-1-8 2-12M30 14c2-4 5-6 9-6M30 14c-3-3-7-4-11-3"/>
+</svg>
+ <div class="portrait p2"><img src="https://i.pravatar.cc/400?img=11" alt="Tom Ellis" loading="eager" /></div>
+ <div class="portrait p1"><img src="https://i.pravatar.cc/400?img=32" alt="Margaret Ellis" loading="eager" /></div>
+</div>
+ <div class="profile-copy">
+ <span class="eyebrow">Resident directory</span>
+ <h1>Margaret &amp; Tom <em>Ellis</em></h1>
+ <div class="meta-row">
+ <span class="meta">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V10a8 8 0 0 1 16 0v11M9 21v-5a3 3 0 0 1 6 0v5"/></svg>
+ 12 Ocotillo Court
+</span>
+ <span class="meta">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+ Residents since 1994
+</span>
+</div>
+ <div class="contact-row">
+ <a class="contact" href="tel:+15550123847">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+ (555) 012-3847
+</a>
+ <a class="contact" href="mailto:m.ellis@example.com">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+ m.ellis@example.com
+</a>
+</div>
+</div>
+</div>
+</section>
+
+ <div class="wrap divider" aria-hidden="true">
+ <svg viewBox="0 0 1200 50" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2.5">
+ <path d="M0 38 C 90 38, 90 12, 150 12 S 210 38, 300 38 S 360 12, 420 12 S 480 38, 570 38 S 630 12, 690 12 S 750 38, 840 38 S 900 12, 960 12 S 1020 38, 1110 38 S 1170 12, 1230 12"/>
+</svg>
+</div>
+
+ <!-- BIO + HOME -->
+ <section>
+ <div class="wrap">
+ <div class="sec-head">
+ <span class="kicker">A little about them</span>
+ <h2>Neighbors on <em>Ocotillo Court</em></h2>
+</div>
+ <div class="bio-grid">
+ <div class="bio-card">
+ <span class="quote-mark">&ldquo;</span>
+ <p>Margaret taught third grade for thirty years and now runs the village book club with the same gentle authority. Tom, a retired civil engineer, spends his mornings on the loop trail before the heat sets in, photographing whatever the desert offers up. Their courtyard garden — penstemon, agave, and one stubborn rosebush — wins the spring garden walk more years than not, and they host the first porch gathering of every monsoon season.</p>
+ <div class="since">Residents of Winterhaven Village since 1994</div>
+</div>
+ <div class="home-photo">
+ <div class="frame">
+ <img src="img/house.jpg" alt="The Ellis home — an adobe-style house with a courtyard garden" loading="lazy" />
+</div>
+ <span class="cap">The Ellis home</span>
+</div>
+</div>
+</div>
+</section>
+
+ <div class="wrap divider" aria-hidden="true">
+ <svg viewBox="0 0 1200 50" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2.5">
+ <path d="M0 12 C 90 12, 90 38, 150 38 S 210 12, 300 12 S 360 38, 420 38 S 480 12, 570 12 S 630 38, 690 38 S 750 12, 840 12 S 900 38, 960 38 S 1020 12, 1110 12 S 1170 38, 1230 38"/>
+</svg>
+</div>
+
+ <!-- PETS -->
+ <section>
+ <div class="wrap">
+ <div class="sec-head">
+ <span class="kicker">The household</span>
+ <h2>Their <em>companions</em></h2>
+</div>
+ <div class="pets-grid">
+ <div class="pet-card">
+ <div class="pic"><img src="https://placedog.net/600/450?id=12" alt="Biscuit the Pembroke Welsh Corgi" loading="lazy" /></div>
+ <div>
+ <h3>Biscuit</h3>
+ <span class="breed"> Pembroke Welsh Corgi</span>
+</div>
+</div>
+ <div class="pet-card">
+ <div class="pic"><img src="https://placecats.com/400/300" alt="Clementine the tabby cat" loading="lazy" /></div>
+ <div>
+ <h3>Clementine</h3>
+ <span class="breed"> Tabby cat</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+ <div class="wrap">
+ <div class="optin">
+ <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+ <p><strong>Directory listings are opt-in.</strong> Residents choose what to share — names, photos, and contact details appear only with their consent.</p>
+</div>
+</div>
+</main>
+
+<footer class="site">
+ <svg class="foot-cactus" viewBox="0 0 80 130" fill="currentColor" aria-hidden="true"><path d="M34 130V58c-7 0-13-2-13-12V34c0-4 2-7 6-7s6 3 6 7v8c0 3 1 5 8 5V20c0-5 3-9 6-9s6 4 6 9v18c0 6 3 8 8 8s6-3 6-7v-9c0-4 2-7 6-7s6 3 6 7v11c0 11-7 14-15 14-7 0-11-2-11-2v44z"/></svg>
+ <div class="wrap">
+ <div class="foot-grid">
+ <div class="foot-brand">
+ <div class="name">Winterhaven Village</div>
+ <p>A Sonoran desert community in the shadow of the Santa Catalinas. Neighbors, by nature.</p>
+</div>
+ <nav>
+ <a href="03-warm-organic.html">Home</a>
+ <a href="03-warm-organic.html#neighbors">Directory</a>
+ <a href="03-warm-organic.html#board">Board</a>
+ <a href="03-warm-organic.html#news">News</a>
+ <a href="03-warm-organic.html#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+</div>
+ <div class="foot-bottom">
+ <span>Winterhaven Village Homeowners Association · Tucson, Arizona · Est. 1987</span>
+ <span>Desert living, neighborly spirit.</span>
+</div>
+</div>
+</footer>
+
+<script>
+ const t = document.getElementById('toggle');
+ const m = document.getElementById('menu');
+ t.addEventListener('click', () => m.classList.toggle('open'));
+ m.querySelectorAll('a').forEach(a => a.addEventListener('click', () => m.classList.remove('open')));
+</script>
+</body>
+</html>

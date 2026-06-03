@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Winterhaven Village · Tucson v2 — Style Explorations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: 'Inter', sans-serif; background: #f7f1e8; color: #2b2018; padding: 48px 32px; }
+ header { max-width: 1280px; margin: 0 auto 40px; }
+ h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
+ p.sub { color: #8a7766; margin-top: 6px; font-size: 14px; }
+ .grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
+ .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(60,40,20,.1); transition: transform .15s ease, box-shadow .15s ease; }
+ .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(60,40,20,.15); }
+ .frame { position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden; background: #ece4d8; border-bottom: 1px solid #f0eae0; display: block; }
+ .badge { position: absolute; top: 10px; left: 10px; z-index: 2; width: 44px; height: 44px; display: grid; place-items: center; background: #2b2018; color: #fff; font-size: 20px; font-weight: 800; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+ .frame iframe { width: 1280px; height: 800px; border: 0; transform-origin: top left; pointer-events: none; position: absolute; top: 0; left: 0; }
+ .meta { padding: 16px 18px 4px; display: flex; align-items: baseline; gap: 10px; }
+ .num { font-size: 12px; font-weight: 600; color: #c0a98e; font-variant-numeric: tabular-nums; }
+ .name { font-size: 15px; font-weight: 600; }
+ .desc { font-size: 12.5px; color: #8a7766; padding: 4px 18px 12px; line-height: 1.5; }
+ .links { display: flex; gap: 8px; padding: 0 18px 16px; }
+ .links a { font-size: 12px; font-weight: 600; text-decoration: none; padding: 6px 12px; border-radius: 999px; background: #f3e9da; color: #7a4a21; transition: background .15s ease; }
+ .links a:hover { background: #eadbc4; }
+</style>
+</head>
+<body>
+<header>
+ <h1>Winterhaven Village — Tucson v2 · 15 Style Explorations</h1>
+ <p class="sub">Sonoran desert edition. Same content in every mockup; only the design language changes. Each style includes a homepage and a demo resident profile page.</p>
+</header>
+<div class="grid" id="grid"></div>
+<script>
+ const mockups = [
+ ["01-classic-editorial", "Classic Editorial", "Desert-town broadsheet — The Winterhaven Villager, terracotta accent on warm cream."],
+ ["02-swiss-minimal", "Swiss Minimal", "Strict grid on sun-bleached bone, single burnt-terracotta accent."],
+ ["03-warm-organic", "Warm Organic", "Adobe arches, clay & sage, ocotillo line motifs — Mercado San Agustín energy."],
+ ["04-oasis-calm", "Oasis Calm", "Pool turquoise, white stucco, dune-ripple dividers — desert-spa serenity."],
+ ["05-desert-lodge", "Desert Lodge", "Saguaro National Park WPA poster — sunset palette, silhouette crest."],
+ ["06-quiet-luxury", "Quiet Luxury", "High-desert resort — ivory, limestone, copper & agave hairlines."],
+ ["07-friendly-playful", "Friendly Playful", "Desert fiesta — marigold & chile red, saguaro and quail stickers."],
+ ["08-sonoran-dusk", "Sonoran Dusk", "Monsoon twilight dark mode — indigo, sunset coral, saguaro horizon."],
+ ["09-soft-brutalist", "Soft Brutalist", "High-noon hard shadows on adobe pastels — barrio viejo at midday."],
+ ["10-glass-gradient", "Glass & Gradient", "Sonoran dawn mesh — apricot and dusty rose under frosted glass."],
+ ["11-vintage-bulletin", "Vintage Bulletin", "Greetings-from-Tucson postcard — sun-faded turquoise and mustard."],
+ ["12-botanical", "Desert Botanical", "Hand-drawn saguaro, agave & prickly pear line art, blossom pink."],
+ ["13-magazine-grid", "Magazine Grid", "Arizona Highways editorial — asymmetric spreads, ochre accents."],
+ ["14-soft-pastel", "Soft Pastel", "Desert-at-dawn pastels — dusty rose, sage mist, pale turquoise."],
+ ["15-desert-modern", "Desert Modern", "Mid-century Tucson modernism — stucco, breeze blocks, Catalina silhouettes."],
+ ];
+ const grid = document.getElementById('grid');
+ for (const [slug, name, desc] of mockups) {
+ const num = slug.slice(0, 2);
+ const card = document.createElement('div');
+ card.className = 'card';
+ card.innerHTML = `
+ <a class="frame" href="${slug}.html" target="_blank"><span class="badge">${Number(num)}</span><iframe src="${slug}.html" loading="lazy" tabindex="-1" scrolling="no"></iframe></a>
+ <div class="meta"><span class="num">No. ${Number(num)}</span><span class="name">${name}</span></div>
+ <div class="desc">${desc}</div>
+ <div class="links">
+ <a href="${slug}.html" target="_blank">Homepage</a>
+ <a href="${slug}-profile.html" target="_blank">Profile page</a>
+</div>`;
+ grid.appendChild(card);
+ }
+ function scale() {
+ document.querySelectorAll('.frame').forEach(f => {
+ const s = f.clientWidth / 1280;
+ f.querySelector('iframe').style.transform = `scale(${s})`;
+ });
+ }
+ window.addEventListener('resize', scale);
+ scale();
+ setTimeout(scale, 500);
+</script>
+</body>
+</html>

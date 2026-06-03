@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Winterhaven Village — Desert living, neighborly spirit.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,500&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --clay: #c2643f;
+ --clay-deep: #9d4a2b;
+ --adobe: #d98e5a;
+ --adobe-pink: #e6a98a;
+ --sage: #8a9b6e;
+ --sage-deep: #677a4d;
+ --sand: #e6d3b6;
+ --sand-light: #f2e6d2;
+ --cream: #faf2e4;
+ --cream-deep: #f4e7d2;
+ --ink: #3a2c22;
+ --ink-soft: #6b5746;
+ --gold: #e2a54f;
+ --prickly: #7c8f5a;
+ --shadow: 0 18px 40px -18px rgba(120, 64, 36, 0.38);
+ --shadow-soft: 0 10px 30px -16px rgba(120, 64, 36, 0.30);
+ --radius-lg: 40px;
+ --radius-md: 28px;
+ --radius-sm: 18px;
+ }
+
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: "Nunito Sans", system-ui, sans-serif;
+ color: var(--ink);
+ background-color: var(--cream);
+ background-image:
+ radial-gradient(circle at 12% 8%, rgba(216, 142, 90, 0.12), transparent 36%),
+ radial-gradient(circle at 88% 26%, rgba(138, 155, 110, 0.12), transparent 40%),
+ radial-gradient(circle at 50% 100%, rgba(194, 100, 63, 0.08), transparent 50%);
+ line-height: 1.6;
+ -webkit-font-smoothing: antialiased;
+ position: relative;
+ }
+ body::before {
+ content: "";
+ position: fixed;
+ inset: 0;
+ pointer-events: none;
+ z-index: 9999;
+ opacity: 0.05;
+ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+ mix-blend-mode: multiply;
+ }
+
+ h1, h2, h3, .serif {
+ font-family: "Fraunces", Georgia, serif;
+ font-weight: 600;
+ line-height: 1.08;
+ letter-spacing: -0.01em;
+ }
+
+ a { color: inherit; text-decoration: none; }
+
+ .wrap { width: min(1180px, 92vw); margin: 0 auto; }
+
+ /* ---------- Nav ---------- */
+ header.site {
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ backdrop-filter: blur(10px);
+ background: rgba(250, 242, 228, 0.84);
+ border-bottom: 1px solid rgba(194, 100, 63, 0.14);
+ }
+ .nav {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 16px 0;
+ gap: 20px;
+ }
+ .brand { display: flex; align-items: center; gap: 12px; }
+ .brand .mark {
+ width: 46px; height: 46px;
+ flex-shrink: 0;
+ /* adobe arch / doorway shape */
+ border-radius: 50% 50% 10px 10px;
+ background: linear-gradient(155deg, var(--clay), var(--gold));
+ display: grid; place-items: center;
+ box-shadow: var(--shadow-soft);
+ }
+ .brand .mark svg { width: 24px; height: 24px; }
+ .brand .name {
+ font-family: "Fraunces", serif;
+ font-weight: 600;
+ font-size: 1.35rem;
+ color: var(--ink);
+ letter-spacing: -0.02em;
+ }
+ .brand .est { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--clay); font-weight: 700; }
+ nav.links { display: flex; gap: 4px; align-items: center; }
+ nav.links a {
+ padding: 9px 16px;
+ border-radius: 999px;
+ font-weight: 600;
+ font-size: 0.94rem;
+ color: var(--ink-soft);
+ transition: background .25s, color .25s, transform .25s;
+ }
+ nav.links a:hover { background: var(--sand); color: var(--clay-deep); transform: translateY(-1px); }
+ .nav-toggle { display: none; background: none; border: none; cursor: pointer; }
+ .nav-toggle span { display:block; width:26px; height:2.5px; background: var(--ink); margin:5px 0; border-radius:2px; }
+
+ /* ---------- Hero ---------- */
+ .hero { padding: 70px 0 30px; position: relative; overflow: hidden; }
+ .hero-grid {
+ display: grid;
+ grid-template-columns: 1.05fr 1fr;
+ gap: 56px;
+ align-items: center;
+ }
+ .eyebrow {
+ display: inline-flex; align-items: center; gap: 9px;
+ font-weight: 700; font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase;
+ color: var(--sage-deep);
+ background: rgba(138,155,110,0.18);
+ padding: 7px 16px; border-radius: 999px;
+ margin-bottom: 22px;
+ }
+ .eyebrow svg { width: 16px; height: 16px; }
+ .hero h1 {
+ font-size: clamp(2.7rem, 5.5vw, 4.4rem);
+ color: var(--ink);
+ margin-bottom: 20px;
+ }
+ .hero h1 em { font-style: italic; color: var(--clay); }
+ .hero .tag {
+ font-family: "Fraunces", serif;
+ font-style: italic;
+ font-weight: 500;
+ font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+ color: var(--ink-soft);
+ margin-bottom: 30px;
+ }
+ .cta-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+ .btn {
+ display: inline-flex; align-items: center; gap: 10px;
+ padding: 16px 30px;
+ border-radius: 999px;
+ font-weight: 800; font-size: 1rem;
+ background: var(--clay);
+ color: var(--cream);
+ box-shadow: var(--shadow);
+ transition: transform .25s, box-shadow .25s, background .25s;
+ border: none; cursor: pointer;
+ }
+ .btn:hover { transform: translateY(-3px); background: var(--clay-deep); box-shadow: 0 24px 48px -18px rgba(120,64,36,.55); }
+ .btn svg { width: 18px; height: 18px; transition: transform .25s; }
+ .btn:hover svg { transform: translateX(4px); }
+ .btn.ghost {
+ background: transparent; color: var(--clay-deep);
+ box-shadow: inset 0 0 0 2px rgba(194,100,63,0.32);
+ }
+ .btn.ghost:hover { background: var(--sand-light); box-shadow: inset 0 0 0 2px var(--clay); }
+
+ /* mission arch photo */
+ .hero-photo { position: relative; }
+ .hero-photo .arch {
+ position: relative;
+ /* full adobe doorway arch — rounded top, square base */
+ border-radius: 50% 50% 14px 14px / 42% 42% 14px 14px;
+ overflow: hidden;
+ aspect-ratio: 4/5;
+ box-shadow: var(--shadow);
+ z-index: 2;
+ border: 6px solid var(--cream);
+ }
+ .hero-photo .arch img { width: 100%; height: 100%; object-fit: cover; display:block; }
+ .hero-photo .blob-bg {
+ position: absolute; inset: -8% -12% -12% 6%;
+ background: linear-gradient(140deg, var(--sage), var(--adobe));
+ border-radius: 60% 40% 55% 45% / 55% 50% 50% 45%;
+ z-index: 1;
+ opacity: .9;
+ filter: blur(2px);
+ }
+ /* ocotillo line motif */
+ .hero-photo .ocotillo {
+ position: absolute; z-index: 3;
+ width: 96px; right: -22px; top: -30px;
+ color: var(--prickly);
+ animation: sway 6.5s ease-in-out infinite;
+ transform-origin: bottom center;
+ }
+ .hero-photo .dot {
+ position:absolute; z-index:3; bottom:-14px; left:-14px;
+ width:84px; height:84px; border-radius:50%;
+ background: var(--gold);
+ box-shadow: var(--shadow-soft);
+ display:grid; place-items:center; color: var(--cream);
+ font-family:"Fraunces",serif; font-weight:600; font-size:.76rem; text-align:center; line-height:1.08;
+ padding:8px;
+ }
+ @keyframes sway { 0%,100%{ transform: rotate(-5deg) } 50%{ transform: rotate(7deg) } }
+
+ /* ---------- Section scaffolding ---------- */
+ section { padding: 26px 0; position: relative; }
+ .sec-head { display:flex; align-items:flex-end; justify-content: space-between; gap: 20px; margin-bottom: 34px; flex-wrap: wrap; }
+ .sec-head h2 { font-size: clamp(1.8rem, 3.4vw, 2.7rem); color: var(--ink); }
+ .sec-head h2 em { font-style: italic; color: var(--clay); }
+ .sec-head .kicker { display:block; font-family:"Nunito Sans"; font-weight:700; font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color: var(--sage-deep); margin-bottom:10px; }
+ .link-more { font-weight:800; color: var(--clay-deep); display:inline-flex; gap:6px; align-items:center; transition:gap .25s; }
+ .link-more:hover { gap: 12px; }
+
+ /* prickly-pear / ocotillo line divider */
+ .divider { width: 100%; height: 50px; color: var(--prickly); opacity: .6; margin: 8px 0; }
+ .divider svg { width:100%; height:100%; display:block; }
+
+ /* ---------- News cards ---------- */
+ .news-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
+ .news-card {
+ background: var(--cream-deep);
+ border-radius: var(--radius-md);
+ overflow: hidden;
+ box-shadow: var(--shadow-soft);
+ transition: transform .3s, box-shadow .3s;
+ display: flex; flex-direction: column;
+ border: 1px solid rgba(194,100,63,0.10);
+ }
+ .news-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+ .news-card .ph { aspect-ratio: 16/10; overflow: hidden; }
+ .news-card .ph img { width:100%; height:100%; object-fit:cover; transition: transform .5s; }
+ .news-card:hover .ph img { transform: scale(1.06); }
+ .news-card .body { padding: 22px 24px 26px; display:flex; flex-direction:column; gap:10px; flex:1; }
+ .tagchip {
+ align-self:flex-start;
+ font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+ padding:5px 12px; border-radius:999px;
+ background: var(--sand); color: var(--clay-deep);
+ }
+ .news-card h3 { font-size: 1.28rem; color: var(--ink); }
+ .news-card p { color: var(--ink-soft); font-size:.95rem; }
+ .news-card .when { margin-top:auto; font-weight:700; color: var(--sage-deep); font-size:.86rem; }
+
+ /* ---------- Two-up feature row ---------- */
+ .feature-row { display:grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+ .panel {
+ border-radius: var(--radius-lg);
+ padding: 38px 38px 40px;
+ box-shadow: var(--shadow-soft);
+ position: relative; overflow:hidden;
+ }
+ .panel.humor {
+ background: linear-gradient(155deg, var(--gold), var(--clay));
+ color: var(--cream);
+ }
+ .panel.humor .kicker, .panel.board .kicker { color: inherit; opacity:.9; }
+ .panel.humor h2 { color: var(--cream); }
+ .panel.humor .blurb { font-family:"Fraunces",serif; font-style:italic; font-size:1.4rem; line-height:1.35; margin: 14px 0 22px; }
+ .panel.humor .cat {
+ position:absolute; right:-10px; bottom:-14px; font-size: 7rem; opacity:.20; transform: rotate(-8deg);
+ }
+ .panel.humor .btn { background: var(--cream); color: var(--clay-deep); }
+ .panel.humor .btn:hover { background:#fff; }
+
+ .panel.board { background: var(--sand-light); border:1px solid rgba(138,155,110,.22); }
+ .panel.board h2 { color: var(--ink); }
+ .board-item {
+ display:flex; gap:16px; align-items:flex-start;
+ padding: 18px 0;
+ border-bottom: 1px dashed rgba(103,122,77,.38);
+ }
+ .board-item:last-of-type { border-bottom: none; }
+ .board-item .ic {
+ width:46px; height:46px; flex-shrink:0; border-radius: 50% 50% 12px 12px;
+ background: var(--sage); color: var(--cream);
+ display:grid; place-items:center;
+ }
+ .board-item .ic svg { width:22px; height:22px; }
+ .board-item h4 { font-family:"Fraunces",serif; font-size:1.12rem; color: var(--ink); margin-bottom:2px; }
+ .board-item p { color: var(--ink-soft); font-size:.92rem; }
+ .board-item a.inline { color: var(--clay-deep); font-weight:800; }
+ .board-item a.inline:hover { text-decoration: underline; }
+
+ /* ---------- CC&R Corner ---------- */
+ .ccr {
+ background: var(--ink);
+ color: var(--cream);
+ border-radius: var(--radius-lg);
+ padding: 54px clamp(28px,5vw,64px);
+ position: relative; overflow:hidden;
+ box-shadow: var(--shadow);
+ }
+ .ccr::after {
+ content:""; position:absolute; right:-60px; top:-60px; width:280px; height:280px;
+ border-radius:50%; background: radial-gradient(circle, rgba(226,165,79,.42), transparent 70%);
+ }
+ .ccr .saguaro {
+ position:absolute; left:-30px; bottom:-30px; width:180px; color: rgba(138,155,110,.22); z-index:1;
+ }
+ .ccr .kicker { color: var(--gold); position:relative; z-index:2; }
+ .ccr h2 { color: var(--cream); font-size: clamp(1.7rem,3vw,2.4rem); margin-bottom: 28px; position:relative; z-index:2; }
+ .qa { display:grid; grid-template-columns: auto 1fr; gap: 18px 22px; max-width: 760px; position:relative; z-index:2; }
+ .qa .badge {
+ width:44px; height:44px; border-radius:50%; display:grid; place-items:center;
+ font-family:"Fraunces",serif; font-weight:700; font-size:1.2rem;
+ }
+ .qa .qb { background: var(--clay); color: var(--cream); }
+ .qa .ab { background: var(--sage); color: var(--cream); }
+ .qa .q { font-family:"Fraunces",serif; font-size:1.5rem; align-self:center; }
+ .qa .a { font-size:1.05rem; color: rgba(250,242,228,.88); }
+ .qa .a a { color: var(--gold); font-weight:700; text-decoration: underline; text-underline-offset: 3px; }
+
+ /* ---------- Neighbors ---------- */
+ .neigh-grid { display:grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
+ .neigh-card {
+ background: var(--cream-deep);
+ border-radius: var(--radius-md);
+ padding: 30px 26px 28px;
+ text-align:center;
+ box-shadow: var(--shadow-soft);
+ border:1px solid rgba(194,100,63,.10);
+ transition: transform .3s, box-shadow .3s;
+ }
+ .neigh-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+ a.neigh-card { display:block; }
+ a.neigh-card .viewcue {
+ display:inline-flex; align-items:center; gap:5px; margin-top:14px;
+ font-weight:800; font-size:.82rem; color: var(--clay-deep);
+ opacity:0; transform: translateY(4px); transition: opacity .3s, transform .3s, gap .25s;
+ }
+ a.neigh-card:hover .viewcue { opacity:1; transform: translateY(0); gap:9px; }
+ /* adobe-arch framed avatar */
+ .neigh-card .avwrap { position: relative; width: 116px; margin: 0 auto 18px; }
+ .neigh-card .avwrap::before {
+ content:""; position:absolute; inset:-9px;
+ border-radius: 50% 50% 46% 46%;
+ background: linear-gradient(140deg, var(--adobe), var(--sage));
+ z-index:0;
+ }
+ .neigh-card img {
+ position:relative; z-index:1;
+ width:116px; height:116px; border-radius:50% 50% 46% 46%; object-fit:cover;
+ border:5px solid var(--cream-deep);
+ }
+ .neigh-card h3 { font-size: 1.22rem; color: var(--ink); margin-bottom: 6px; }
+ .neigh-card .pet { display:inline-block; font-weight:700; font-size:.82rem; color: var(--sage-deep); background: rgba(138,155,110,.16); padding:4px 12px; border-radius:999px; margin-top: 4px; }
+ .neigh-card .role { color: var(--ink-soft); font-size:.9rem; }
+
+ /* ---------- Footer ---------- */
+ footer.site {
+ margin-top: 40px;
+ background: linear-gradient(160deg, var(--clay-deep), #7e3a20);
+ color: var(--cream);
+ border-radius: 56px 56px 0 0;
+ padding: 60px 0 36px;
+ position: relative; overflow: hidden;
+ }
+ footer.site .foot-cactus {
+ position:absolute; right:4%; top:-10px; width:130px; color: rgba(250,242,228,.10);
+ }
+ .foot-grid { display:flex; justify-content:space-between; gap:30px; flex-wrap:wrap; align-items:flex-start; position:relative; z-index:2; }
+ .foot-brand { max-width: 380px; }
+ .foot-brand .name { font-family:"Fraunces",serif; font-size:1.7rem; margin-bottom:8px; }
+ .foot-brand p { color: rgba(250,242,228,.80); }
+ footer nav { display:flex; flex-wrap:wrap; gap: 10px 26px; }
+ footer nav a { font-weight:700; opacity:.9; transition: opacity .25s; }
+ footer nav a:hover { opacity:1; text-decoration: underline; text-underline-offset:4px; }
+ .foot-bottom { margin-top: 40px; padding-top: 22px; border-top:1px solid rgba(250,242,228,.18); font-size:.86rem; color: rgba(250,242,228,.72); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; position:relative; z-index:2; }
+
+ /* ---------- Responsive ---------- */
+ @media (max-width: 920px) {
+ nav.links { position: fixed; inset: 72px 0 auto 0; flex-direction:column; background: var(--cream); padding: 18px; gap:6px; box-shadow: var(--shadow); transform: translateY(-140%); transition: transform .35s; }
+ nav.links.open { transform: translateY(0); }
+ nav.links a { width:100%; }
+ .nav-toggle { display:block; }
+ .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+ .hero-photo { max-width: 440px; margin: 0 auto; width:100%; }
+ .feature-row { grid-template-columns: 1fr; }
+ }
+ @media (max-width: 760px) {
+ .news-grid, .neigh-grid { grid-template-columns: 1fr; }
+ .qa { grid-template-columns: 1fr; }
+ .qa .badge { margin-bottom: -6px; }
+ .panel { padding: 30px 26px; }
+ }
+</style>
+</head>
+<body>
+
+<header class="site">
+ <div class="wrap nav">
+ <a class="brand" href="03-warm-organic.html">
+ <span class="mark" aria-hidden="true">
+ <!-- adobe house / mission arch -->
+ <svg viewBox="0 0 24 24" fill="none" stroke="#faf2e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V10a8 8 0 0 1 16 0v11"/><path d="M9 21v-5a3 3 0 0 1 6 0v5"/></svg>
+</span>
+ <span>
+ <span class="name">Winterhaven Village</span><br />
+ <span class="est">Tucson · Est. 1987</span>
+</span>
+</a>
+ <button class="nav-toggle" aria-label="Menu" id="toggle"><span></span><span></span><span></span></button>
+ <nav class="links" id="menu">
+ <a href="03-warm-organic.html">Home</a>
+ <a href="#neighbors">Directory</a>
+ <a href="#board">Board</a>
+ <a href="#news">News</a>
+ <a href="#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+</div>
+</header>
+
+<main>
+ <!-- HERO -->
+ <section class="hero">
+ <div class="wrap hero-grid">
+ <div class="hero-copy">
+ <span class="eyebrow">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M12 9c0-2 1.5-3 3-3s3 1 3 3v3c0 1-1 2-3 2h-3M12 13c0-2-1.5-3-3-3s-3 1-3 3v2c0 1 1 2 3 2h3"/></svg>
+ A Sonoran desert community
+</span>
+ <h1>Welcome home to <em>Winterhaven Village</em>.</h1>
+ <p class="tag">Desert living, neighborly spirit.</p>
+ <div class="cta-row">
+ <a class="btn" href="#neighbors">
+ Resident Directory
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+</a>
+ <a class="btn ghost" href="#news">This week's news</a>
+</div>
+</div>
+ <div class="hero-photo">
+ <div class="blob-bg" aria-hidden="true"></div>
+ <!-- ocotillo line motif -->
+ <svg class="ocotillo" viewBox="0 0 60 90" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+ <path d="M30 90V14"/><path d="M30 30C24 24 18 22 12 22"/><path d="M30 42C36 36 42 34 50 34"/><path d="M30 54C24 48 18 47 13 47"/><path d="M30 22C36 16 41 14 47 14"/>
+ <path d="M30 14c-2-4-1-8 2-12M30 14c2-4 5-6 9-6M30 14c-3-3-7-4-11-3"/>
+</svg>
+ <div class="arch">
+ <img src="img/catalinas.jpg" alt="The Santa Catalina mountains glowing at sunset above the desert village" loading="eager" />
+</div>
+ <div class="dot">Under the<br />Catalinas</div>
+</div>
+</div>
+</section>
+
+ <div class="wrap divider" aria-hidden="true">
+ <!-- prickly-pear pad row -->
+ <svg viewBox="0 0 1200 50" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2.5">
+ <path d="M0 38 C 90 38, 90 12, 150 12 S 210 38, 300 38 S 360 12, 420 12 S 480 38, 570 38 S 630 12, 690 12 S 750 38, 840 38 S 900 12, 960 12 S 1020 38, 1110 38 S 1170 12, 1230 12"/>
+</svg>
+</div>
+
+ <!-- NEWS -->
+ <section id="news">
+ <div class="wrap">
+ <div class="sec-head">
+ <div>
+ <span class="kicker">Around the neighborhood</span>
+ <h2>This Week at <em>Winterhaven Village</em></h2>
+</div>
+ <a class="link-more" href="#">All news <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+ <div class="news-grid">
+ <article class="news-card">
+ <div class="ph"><img src="img/pool.jpg" alt="Community pool with the Catalinas beyond" loading="lazy" /></div>
+ <div class="body">
+ <span class="tagchip">Amenities</span>
+ <h3>Pool resurfacing begins Monday</h3>
+ <p>The main pool closes briefly for a fresh resurface — swim laps under the Catalinas by July.</p>
+ <span class="when">Starts Mon, Jun 8</span>
+</div>
+</article>
+ <article class="news-card">
+ <div class="ph"><img src="img/ocotillo.jpg" alt="Native pollinator garden with penstemon and desert marigold" loading="lazy" /></div>
+ <div class="body">
+ <span class="tagchip">Grounds</span>
+ <h3>New native pollinator garden at the east gate</h3>
+ <p>Penstemon, fairy duster, and desert marigold are in — and the hummingbirds have noticed.</p>
+ <span class="when">Now blooming</span>
+</div>
+</article>
+ <article class="news-card">
+ <div class="ph"><img src="img/sunset1.jpg" alt="Sunset potluck on the commons" loading="lazy" /></div>
+ <div class="body">
+ <span class="tagchip">Events</span>
+ <h3>Sunset potluck on the commons — June 21</h3>
+ <p>Bring a dish and a lawn chair, and watch the sky turn over the desert with the neighbors.</p>
+ <span class="when">Sun, Jun 21</span>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+ <div class="wrap divider" aria-hidden="true">
+ <svg viewBox="0 0 1200 50" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2.5">
+ <path d="M0 12 C 90 12, 90 38, 150 38 S 210 12, 300 12 S 360 38, 420 38 S 480 12, 570 12 S 630 38, 690 38 S 750 12, 840 12 S 900 38, 960 38 S 1020 12, 1110 12 S 1170 38, 1230 38"/>
+</svg>
+</div>
+
+ <!-- LIGHTER SIDE + BOARD -->
+ <section>
+ <div class="wrap feature-row">
+ <div class="panel humor">
+ <span class="cat" aria-hidden="true"></span>
+ <span class="kicker">The Lighter Side</span>
+ <h2>Caption Contest</h2>
+ <p class="blurb">“The Hendersons' cat vs. the drip irrigation system.” Give us your best caption — voting closes Friday.</p>
+ <a class="btn" href="#">Cast your vote</a>
+</div>
+ <div class="panel board" id="board">
+ <span class="kicker">From the Board</span>
+ <h2>News &amp; updates</h2>
+ <div class="board-item">
+ <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></span>
+ <div>
+ <h4>May minutes posted</h4>
+ <p>Recap of last month's board meeting is now available. <a class="inline" href="#">Read the minutes →</a></p>
+</div>
+</div>
+ <div class="board-item">
+ <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V10a8 8 0 0 1 16 0v11M9 21v-5a3 3 0 0 1 6 0v5"/></svg></span>
+ <div>
+ <h4>Clubhouse facelift: bids under review</h4>
+ <p>We're comparing contractor proposals to refresh the clubhouse — decision coming soon.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+ <div class="wrap divider" aria-hidden="true">
+ <svg viewBox="0 0 1200 50" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2.5">
+ <path d="M0 38 C 90 38, 90 12, 150 12 S 210 38, 300 38 S 360 12, 420 12 S 480 38, 570 38 S 630 12, 690 12 S 750 38, 840 38 S 900 12, 960 12 S 1020 38, 1110 38 S 1170 12, 1230 12"/>
+</svg>
+</div>
+
+ <!-- CC&R CORNER -->
+ <section id="ccr">
+ <div class="wrap">
+ <div class="ccr">
+ <!-- saguaro silhouette -->
+ <svg class="saguaro" viewBox="0 0 80 130" fill="currentColor" aria-hidden="true"><path d="M34 130V58c-7 0-13-2-13-12V34c0-4 2-7 6-7s6 3 6 7v8c0 3 1 5 8 5V20c0-5 3-9 6-9s6 4 6 9v18c0 6 3 8 8 8s6-3 6-7v-9c0-4 2-7 6-7s6 3 6 7v11c0 11-7 14-15 14-7 0-11-2-11-2v44z"/></svg>
+ <span class="kicker">CC&amp;R Corner</span>
+ <h2>Question of the Week</h2>
+ <div class="qa">
+ <span class="badge qb">Q</span>
+ <p class="q">Can I park my RV in my driveway overnight?</p>
+ <span class="badge ab">A</span>
+ <p class="a">Up to 72 hours for loading and unloading — see <a href="#">section 4.3</a> of the CC&amp;Rs for the full details.</p>
+</div>
+</div>
+</div>
+</section>
+
+ <div class="wrap divider" aria-hidden="true">
+ <svg viewBox="0 0 1200 50" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2.5">
+ <path d="M0 12 C 90 12, 90 38, 150 38 S 210 12, 300 12 S 360 38, 420 38 S 480 12, 570 12 S 630 38, 690 38 S 750 12, 840 12 S 900 38, 960 38 S 1020 12, 1110 12 S 1170 38, 1230 38"/>
+</svg>
+</div>
+
+ <!-- NEIGHBORS -->
+ <section id="neighbors">
+ <div class="wrap">
+ <div class="sec-head">
+ <div>
+ <span class="kicker">Directory preview</span>
+ <h2>Meet Your <em>Neighbors</em></h2>
+</div>
+ <a class="link-more" href="#">Full directory <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+ <div class="neigh-grid">
+ <a class="neigh-card" href="03-warm-organic-profile.html">
+ <div class="avwrap"><img src="https://i.pravatar.cc/300?img=32" alt="Margaret and Tom Ellis" loading="lazy" /></div>
+ <h3>Margaret &amp; Tom Ellis</h3>
+ <p class="role">12 Ocotillo Court</p>
+ <span class="pet"> & Biscuit the corgi</span>
+ <span class="viewcue">View profile <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+</a>
+ <article class="neigh-card">
+ <div class="avwrap"><img src="https://i.pravatar.cc/300?img=12" alt="Robin Calloway" loading="lazy" /></div>
+ <h3>Robin Calloway</h3>
+ <p class="role">Palo Verde Drive</p>
+ <span class="pet"> Garden walk lead</span>
+</article>
+ <article class="neigh-card">
+ <div class="avwrap"><img src="https://i.pravatar.cc/300?img=56" alt="The Okafor Family" loading="lazy" /></div>
+ <h3>The Okafor Family</h3>
+ <p class="role">Mesquite Way</p>
+ <span class="pet"> & Mango the parrot</span>
+</article>
+</div>
+</div>
+</section>
+</main>
+
+<footer class="site">
+ <svg class="foot-cactus" viewBox="0 0 80 130" fill="currentColor" aria-hidden="true"><path d="M34 130V58c-7 0-13-2-13-12V34c0-4 2-7 6-7s6 3 6 7v8c0 3 1 5 8 5V20c0-5 3-9 6-9s6 4 6 9v18c0 6 3 8 8 8s6-3 6-7v-9c0-4 2-7 6-7s6 3 6 7v11c0 11-7 14-15 14-7 0-11-2-11-2v44z"/></svg>
+ <div class="wrap">
+ <div class="foot-grid">
+ <div class="foot-brand">
+ <div class="name">Winterhaven Village</div>
+ <p>A Sonoran desert community in the shadow of the Santa Catalinas. Neighbors, by nature.</p>
+</div>
+ <nav>
+ <a href="03-warm-organic.html">Home</a>
+ <a href="#neighbors">Directory</a>
+ <a href="#board">Board</a>
+ <a href="#news">News</a>
+ <a href="#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+</div>
+ <div class="foot-bottom">
+ <span>Winterhaven Village Homeowners Association · Tucson, Arizona · Est. 1987</span>
+ <span>Desert living, neighborly spirit.</span>
+</div>
+</div>
+</footer>
+
+<script>
+ const t = document.getElementById('toggle');
+ const m = document.getElementById('menu');
+ t.addEventListener('click', () => m.classList.toggle('open'));
+ m.querySelectorAll('a').forEach(a => a.addEventListener('click', () => m.classList.remove('open')));
+</script>
+</body>
+</html>

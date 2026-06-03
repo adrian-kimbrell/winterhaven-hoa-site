@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Winterhaven Village — Desert living, neighborly spirit.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --ink: #3a2417; /* deep desert brown ink */
+ --paper: #fdf6ec; /* sun-bleached paper */
+ --butter: #ffdf8a; /* butter / desert marigold */
+ --mint: #b7e4c7; /* agave mint */
+ --sand: #f0dcb4; /* sand */
+ --cream: #fbeed8; /* warm cream stucco */
+ --sky: #aedcf0; /* monsoon sky blue */
+ --terracotta: #e8855c; /* ocotillo / clay accent */
+ --pink: #f6c4c0; /* sun-bleached pink stucco */
+ --shadow: 6px 6px 0 var(--ink);
+ --shadow-sm: 4px 4px 0 var(--ink);
+ --shadow-lg: 10px 10px 0 var(--ink);
+ --border: 3px solid var(--ink);
+ --radius: 18px;
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: "Space Grotesk", system-ui, sans-serif;
+ color: var(--ink);
+ background: var(--paper);
+ line-height: 1.5;
+ -webkit-font-smoothing: antialiased;
+ }
+
+ h1, h2, h3, .display {
+ font-family: "Archivo Black", system-ui, sans-serif;
+ line-height: 0.98;
+ letter-spacing: -0.01em;
+ }
+
+ a { color: inherit; text-decoration: none; }
+
+ .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+ /* ---------- NAV ---------- */
+ .nav {
+ position: sticky;
+ top: 0;
+ z-index: 50;
+ background: var(--paper);
+ border-bottom: var(--border);
+ }
+ .nav-inner {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 16px 24px;
+ max-width: 1180px;
+ margin: 0 auto;
+ gap: 18px;
+ }
+ .brand {
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ font-family: "Archivo Black", sans-serif;
+ font-size: 1.25rem;
+ }
+ .brand .mark {
+ width: 38px; height: 38px;
+ background: var(--terracotta);
+ border: var(--border);
+ border-radius: 10px;
+ display: grid;
+ place-items: center;
+ box-shadow: var(--shadow-sm);
+ font-size: 1.1rem;
+ transform: rotate(-4deg);
+ }
+ .nav-links {
+ display: flex;
+ gap: 6px;
+ list-style: none;
+ flex-wrap: wrap;
+ }
+ .nav-links a {
+ font-weight: 600;
+ font-size: 0.95rem;
+ padding: 8px 14px;
+ border: 2px solid transparent;
+ border-radius: 999px;
+ transition: all 0.12s ease;
+ }
+ .nav-links a:hover {
+ background: var(--butter);
+ border: 2px solid var(--ink);
+ box-shadow: var(--shadow-sm);
+ transform: translate(-1px, -1px);
+ }
+ .nav-toggle { display: none; }
+
+ /* ---------- BUTTONS ---------- */
+ .btn {
+ display: inline-flex;
+ align-items: center;
+ gap: 10px;
+ font-family: "Space Grotesk", sans-serif;
+ font-weight: 700;
+ font-size: 1.05rem;
+ padding: 14px 26px;
+ background: var(--ink);
+ color: var(--paper);
+ border: var(--border);
+ border-radius: 14px;
+ box-shadow: var(--shadow);
+ cursor: pointer;
+ transition: transform 0.1s ease, box-shadow 0.1s ease;
+ }
+ .btn:hover { transform: translate(-2px, -2px); box-shadow: var(--shadow-lg); }
+ .btn:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+ .btn.coral { background: var(--terracotta); color: var(--ink); }
+ .btn .arrow { transition: transform 0.15s ease; }
+ .btn:hover .arrow { transform: translateX(4px); }
+
+ /* ---------- TICKER ---------- */
+ .ticker {
+ background: var(--terracotta);
+ border-bottom: var(--border);
+ overflow: hidden;
+ white-space: nowrap;
+ padding: 11px 0;
+ }
+ .ticker-track {
+ display: inline-block;
+ padding-left: 100%;
+ animation: scroll 26s linear infinite;
+ font-weight: 700;
+ font-size: 0.95rem;
+ letter-spacing: 0.02em;
+ }
+ .ticker:hover .ticker-track { animation-play-state: paused; }
+ .ticker-track span { margin: 0 0; }
+ .ticker .dot { margin: 0 18px; }
+ @keyframes scroll {
+ 0% { transform: translateX(0); }
+ 100% { transform: translateX(-100%); }
+ }
+
+ /* ---------- HERO ---------- */
+ .hero {
+ background: var(--butter);
+ border-bottom: var(--border);
+ padding: 72px 0 84px;
+ position: relative;
+ overflow: hidden;
+ }
+ .hero .blob1 {
+ position: absolute; right: -60px; top: -60px;
+ width: 220px; height: 220px;
+ background: var(--pink);
+ border: var(--border);
+ border-radius: 50%;
+ z-index: 0;
+ }
+ .hero .sun {
+ position: absolute; left: -40px; bottom: -50px;
+ width: 150px; height: 150px;
+ background: var(--sky);
+ border: var(--border);
+ border-radius: 50%;
+ z-index: 0;
+ transform: rotate(8deg);
+ }
+ .hero-grid {
+ display: grid;
+ grid-template-columns: 1.05fr 0.95fr;
+ gap: 56px;
+ align-items: center;
+ position: relative;
+ z-index: 1;
+ }
+ .eyebrow {
+ display: inline-block;
+ background: var(--paper);
+ border: var(--border);
+ border-radius: 999px;
+ padding: 7px 16px;
+ font-weight: 700;
+ font-size: 0.85rem;
+ box-shadow: var(--shadow-sm);
+ margin-bottom: 22px;
+ transform: rotate(-1.5deg);
+ }
+ .hero h1 {
+ font-size: clamp(2.6rem, 6vw, 4.6rem);
+ margin-bottom: 18px;
+ }
+ .hero h1 .hl {
+ background: var(--mint);
+ padding: 0 8px;
+ border: 2px solid var(--ink);
+ border-radius: 6px;
+ box-decoration-break: clone;
+ -webkit-box-decoration-break: clone;
+ }
+ .hero .tagline {
+ font-size: 1.3rem;
+ font-weight: 500;
+ max-width: 30ch;
+ margin-bottom: 30px;
+ }
+ .hero-photo {
+ border: var(--border);
+ border-radius: var(--radius);
+ box-shadow: var(--shadow-lg);
+ overflow: hidden;
+ transform: rotate(2deg);
+ background: var(--paper);
+ }
+ .hero-photo img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 16/11; }
+ .hero-photo .cap {
+ padding: 12px 16px;
+ border-top: var(--border);
+ font-weight: 600;
+ font-size: 0.9rem;
+ display: flex;
+ justify-content: space-between;
+ background: var(--paper);
+ }
+
+ /* ---------- SECTIONS ---------- */
+ section { border-bottom: var(--border); }
+ .pad { padding: 72px 0; }
+ .sec-head {
+ display: flex;
+ align-items: flex-end;
+ justify-content: space-between;
+ gap: 20px;
+ margin-bottom: 40px;
+ flex-wrap: wrap;
+ }
+ .sec-head h2 {
+ font-size: clamp(1.9rem, 4vw, 3rem);
+ }
+ .sec-tag {
+ font-weight: 700;
+ font-size: 0.8rem;
+ text-transform: uppercase;
+ letter-spacing: 0.12em;
+ background: var(--ink);
+ color: var(--paper);
+ padding: 6px 12px;
+ border-radius: 8px;
+ }
+
+ .bg-mint { background: var(--mint); }
+ .bg-pinkstucco { background: var(--pink); }
+ .bg-cream { background: var(--cream); }
+ .bg-sky { background: var(--sky); }
+ .bg-sand { background: var(--sand); }
+
+ /* card base */
+ .card {
+ background: var(--paper);
+ border: var(--border);
+ border-radius: var(--radius);
+ box-shadow: var(--shadow);
+ transition: transform 0.12s ease, box-shadow 0.12s ease;
+ }
+ .card:hover { transform: translate(-3px, -3px); box-shadow: var(--shadow-lg); }
+
+ /* ---------- NEWS ---------- */
+ .news-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 26px;
+ }
+ .news-card { overflow: hidden; display: flex; flex-direction: column; }
+ .news-card .ph { border-bottom: var(--border); overflow: hidden; }
+ .news-card .ph img { display: block; width: 100%; aspect-ratio: 16/10; object-fit: cover; transition: transform 0.3s ease; }
+ .news-card:hover .ph img { transform: scale(1.06); }
+ .news-card .body { padding: 22px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+ .pill {
+ align-self: flex-start;
+ font-weight: 700; font-size: 0.72rem;
+ text-transform: uppercase; letter-spacing: 0.08em;
+ padding: 5px 11px; border: 2px solid var(--ink); border-radius: 999px;
+ }
+ .pill.b { background: var(--butter); }
+ .pill.g { background: var(--mint); }
+ .pill.p { background: var(--pink); }
+ .news-card h3 { font-size: 1.35rem; }
+ .news-card .more { font-weight: 700; margin-top: auto; display: inline-flex; gap: 6px; align-items: center; }
+ .news-card .more:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+
+ /* ---------- LIGHTER SIDE ---------- */
+ .lighter { display: grid; grid-template-columns: 1fr 1fr; gap: 0; align-items: stretch; }
+ .lighter .left { padding: 72px 56px 72px 0; }
+ .lighter .badge {
+ display: inline-block; background: var(--butter); border: var(--border);
+ padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: 0.8rem;
+ box-shadow: var(--shadow-sm); margin-bottom: 22px; transform: rotate(2deg);
+ }
+ .lighter h2 { font-size: clamp(2rem, 5vw, 3.4rem); margin-bottom: 20px; }
+ .lighter .quote { font-size: 1.45rem; font-weight: 500; max-width: 34ch; }
+ .lighter .vote-card {
+ align-self: center;
+ background: var(--paper); border: var(--border); border-radius: var(--radius);
+ box-shadow: var(--shadow-lg); padding: 0; overflow: hidden; transform: rotate(-2deg);
+ margin: 40px 0;
+ }
+ .lighter .vote-card .img { border-bottom: var(--border); overflow: hidden; }
+ .lighter .vote-card img { width: 100%; display: block; aspect-ratio: 4/3; object-fit: cover; }
+ .lighter .vote-card .vc-body { padding: 22px; }
+ .lighter .vote-card .vs { font-family: "Archivo Black"; font-size: 1.1rem; margin-bottom: 14px; }
+ .lighter .vote-card .deadline { font-weight: 700; color: #b03a18; }
+
+ /* ---------- BOARD + CCR ---------- */
+ .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+ .board-card { padding: 30px; display: flex; flex-direction: column; gap: 18px; }
+ .board-card .k { font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7; }
+ .board-card h3 { font-size: 1.5rem; }
+ .board-card .meta { font-weight: 600; display: flex; align-items: center; gap: 10px; }
+ .stamp {
+ display: inline-flex; align-items: center; gap: 8px;
+ border: 2px solid var(--ink); border-radius: 8px; padding: 5px 12px;
+ font-weight: 700; font-size: 0.85rem; background: var(--mint);
+ align-self: flex-start;
+ }
+ .board-card .row {
+ display: flex; align-items: center; justify-content: space-between; gap: 14px;
+ border-top: 2px dashed var(--ink); padding-top: 16px; margin-top: auto;
+ }
+ .linkbtn {
+ font-weight: 700; display: inline-flex; gap: 8px; align-items: center;
+ border-bottom: 3px solid var(--ink); padding-bottom: 2px;
+ }
+ .linkbtn:hover { background: var(--butter); }
+
+ /* CCR card */
+ .ccr-card { padding: 34px; }
+ .ccr-card .q {
+ display: flex; gap: 16px; margin-bottom: 22px;
+ }
+ .ccr-card .tag-letter {
+ flex: 0 0 auto; width: 46px; height: 46px;
+ border: var(--border); border-radius: 12px; display: grid; place-items: center;
+ font-family: "Archivo Black"; font-size: 1.3rem; box-shadow: var(--shadow-sm);
+ }
+ .ccr-card .q .tag-letter { background: var(--sky); }
+ .ccr-card .a .tag-letter { background: var(--mint); }
+ .ccr-card .a { display: flex; gap: 16px; }
+ .ccr-card .txt-q { font-family: "Archivo Black"; font-size: 1.4rem; padding-top: 6px; }
+ .ccr-card .txt-a { font-size: 1.1rem; font-weight: 500; padding-top: 8px; }
+ .ccr-card .ref { display: inline-block; background: var(--butter); border: 2px solid var(--ink); border-radius: 6px; padding: 1px 7px; font-weight: 700; }
+
+ /* ---------- NEIGHBORS ---------- */
+ .nb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+ .nb-card { padding: 0; overflow: hidden; text-align: center; }
+ .nb-card .top { padding: 30px 24px 22px; border-bottom: var(--border); position: relative; }
+ .nb-card .top.c1 { background: var(--butter); }
+ .nb-card .top.c2 { background: var(--mint); }
+ .nb-card .top.c3 { background: var(--pink); }
+ .nb-card .avatar {
+ width: 110px; height: 110px; border-radius: 50%;
+ border: var(--border); object-fit: cover; box-shadow: var(--shadow-sm);
+ background: var(--paper);
+ }
+ .nb-card .body { padding: 22px 24px 26px; }
+ .nb-card h3 { font-size: 1.3rem; margin-bottom: 6px; }
+ .nb-card .role { font-weight: 600; opacity: 0.7; margin-bottom: 14px; }
+ .nb-card .chip {
+ display: inline-flex; align-items: center; gap: 6px;
+ border: 2px solid var(--ink); border-radius: 999px; padding: 4px 12px;
+ font-weight: 700; font-size: 0.82rem; background: var(--cream);
+ }
+ .nb-card .view-profile {
+ display: block; margin-top: 16px; font-weight: 700; font-size: 0.9rem;
+ opacity: 0; transform: translateY(4px); transition: opacity 0.15s ease, transform 0.15s ease;
+ }
+ a.nb-card:hover .view-profile { opacity: 1; transform: translateY(0); }
+ a.nb-card .view-profile::after { content: ""; }
+
+ /* ---------- FOOTER ---------- */
+ footer {
+ background: var(--ink);
+ color: var(--paper);
+ padding: 56px 0 30px;
+ }
+ .foot-grid { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; flex-wrap: wrap; margin-bottom: 40px; }
+ .foot-brand { font-family: "Archivo Black"; font-size: 2rem; }
+ .foot-brand .est { display: block; font-family: "Space Grotesk"; font-weight: 500; font-size: 0.95rem; opacity: 0.7; margin-top: 8px; }
+ .foot-links { display: flex; flex-wrap: wrap; gap: 10px; }
+ .foot-links a {
+ font-weight: 600; padding: 8px 14px; border: 2px solid var(--paper);
+ border-radius: 999px; transition: all 0.12s ease;
+ }
+ .foot-links a:hover { background: var(--terracotta); border-color: var(--terracotta); color: var(--ink); }
+ .foot-bottom { border-top: 2px solid rgba(255,255,255,0.25); padding-top: 22px; font-size: 0.9rem; opacity: 0.75; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+
+ /* ---------- RESPONSIVE ---------- */
+ @media (max-width: 900px) {
+ .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+ .hero-photo { transform: rotate(0); max-width: 540px; }
+ .news-grid, .nb-grid { grid-template-columns: 1fr; }
+ .two-col { grid-template-columns: 1fr; }
+ .lighter { grid-template-columns: 1fr; }
+ .lighter .left { padding: 0 0 30px; }
+ .lighter .vote-card { transform: rotate(0); margin: 0 0 10px; }
+ }
+ @media (max-width: 720px) {
+ .nav-links {
+ display: none; position: absolute; top: 100%; left: 0; right: 0;
+ flex-direction: column; background: var(--paper);
+ border-bottom: var(--border); padding: 14px 24px; gap: 4px;
+ }
+ .nav-links.open { display: flex; }
+ .nav-links a:hover { transform: none; }
+ .nav-toggle {
+ display: inline-flex; background: var(--butter); border: var(--border);
+ border-radius: 10px; padding: 9px 13px; font-weight: 700; cursor: pointer;
+ box-shadow: var(--shadow-sm); font-size: 1rem;
+ }
+ .pad { padding: 52px 0; }
+ .news-grid { gap: 22px; }
+ }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+ <div class="nav-inner">
+ <a class="brand" href="09-soft-brutalist.html">
+ <span class="mark">W</span> Winterhaven Village
+</a>
+ <button class="nav-toggle" aria-label="Toggle menu" onclick="document.getElementById('navlinks').classList.toggle('open')"> Menu</button>
+ <nav>
+ <ul class="nav-links" id="navlinks">
+ <li><a href="09-soft-brutalist.html">Home</a></li>
+ <li><a href="#neighbors">Directory</a></li>
+ <li><a href="#board">Board</a></li>
+ <li><a href="#news">News</a></li>
+ <li><a href="#ccr">CC&amp;Rs</a></li>
+ <li><a href="#">Community Board</a></li>
+</ul>
+</nav>
+</div>
+</header>
+
+<!-- TICKER -->
+<div class="ticker" aria-label="Community announcements">
+ <div class="ticker-track">
+ <span> Pool resurfacing begins Monday</span><span class="dot">✦</span>
+ <span> Native pollinator garden in bloom at the east gate</span><span class="dot">✦</span>
+ <span> Sunset potluck on the commons — June 21</span><span class="dot">✦</span>
+ <span> Caption contest voting closes Friday</span><span class="dot">✦</span>
+ <span> May board minutes now posted</span><span class="dot">✦</span>
+ <span> Pool resurfacing begins Monday</span><span class="dot">✦</span>
+ <span> Native pollinator garden in bloom at the east gate</span><span class="dot">✦</span>
+ <span> Sunset potluck on the commons — June 21</span><span class="dot">✦</span>
+</div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+ <span class="blob1"></span>
+ <span class="sun"></span>
+ <div class="wrap hero-grid">
+ <div>
+ <span class="eyebrow"> A Sonoran community since 1987</span>
+ <h1>Welcome home to <span class="hl">Winterhaven Village</span>.</h1>
+ <p class="tagline">Desert living, neighborly spirit. Big skies, the Catalinas at sunset, and the occasional runaway corgi.</p>
+ <a class="btn coral" href="#neighbors">Resident Directory <span class="arrow">→</span></a>
+</div>
+ <div class="hero-photo">
+ <img src="img/sunset1.jpg" alt="The Santa Catalina Mountains glowing at sunset over Winterhaven Village" />
+ <div class="cap"><span>The Catalinas at golden hour</span><span> Palo Verde Drive</span></div>
+</div>
+</div>
+</section>
+
+<!-- NEWS -->
+<section class="bg-cream pad" id="news">
+ <div class="wrap">
+ <div class="sec-head">
+ <h2>This Week at Winterhaven Village</h2>
+ <span class="sec-tag">Updated weekly</span>
+</div>
+ <div class="news-grid">
+ <article class="card news-card">
+ <div class="ph"><img src="img/pool.jpg" alt="Community pool under the desert sky" /></div>
+ <div class="body">
+ <span class="pill b">Facilities</span>
+ <h3>Pool resurfacing begins Monday</h3>
+ <p>The main pool closes for a fresh new surface. Swim laps under the Catalinas by July.</p>
+ <a class="more" href="#">Read more →</a>
+</div>
+</article>
+ <article class="card news-card">
+ <div class="ph"><img src="img/garden.jpg" alt="Native pollinator garden at the east gate" /></div>
+ <div class="body">
+ <span class="pill g">Grounds</span>
+ <h3>New native pollinator garden at the east gate</h3>
+ <p>Penstemon, fairy duster, and desert marigold are in — pollinator-approved and a fresh first impression.</p>
+ <a class="more" href="#">Read more →</a>
+</div>
+</article>
+ <article class="card news-card">
+ <div class="ph"><img src="img/sunset1.jpg" alt="Sunset potluck on the commons" /></div>
+ <div class="body">
+ <span class="pill p">Events</span>
+ <h3>Sunset potluck on the commons — June 21</h3>
+ <p>Bring a dish and a lawn chair. As the heat breaks, the longest day deserves the longest table.</p>
+ <a class="more" href="#">Read more →</a>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<!-- LIGHTER SIDE -->
+<section class="bg-pinkstucco pad">
+ <div class="wrap lighter">
+ <div class="left">
+ <span class="badge"> The Lighter Side</span>
+ <h2>Caption this.</h2>
+ <p class="quote">The Hendersons' cat vs. the drip irrigation system. An eternal rivalry, now in meme form. Drop your best line.</p>
+</div>
+ <div class="vote-card card">
+ <div class="img"><img src="img/sonoran.jpg" alt="Cat eyeing the drip irrigation line" /></div>
+ <div class="vc-body">
+ <div class="vs"> vs.</div>
+ <p>Add your caption to the Community Board and vote for your favorite.</p>
+ <p class="deadline" style="margin-top:12px;">⏰ Voting closes Friday</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FROM THE BOARD -->
+<section class="bg-sky pad" id="board">
+ <div class="wrap">
+ <div class="sec-head">
+ <h2>From the Board</h2>
+ <span class="sec-tag">Transparency first</span>
+</div>
+ <div class="two-col">
+ <article class="card board-card">
+ <span class="k">Meeting Minutes</span>
+ <h3>May minutes are posted</h3>
+ <p>Catch up on everything discussed — budget notes, landscaping votes, and the great mailbox debate of 2026.</p>
+ <span class="stamp"> Posted &amp; Approved</span>
+ <div class="row">
+ <span class="meta"> May 2026 · PDF</span>
+ <a class="linkbtn" href="#">Read minutes →</a>
+</div>
+</article>
+ <article class="card board-card">
+ <span class="k">Project Update</span>
+ <h3>Clubhouse facelift: bids under review</h3>
+ <p>Three contractors, fresh stucco, a shaded ramada, and better lighting. We're comparing proposals now.</p>
+ <span class="stamp" style="background:var(--butter);"> In Progress</span>
+ <div class="row">
+ <span class="meta"> Capital Improvement</span>
+ <a class="linkbtn" href="#">View details →</a>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<!-- CCR CORNER -->
+<section class="bg-sand pad" id="ccr">
+ <div class="wrap">
+ <div class="sec-head">
+ <h2>CC&amp;R Corner</h2>
+ <span class="sec-tag">Question of the Week</span>
+</div>
+ <div class="card ccr-card">
+ <div class="q">
+ <span class="tag-letter">Q</span>
+ <p class="txt-q">Can I park my RV in my driveway overnight?</p>
+</div>
+ <div class="a">
+ <span class="tag-letter">A</span>
+ <p class="txt-a">Yes — up to <strong>72 hours</strong> for loading and unloading. After that, it's off to storage. See <span class="ref">Section 4.3</span> for the full rule.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- NEIGHBORS -->
+<section class="bg-mint pad" id="neighbors">
+ <div class="wrap">
+ <div class="sec-head">
+ <h2>Meet Your Neighbors</h2>
+ <span class="sec-tag">Directory preview</span>
+</div>
+ <div class="nb-grid">
+ <a class="card nb-card" href="09-soft-brutalist-profile.html">
+ <div class="top c1">
+ <img class="avatar" src="https://i.pravatar.cc/300?img=32" alt="Margaret &amp; Tom Ellis" />
+</div>
+ <div class="body">
+ <h3>Margaret &amp; Tom Ellis</h3>
+ <p class="role">12 Ocotillo Court</p>
+ <span class="chip"> + Biscuit the corgi</span>
+ <span class="view-profile">View profile →</span>
+</div>
+</a>
+ <article class="card nb-card">
+ <div class="top c2">
+ <img class="avatar" src="https://i.pravatar.cc/300?img=12" alt="Robin Calloway" />
+</div>
+ <div class="body">
+ <h3>Robin Calloway</h3>
+ <p class="role">Mesquite Way</p>
+ <span class="chip"> Garden club lead</span>
+</div>
+</article>
+ <article class="card nb-card">
+ <div class="top c3">
+ <img class="avatar" src="https://i.pravatar.cc/300?img=56" alt="The Okafor Family" />
+</div>
+ <div class="body">
+ <h3>The Okafor Family</h3>
+ <p class="role">Cholla Vista</p>
+ <span class="chip"> + Mango the parrot</span>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+ <div class="wrap">
+ <div class="foot-grid">
+ <div class="foot-brand">
+ Winterhaven Village
+ <span class="est">Homeowners Association · Tucson, Arizona · Est. 1987</span>
+</div>
+ <nav class="foot-links">
+ <a href="09-soft-brutalist.html">Home</a>
+ <a href="#neighbors">Directory</a>
+ <a href="#board">Board</a>
+ <a href="#news">News</a>
+ <a href="#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+</div>
+ <div class="foot-bottom">
+ <span>© 2026 Winterhaven Village HOA · Tucson, Arizona. Desert living, neighborly spirit.</span>
+ <span>Made by neighbors, for neighbors.</span>
+</div>
+</div>
+</footer>
+
+</body>
+</html>

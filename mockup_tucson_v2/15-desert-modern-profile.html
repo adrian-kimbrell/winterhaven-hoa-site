@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Margaret &amp; Tom Ellis — Winterhaven Village Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,400..700&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --white: #ffffff;
+ --paper: #f7f3ec;
+ --sand-50: #f1eadd;
+ --sand-100: #e7dcc8;
+ --sand-300: #c8b79b;
+ --sand-500: #8a7a5f;
+ --sand-700: #4f4634;
+ --ink: #221c12;
+ --saguaro: #1f3a2c;
+ --saguaro-deep: #142619;
+ --paloverde: #6f8f3e;
+ --paloverde-soft: #e4ead2;
+ --gold: #e6a325;
+ --gold-soft: #f7e6c4;
+ --terracotta: #c2562f;
+ --radius-lg: 28px;
+ --radius-md: 18px;
+ --radius-sm: 12px;
+ --shadow-sm: 0 1px 2px rgba(34, 28, 18, 0.05), 0 4px 16px rgba(34, 28, 18, 0.06);
+ --shadow-md: 0 8px 30px rgba(34, 28, 18, 0.12);
+ --shadow-lg: 0 24px 60px rgba(34, 28, 18, 0.18);
+ --maxw: 1200px;
+ --ease: cubic-bezier(0.22, 1, 0.36, 1);
+ }
+
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body {
+ font-family: "Figtree", system-ui, -apple-system, sans-serif;
+ color: var(--ink);
+ background: var(--white);
+ line-height: 1.6;
+ -webkit-font-smoothing: antialiased;
+ text-rendering: optimizeLegibility;
+ overflow-x: hidden;
+ }
+ a { color: inherit; text-decoration: none; }
+ img { display: block; max-width: 100%; }
+ .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+ .eyebrow {
+ font-size: 0.74rem; font-weight: 700; letter-spacing: 0.22em;
+ text-transform: uppercase; color: var(--paloverde);
+ }
+ h1, h2, h3 { letter-spacing: -0.025em; line-height: 1.05; font-weight: 800; }
+
+ /* ---------- NAV (shared) ---------- */
+ .nav-shell {
+ position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+ display: flex; justify-content: center; padding: 22px 24px; pointer-events: none;
+ }
+ .nav {
+ pointer-events: auto; width: 100%; max-width: var(--maxw);
+ display: flex; align-items: center; justify-content: space-between;
+ padding: 12px 14px 12px 26px;
+ background: rgba(255, 255, 255, 0.92);
+ backdrop-filter: blur(18px) saturate(150%);
+ -webkit-backdrop-filter: blur(18px) saturate(150%);
+ border: 1px solid rgba(255, 255, 255, 0.6);
+ border-radius: 999px; box-shadow: var(--shadow-md);
+ }
+ .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em; }
+ .brand-mark { width: 30px; height: 30px; display: grid; place-items: center; color: var(--saguaro); flex: none; }
+ .nav-links { display: flex; align-items: center; gap: 4px; }
+ .nav-links a {
+ font-size: 0.9rem; font-weight: 600; color: var(--sand-700);
+ padding: 9px 15px; border-radius: 999px;
+ transition: color 0.25s var(--ease), background 0.25s var(--ease);
+ }
+ .nav-links a:hover { color: var(--ink); background: var(--sand-50); }
+ .nav-cta {
+ background: var(--saguaro); color: var(--white) !important;
+ padding: 11px 22px !important; font-weight: 700 !important;
+ border-radius: 999px; box-shadow: 0 6px 18px rgba(31, 58, 44, 0.28);
+ }
+ .nav-cta:hover { background: var(--saguaro-deep) !important; transform: translateY(-1px); }
+ .nav-toggle { display: none; }
+
+ /* ---------- PROFILE HEADER ---------- */
+ .profile-top {
+ position: relative;
+ background: linear-gradient(160deg, var(--saguaro) 0%, var(--saguaro-deep) 100%);
+ color: var(--white);
+ padding: 150px 0 0;
+ overflow: hidden;
+ }
+ .profile-top::after {
+ content: ""; position: absolute; top: -20%; right: -8%; width: 55%; height: 90%;
+ background: radial-gradient(circle at 70% 30%, rgba(230,163,37,0.28), transparent 62%);
+ pointer-events: none;
+ }
+ .profile-top .breeze {
+ position: absolute; bottom: -60px; left: -60px; width: 340px; height: 340px;
+ color: var(--gold); opacity: 0.12; pointer-events: none;
+ }
+ .back-link {
+ display: inline-flex; align-items: center; gap: 9px;
+ font-weight: 700; font-size: 0.9rem; color: var(--gold-soft);
+ padding: 9px 18px 9px 14px; border-radius: 999px;
+ background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16);
+ transition: gap 0.25s var(--ease), background 0.25s var(--ease);
+ position: relative; z-index: 2;
+ }
+ .back-link:hover { gap: 13px; background: rgba(255,255,255,0.14); }
+ .profile-id { position: relative; z-index: 2; display: flex; align-items: flex-end; gap: 34px; padding: 38px 0 70px; flex-wrap: wrap; }
+ .portraits { display: flex; flex: none; }
+ .portraits img {
+ width: 124px; height: 124px; border-radius: 50%; object-fit: cover;
+ border: 5px solid var(--saguaro-deep); box-shadow: var(--shadow-md);
+ }
+ .portraits img:nth-child(2) { margin-left: -32px; }
+ .profile-id .meta h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 900; letter-spacing: -0.04em; }
+ .profile-id .meta .sub { margin-top: 12px; font-size: 1.05rem; color: rgba(255,255,255,0.85); display: flex; flex-wrap: wrap; gap: 8px 22px; }
+ .profile-id .meta .sub span { display: inline-flex; align-items: center; gap: 8px; }
+ .profile-id .meta .sub svg { opacity: 0.8; }
+ .since-pill {
+ display: inline-flex; align-items: center; gap: 8px; margin-top: 18px;
+ background: var(--gold); color: var(--saguaro-deep);
+ font-weight: 800; font-size: 0.82rem; letter-spacing: 0.04em;
+ padding: 8px 16px; border-radius: 999px;
+ }
+ /* Catalina divider */
+ .divider { display: block; width: 100%; line-height: 0; }
+ .divider svg { display: block; width: 100%; height: auto; }
+ .profile-top .divider { position: relative; z-index: 1; margin-bottom: -1px; }
+
+ /* ---------- BODY ---------- */
+ .profile-body { background: var(--white); padding: 80px 0 100px; }
+ .profile-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 56px; align-items: start; }
+
+ .bio .eyebrow { color: var(--paloverde); }
+ .bio h2 { font-size: 1.8rem; margin: 12px 0 20px; }
+ .bio p { font-size: 1.18rem; line-height: 1.7; color: var(--sand-700); }
+ .bio .home-shot {
+ margin-top: 38px; border-radius: var(--radius-lg); overflow: hidden;
+ box-shadow: var(--shadow-md); position: relative;
+ }
+ .bio .home-shot img { width: 100%; aspect-ratio: 3/2; object-fit: cover; transition: transform 0.7s var(--ease); }
+ .bio .home-shot:hover img { transform: scale(1.04); }
+ .bio .home-shot .label {
+ position: absolute; bottom: 16px; left: 16px;
+ background: rgba(255,255,255,0.92); backdrop-filter: blur(8px);
+ color: var(--ink); padding: 8px 16px; border-radius: 999px;
+ font-size: 0.82rem; font-weight: 700;
+ }
+
+ /* sidebar */
+ .side-card {
+ border-radius: var(--radius-lg); border: 1px solid var(--sand-100);
+ background: var(--paper); padding: 30px; box-shadow: var(--shadow-sm);
+ }
+ .side-card + .side-card { margin-top: 24px; }
+ .side-card h3 { font-size: 1.15rem; margin-bottom: 18px; }
+ .contact-row {
+ display: flex; align-items: center; gap: 14px;
+ padding: 13px 0; border-top: 1px solid var(--sand-100);
+ }
+ .contact-row:first-of-type { border-top: none; padding-top: 0; }
+ .contact-ic {
+ flex: none; width: 38px; height: 38px; border-radius: 11px;
+ display: grid; place-items: center; background: var(--paloverde-soft); color: var(--saguaro);
+ }
+ .contact-row .l { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sand-500); }
+ .contact-row .v { font-weight: 700; font-size: 0.98rem; color: var(--ink); }
+
+ /* pets */
+ .pets { display: grid; gap: 16px; }
+ .pet-card {
+ display: flex; align-items: center; gap: 16px;
+ background: var(--white); border: 1px solid var(--sand-100);
+ border-radius: var(--radius-md); padding: 12px; overflow: hidden;
+ transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+ }
+ .pet-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+ .pet-card img { width: 84px; height: 84px; border-radius: 14px; object-fit: cover; flex: none; }
+ .pet-card .pn { font-weight: 800; font-size: 1.08rem; }
+ .pet-card .pb { color: var(--sand-500); font-size: 0.9rem; margin-top: 2px; }
+
+ .optin {
+ margin-top: 24px; font-size: 0.86rem; color: var(--sand-500);
+ background: var(--gold-soft); border: 1px solid var(--sand-100);
+ border-radius: var(--radius-md); padding: 16px 18px;
+ display: flex; gap: 11px; align-items: flex-start;
+ }
+ .optin svg { flex: none; color: var(--terracotta); margin-top: 2px; }
+
+ /* FOOTER (shared) */
+ footer { background: var(--saguaro-deep); color: rgba(255,255,255,0.8); }
+ .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; padding: 72px 0 48px; }
+ .footer-brand { display: flex; align-items: center; gap: 12px; color: #fff; font-weight: 800; font-size: 1.25rem; }
+ .footer-brand .brand-mark { color: var(--gold); }
+ .footer-est { margin-top: 14px; font-size: 0.92rem; color: rgba(255,255,255,0.55); }
+ .footer-nav { display: flex; flex-wrap: wrap; gap: 10px 28px; }
+ .footer-nav a { font-weight: 600; font-size: 0.95rem; color: rgba(255,255,255,0.78); transition: color 0.25s; }
+ .footer-nav a:hover { color: var(--gold); }
+ .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding: 26px 0; font-size: 0.85rem; color: rgba(255,255,255,0.45); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+ .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+ .reveal.in { opacity: 1; transform: none; }
+
+ @media (max-width: 980px) {
+ .nav-links { display: none; }
+ .nav-toggle {
+ display: inline-flex; align-items: center; background: var(--saguaro); color: #fff; border: none;
+ padding: 11px 20px; border-radius: 999px; font-weight: 700; font-size: 0.9rem; font-family: inherit; cursor: pointer;
+ }
+ .profile-grid { grid-template-columns: 1fr; gap: 40px; }
+ }
+ @media (max-width: 620px) {
+ .wrap { padding: 0 20px; }
+ .nav-shell { padding: 14px 16px; }
+ .portraits img { width: 96px; height: 96px; }
+ .portraits img:nth-child(2) { margin-left: -26px; }
+ .profile-id { gap: 24px; }
+ .footer-bottom { flex-direction: column; }
+ }
+</style>
+</head>
+<body>
+
+ <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+ <pattern id="breezeblock" width="64" height="64" patternUnits="userSpaceOnUse">
+ <rect width="64" height="64" fill="none"/>
+ <path d="M32 4 L60 32 L32 60 L4 32 Z" fill="none" stroke="currentColor" stroke-width="4"/>
+ <circle cx="32" cy="32" r="7" fill="currentColor"/>
+</pattern>
+</defs>
+</svg>
+
+ <!-- NAV -->
+ <div class="nav-shell">
+ <nav class="nav">
+ <a href="15-desert-modern.html" class="brand">
+ <span class="brand-mark">
+ <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M13 27V8a2 2 0 0 1 4 0v19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M13 14h-3a2 2 0 0 0-2 2v4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M17 11h3a2 2 0 0 1 2 2v5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="24" cy="6" r="2.4" fill="#e6a325"/></svg>
+</span>
+ Winterhaven Village
+</a>
+ <div class="nav-links">
+ <a href="15-desert-modern.html">Home</a>
+ <a href="15-desert-modern.html#neighbors">Directory</a>
+ <a href="15-desert-modern.html#board">Board</a>
+ <a href="15-desert-modern.html#week">News</a>
+ <a href="15-desert-modern.html#ccr">CC&amp;Rs</a>
+ <a href="#" class="nav-cta">Community Board</a>
+</div>
+ <button class="nav-toggle">Menu</button>
+</nav>
+</div>
+
+ <!-- PROFILE HEADER -->
+ <header class="profile-top">
+ <svg class="breeze" viewBox="0 0 340 340"><rect width="340" height="340" fill="url(#breezeblock)"/></svg>
+ <div class="wrap">
+ <a href="15-desert-modern.html#neighbors" class="back-link">
+ <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L7.5 3.5M3 8L7.5 12.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ Back to Directory
+</a>
+ <div class="profile-id">
+ <div class="portraits">
+ <img src="https://i.pravatar.cc/400?img=32" alt="Margaret Ellis" />
+ <img src="https://i.pravatar.cc/400?img=11" alt="Tom Ellis" />
+</div>
+ <div class="meta">
+ <span class="eyebrow" style="color:var(--gold-soft)">Resident Profile</span>
+ <h1>Margaret &amp; Tom Ellis</h1>
+ <div class="sub">
+ <span>
+ <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L14 6V14H10V10H6V14H2V6L8 1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+ 12 Ocotillo Court
+</span>
+</div>
+ <span class="since-pill">
+ <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.4" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5V8L10.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+ Residents since 1994
+</span>
+</div>
+</div>
+</div>
+ <div class="divider">
+ <svg viewBox="0 0 1440 110" preserveAspectRatio="none"><path d="M0 110V84L120 64L240 78L360 36L470 60L580 20L700 52L820 28L940 64L1060 32L1180 68L1300 46L1440 72V110H0Z" fill="#ffffff"/></svg>
+</div>
+</header>
+
+ <!-- BODY -->
+ <section class="profile-body">
+ <div class="wrap">
+ <div class="profile-grid">
+ <!-- BIO -->
+ <div class="bio reveal">
+ <span class="eyebrow">About the household</span>
+ <h2>A quieter corner of Ocotillo Court.</h2>
+ <p>Margaret taught third grade for thirty years and now runs the village book club with the same gentle authority. Tom, a retired civil engineer, spends his mornings on the loop trail before the heat sets in, photographing whatever the desert offers up. Their courtyard garden — penstemon, agave, and one stubborn rosebush — wins the spring garden walk more years than not, and they host the first porch gathering of every monsoon season.</p>
+ <div class="home-shot">
+ <img src="img/house.jpg" alt="The Ellis home on Ocotillo Court" loading="lazy" />
+ <span class="label">Their home · 12 Ocotillo Court</span>
+</div>
+</div>
+
+ <!-- SIDEBAR -->
+ <aside>
+ <div class="side-card reveal">
+ <h3>Contact</h3>
+ <div class="contact-row">
+ <div class="contact-ic">
+ <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 4.5C3 3.7 3.7 3 4.5 3H6L7.5 6.5L5.8 7.8C6.5 9.4 7.6 10.5 9.2 11.2L10.5 9.5L14 11V12.5C14 13.3 13.3 14 12.5 14C7.3 14 3 9.7 3 4.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+</div>
+ <div>
+ <div class="l">Phone</div>
+ <div class="v">(555) 012-3847</div>
+</div>
+</div>
+ <div class="contact-row">
+ <div class="contact-ic">
+ <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="4" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M3 5L9 9.5L15 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+ <div>
+ <div class="l">Email</div>
+ <div class="v">m.ellis@example.com</div>
+</div>
+</div>
+</div>
+
+ <div class="side-card reveal">
+ <h3>The Pets</h3>
+ <div class="pets">
+ <div class="pet-card">
+ <img src="https://placedog.net/600/450?id=12" alt="Biscuit the corgi" loading="lazy" />
+ <div>
+ <div class="pn">Biscuit</div>
+ <div class="pb">Pembroke Welsh Corgi</div>
+</div>
+</div>
+ <div class="pet-card">
+ <img src="https://placecats.com/400/300" alt="Clementine the tabby cat" loading="lazy" />
+ <div>
+ <div class="pn">Clementine</div>
+ <div class="pb">Tabby cat</div>
+</div>
+</div>
+</div>
+</div>
+
+ <div class="optin reveal">
+ <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M9 8V12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="5.6" r="0.9" fill="currentColor"/></svg>
+ <span>Directory listings are opt-in. Residents choose what to share.</span>
+</div>
+</aside>
+</div>
+</div>
+</section>
+
+ <!-- FOOTER -->
+ <footer>
+ <div class="divider"><svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0 80V58L130 38L260 52L390 18L510 44L630 12L760 48L880 22L1010 52L1140 26L1280 54L1440 30V80H0Z" fill="#ffffff"/></svg></div>
+ <div class="wrap">
+ <div class="footer-top">
+ <div>
+ <div class="footer-brand">
+ <span class="brand-mark"><svg width="28" height="28" viewBox="0 0 30 30" fill="none"><path d="M13 27V8a2 2 0 0 1 4 0v19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M13 14h-3a2 2 0 0 0-2 2v4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M17 11h3a2 2 0 0 1 2 2v5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+ Winterhaven Village
+</div>
+ <div class="footer-est">Winterhaven Village Homeowners Association · Tucson, Arizona · Est. 1987</div>
+</div>
+ <nav class="footer-nav">
+ <a href="15-desert-modern.html">Home</a>
+ <a href="15-desert-modern.html#neighbors">Directory</a>
+ <a href="15-desert-modern.html#board">Board</a>
+ <a href="15-desert-modern.html#week">News</a>
+ <a href="15-desert-modern.html#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+</div>
+ <div class="footer-bottom">
+ <span>© 2026 Winterhaven Village HOA. All rights reserved.</span>
+ <span>Desert living, neighborly spirit.</span>
+</div>
+</div>
+</footer>
+
+ <script>
+ const io = new IntersectionObserver((entries) => {
+ entries.forEach((e) => {
+ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+ });
+ }, { threshold: 0.12 });
+ document.querySelectorAll('.reveal').forEach((el, i) => {
+ el.style.transitionDelay = (i % 3) * 0.08 + 's';
+ io.observe(el);
+ });
+</script>
+</body>
+</html>

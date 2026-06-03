@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Winterhaven Village — Style Explorations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: 'Inter', sans-serif; background: #f4f2ee; color: #1a1a1a; padding: 48px 32px; }
+ header { max-width: 1280px; margin: 0 auto 40px; }
+ h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
+ p.sub { color: #666; margin-top: 6px; font-size: 14px; }
+ .grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
+ .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.08); transition: transform .15s ease, box-shadow .15s ease; display: block; text-decoration: none; color: inherit; }
+ .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+ .frame { position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden; background: #e8e6e1; border-bottom: 1px solid #eee; }
+ .frame iframe { width: 1280px; height: 800px; border: 0; transform-origin: top left; pointer-events: none; position: absolute; top: 0; left: 0; }
+ .meta { padding: 16px 18px; display: flex; align-items: baseline; gap: 10px; }
+ .num { font-size: 12px; font-weight: 600; color: #999; font-variant-numeric: tabular-nums; }
+ .name { font-size: 15px; font-weight: 600; }
+ .desc { font-size: 12.5px; color: #777; padding: 0 18px 16px; line-height: 1.5; }
+</style>
+</head>
+<body>
+<header>
+ <h1>Winterhaven Village — 15 Style Explorations</h1>
+ <p class="sub">Same content in every mockup; only the design language changes. Click any card to open it full-size.</p>
+</header>
+<div class="grid" id="grid"></div>
+<script>
+ const mockups = [
+ ["01-classic-editorial.html", "Classic Editorial", "Broadsheet newspaper — serif masthead, drop caps, column rules, cream paper."],
+ ["02-swiss-minimal.html", "Swiss Minimal", "Strict grid, grotesque type, numbered sections, one red accent."],
+ ["03-warm-organic.html", "Warm Organic", "Terracotta & sage, arches and blobs, farmers-market warmth."],
+ ["04-coastal-calm.html", "Coastal Calm", "Soft blues and seafoam, wave dividers, beach-house airiness."],
+ ["05-rustic-lodge.html", "Rustic Lodge", "National-park crest, forest green & amber, topographic textures."],
+ ["06-quiet-luxury.html", "Quiet Luxury", "Ivory & champagne gold, elegant serifs, Aman-resort restraint."],
+ ["07-friendly-playful.html", "Friendly Playful", "Rounded type, sticker badges, tilted pinned photos, cheerful pills."],
+ ["08-dark-sophisticated.html", "Dark Sophisticated", "Charcoal night mode with porch-light amber glows."],
+ ["09-soft-brutalist.html", "Soft Brutalist", "Bold outlines, hard shadows, flat pastels, marquee ticker."],
+ ["10-glass-gradient.html", "Glass & Gradient", "Dawn mesh gradients with frosted-glass floating cards."],
+ ["11-vintage-bulletin.html", "Vintage Bulletin", "Mid-century newsletter — aged paper, polaroids, postmarks."],
+ ["12-botanical.html", "Botanical", "Illustrated ferns and leaves, arched frames, garden-tag labels."],
+ ["13-magazine-grid.html", "Magazine Grid", "Kinfolk editorial — asymmetric overlaps, pull quotes, negative space."],
+ ["14-soft-pastel.html", "Soft Pastel", "Stationery-brand pastels, squiggle underlines, gentle and kind."],
+ ["15-alpine-modern.html", "Alpine Modern", "Scandinavian mountain — crisp white, spruce green, glacier blue."],
+ ];
+ const grid = document.getElementById('grid');
+ for (const [file, name, desc] of mockups) {
+ const num = file.slice(0, 2);
+ const card = document.createElement('a');
+ card.className = 'card';
+ card.href = file;
+ card.target = '_blank';
+ card.innerHTML = `
+ <div class="frame"><iframe src="${file}" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+ <div class="meta"><span class="num">${num}</span><span class="name">${name}</span></div>
+ <div class="desc">${desc}</div>`;
+ grid.appendChild(card);
+ }
+ // Scale iframes to fit their preview frames
+ function scale() {
+ document.querySelectorAll('.frame').forEach(f => {
+ const s = f.clientWidth / 1280;
+ f.querySelector('iframe').style.transform = `scale(${s})`;
+ });
+ }
+ window.addEventListener('resize', scale);
+ scale();
+ // re-scale after lazy iframes load in
+ setTimeout(scale, 500);
+</script>
+</body>
+</html>

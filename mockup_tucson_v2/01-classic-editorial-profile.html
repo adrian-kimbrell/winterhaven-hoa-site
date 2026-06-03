@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Margaret &amp; Tom Ellis — The Winterhaven Villager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+ :root{
+ --ink:#231a12;
+ --paper:#f6efe0;
+ --paper-deep:#efe5d0;
+ --rule:#d3c5a6;
+ --rule-dark:#9a8865;
+ --accent:#a8431f; /* sun-baked terracotta */
+ --accent-ink:#7e2f14;
+ --muted:#7a6c54;
+ --serif:'EB Garamond', Georgia, serif;
+ --display:'Playfair Display', Georgia, serif;
+ --label:'Oswald', sans-serif;
+ }
+ *{box-sizing:border-box;}
+ html{-webkit-text-size-adjust:100%;}
+ body{
+ margin:0;
+ background:
+ repeating-linear-gradient(0deg, transparent 0 28px, rgba(80,45,15,.018) 28px 29px),
+ var(--paper);
+ color:var(--ink);
+ font-family:var(--serif);
+ font-size:19px;
+ line-height:1.55;
+ -webkit-font-smoothing:antialiased;
+ }
+ a{color:inherit;text-decoration:none;}
+ .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+
+ /* ---------- Top bar / dateline ---------- */
+ .topbar{
+ border-bottom:1px solid var(--rule);
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.14em;
+ font-size:11px;font-weight:400;color:var(--muted);
+ }
+ .topbar .wrap{display:flex;justify-content:space-between;align-items:center;padding-top:9px;padding-bottom:9px;gap:18px;flex-wrap:wrap;}
+ .topbar .price{color:var(--accent);}
+
+ /* ---------- Masthead ---------- */
+ header.masthead{text-align:center;border-bottom:1px solid var(--ink);padding:30px 0 0;}
+ .masthead .estab{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.42em;
+ font-size:11px;color:var(--muted);margin-bottom:14px;padding-left:.42em;
+ }
+ .masthead h1{
+ font-family:var(--display);font-weight:800;font-size:clamp(46px,9.5vw,118px);
+ line-height:.92;margin:0;letter-spacing:-.01em;
+ }
+ .masthead .tagline{
+ font-family:var(--display);font-style:italic;font-weight:400;
+ font-size:clamp(16px,2.4vw,22px);color:var(--accent-ink);margin:14px 0 18px;
+ }
+ .dateline{
+ border-top:3px double var(--ink);border-bottom:1px solid var(--ink);
+ display:flex;justify-content:space-between;align-items:center;
+ font-family:var(--label);text-transform:uppercase;font-size:11.5px;
+ letter-spacing:.16em;padding:8px 0;color:var(--ink);
+ }
+ .dateline .vol{color:var(--muted);}
+
+ /* ---------- Nav ---------- */
+ nav.primary{border-bottom:1px solid var(--ink);}
+ nav.primary .wrap{display:flex;justify-content:center;gap:0;flex-wrap:wrap;}
+ nav.primary a{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.18em;
+ font-size:12.5px;font-weight:500;padding:13px 22px;color:var(--ink);
+ border-left:1px solid var(--rule);position:relative;
+ transition:color .2s ease, background .2s ease;
+ }
+ nav.primary a:first-child{border-left:none;}
+ nav.primary a::after{
+ content:"";position:absolute;left:50%;right:50%;bottom:6px;height:2px;
+ background:var(--accent);transition:left .25s ease,right .25s ease;
+ }
+ nav.primary a:hover{color:var(--accent);}
+ nav.primary a:hover::after{left:18px;right:18px;}
+
+ /* ---------- Back affordance ---------- */
+ .backbar{padding:22px 0 0;}
+ .backbar a{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.16em;font-size:12px;
+ color:var(--accent);border-bottom:1px solid transparent;padding-bottom:2px;
+ transition:border-color .2s;
+ }
+ .backbar a:hover{border-color:var(--accent);}
+
+ /* ---------- Profile header ---------- */
+ .phead{margin:18px 0 8px;}
+ .phead .kicker{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.24em;
+ font-size:11px;color:var(--accent);margin-bottom:10px;
+ }
+ .phead h2{
+ font-family:var(--display);font-weight:800;font-size:clamp(40px,6.5vw,76px);
+ line-height:.96;margin:0;letter-spacing:-.015em;
+ }
+ .phead .sub{
+ font-family:var(--display);font-style:italic;font-size:clamp(18px,2.4vw,24px);
+ color:var(--accent-ink);margin:10px 0 0;
+ }
+ .phead .meta{
+ display:flex;flex-wrap:wrap;gap:0 26px;margin-top:16px;
+ border-top:3px double var(--ink);border-bottom:1px solid var(--ink);padding:10px 0;
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.14em;font-size:11.5px;
+ color:var(--ink);
+ }
+ .phead .meta .m{color:var(--muted);}
+ .phead .meta .m strong{color:var(--ink);font-weight:500;}
+ .phead .meta a{color:var(--accent);}
+
+ /* ---------- Body grid ---------- */
+ .pgrid{display:grid;grid-template-columns:1.6fr 1fr;gap:44px;align-items:start;margin-top:36px;}
+ .col-divide{border-left:1px solid var(--rule);padding-left:44px;}
+
+ /* portraits */
+ .portraits{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:6px;}
+ .portrait figure{margin:0;}
+ .portrait img{
+ width:100%;display:block;aspect-ratio:1/1;object-fit:cover;
+ filter:grayscale(.25) sepia(.1) contrast(1.04);border:1px solid var(--rule-dark);
+ transition:filter .3s ease;
+ }
+ .portrait:hover img{filter:grayscale(0) contrast(1.05);}
+ .portrait figcaption{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.16em;font-size:10.5px;
+ color:var(--muted);padding-top:7px;border-bottom:1px solid var(--rule);padding-bottom:6px;
+ }
+
+ .bio{margin-top:28px;}
+ .bio p{margin:0 0 16px;text-align:justify;hyphens:auto;font-size:18.5px;}
+ .bio p.lead::first-letter{
+ font-family:var(--display);font-weight:800;float:left;font-size:80px;line-height:.66;
+ padding:8px 12px 0 0;color:var(--accent);
+ }
+
+ /* home photo */
+ .home-photo{margin-top:34px;}
+ .home-photo figure{margin:0;}
+ .home-photo img{
+ width:100%;display:block;height:auto;
+ filter:grayscale(.1) sepia(.12) contrast(1.04);border:1px solid var(--rule-dark);
+ }
+ .home-photo figcaption{
+ font-family:var(--serif);font-style:italic;font-size:14px;color:var(--muted);
+ padding:7px 2px 0;border-bottom:1px solid var(--rule);
+ }
+
+ /* aside section heads */
+ .ahead{
+ font-family:var(--display);font-weight:800;font-size:26px;margin:0 0 6px;
+ border-bottom:2px solid var(--ink);padding-bottom:8px;
+ display:flex;align-items:baseline;gap:12px;
+ }
+ .ahead .tag{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.2em;font-size:10px;
+ color:var(--accent);margin-left:auto;border:1px solid var(--accent);padding:3px 9px;white-space:nowrap;
+ }
+
+ /* contact list */
+ .contact{margin:0 0 38px;padding:0;list-style:none;}
+ .contact li{padding:12px 0;border-bottom:1px solid var(--rule);}
+ .contact .k{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.16em;font-size:10px;
+ color:var(--muted);display:block;margin-bottom:3px;
+ }
+ .contact .v{font-size:18px;}
+ .contact a.v{color:var(--accent);transition:opacity .2s;}
+ .contact a.v:hover{opacity:.6;}
+
+ /* pets */
+ .pets{margin-top:8px;}
+ .pet{display:flex;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--rule);}
+ .pet:first-of-type{border-top:1px solid var(--rule);}
+ .pet img{
+ width:96px;height:72px;object-fit:cover;flex:none;
+ filter:grayscale(.2) sepia(.1) contrast(1.04);border:1px solid var(--rule-dark);
+ transition:filter .3s ease;
+ }
+ .pet:hover img{filter:grayscale(0) contrast(1.05);}
+ .pet .pname{font-family:var(--display);font-weight:700;font-size:21px;line-height:1.1;}
+ .pet .pbreed{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;
+ color:var(--accent);margin-top:4px;
+ }
+
+ /* opt-in note */
+ .optin{
+ margin-top:30px;background:var(--paper-deep);
+ border-top:3px double var(--ink);border-bottom:3px double var(--ink);
+ padding:18px 22px;font-style:italic;color:var(--muted);font-size:15px;line-height:1.4;
+ }
+ .optin strong{font-variant:small-caps;letter-spacing:.04em;font-style:normal;color:var(--ink);}
+
+ .pull-quote{
+ font-family:var(--display);font-style:italic;font-weight:500;
+ font-size:clamp(22px,3vw,30px);line-height:1.22;margin:40px 0 0;
+ padding:24px 0;border-top:3px double var(--ink);border-bottom:3px double var(--ink);
+ text-align:center;color:var(--ink);
+ }
+
+ /* ---------- Footer ---------- */
+ footer{border-top:3px double var(--ink);margin-top:54px;padding:30px 0 44px;text-align:center;}
+ footer .fmast{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:-.01em;}
+ footer .estab{font-family:var(--label);text-transform:uppercase;letter-spacing:.3em;font-size:11px;color:var(--muted);margin:8px 0 18px;}
+ footer nav{display:flex;justify-content:center;flex-wrap:wrap;gap:0;}
+ footer nav a{
+ font-family:var(--label);text-transform:uppercase;letter-spacing:.16em;font-size:11.5px;
+ padding:6px 16px;border-left:1px solid var(--rule);color:var(--ink);transition:color .2s;
+ }
+ footer nav a:first-child{border-left:none;}
+ footer nav a:hover{color:var(--accent);}
+ footer .colophon{font-style:italic;color:var(--muted);font-size:13.5px;margin-top:20px;}
+
+ /* ---------- Responsive ---------- */
+ @media(max-width:960px){
+ .pgrid{grid-template-columns:1fr;gap:0;}
+ .col-divide{border-left:none;padding-left:0;border-top:1px solid var(--rule);margin-top:40px;padding-top:18px;}
+ }
+ @media(max-width:620px){
+ body{font-size:18px;}
+ .portraits{grid-template-columns:1fr 1fr;}
+ nav.primary a{padding:11px 14px;letter-spacing:.12em;font-size:11.5px;}
+ nav.primary a:nth-child(n+2){border-left:none;}
+ .topbar .wrap{justify-content:center;}
+ .phead .meta{gap:6px 18px;}
+ }
+</style>
+</head>
+<body>
+
+ <!-- Top bar -->
+ <div class="topbar">
+ <div class="wrap">
+ <span>Sonoran Desert Community &nbsp;·&nbsp; In the Shadow of the Santa Catalinas</span>
+ <span class="price">Free to Residents — Delivered Weekly</span>
+</div>
+</div>
+
+ <!-- Masthead -->
+ <header class="masthead">
+ <div class="wrap">
+ <div class="estab">The Winterhaven Villager</div>
+ <h1>Winterhaven&nbsp;Village</h1>
+ <p class="tagline">Desert living, neighborly spirit.</p>
+</div>
+ <div class="wrap">
+ <div class="dateline">
+ <span>Wednesday, June&nbsp;3</span>
+ <span class="vol">Vol. XXXIX — No. 23</span>
+ <span>Resident Profile</span>
+</div>
+</div>
+</header>
+
+ <!-- Nav -->
+ <nav class="primary">
+ <div class="wrap">
+ <a href="01-classic-editorial.html">Home</a>
+ <a href="#">Directory</a>
+ <a href="#">Board</a>
+ <a href="#">News</a>
+ <a href="#">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</div>
+</nav>
+
+ <main class="wrap">
+
+ <div class="backbar">
+ <a href="01-classic-editorial.html">&larr; Back to Directory</a>
+</div>
+
+ <!-- Profile header -->
+ <div class="phead">
+ <div class="kicker">Meet Your Neighbors — A Resident Profile</div>
+ <h2>Margaret &amp; Tom Ellis</h2>
+ <p class="sub">Of 12 Ocotillo Court, keepers of one stubborn rosebush.</p>
+ <div class="meta">
+ <span class="m"><strong>Residence:</strong> 12 Ocotillo Court</span>
+ <span class="m"><strong>Residents Since:</strong> 1994</span>
+ <span class="m"><strong>Telephone:</strong> (555) 012-3847</span>
+ <span class="m"><strong>Correspondence:</strong> <a href="mailto:m.ellis@example.com">m.ellis@example.com</a></span>
+</div>
+</div>
+
+ <div class="pgrid">
+ <!-- Main column -->
+ <div>
+ <div class="portraits">
+ <div class="portrait">
+ <figure>
+ <img src="https://i.pravatar.cc/400?img=32" alt="Margaret Ellis">
+ <figcaption>Margaret Ellis</figcaption>
+</figure>
+</div>
+ <div class="portrait">
+ <figure>
+ <img src="https://i.pravatar.cc/400?img=11" alt="Tom Ellis">
+ <figcaption>Tom Ellis</figcaption>
+</figure>
+</div>
+</div>
+
+ <div class="bio">
+ <p class="lead">Margaret taught third grade for thirty years and now runs the village book club with the same gentle authority. Tom, a retired civil engineer, spends his mornings on the loop trail before the heat sets in, photographing whatever the desert offers up. Their courtyard garden — penstemon, agave, and one stubborn rosebush — wins the spring garden walk more years than not, and they host the first porch gathering of every monsoon season.</p>
+</div>
+
+ <div class="pull-quote">
+ &ldquo;Out here you learn to greet the morning early — the desert keeps its best hours before the sun gets serious.&rdquo;
+</div>
+
+ <div class="home-photo">
+ <figure>
+ <img src="img/house.jpg" alt="The Ellis home at 12 Ocotillo Court">
+ <figcaption>The Ellis home on Ocotillo Court, its courtyard wall draped in bougainvillea and shaded by a single old mesquite.</figcaption>
+</figure>
+</div>
+</div>
+
+ <!-- Aside column -->
+ <aside class="col-divide">
+ <h3 class="ahead">At a Glance <span class="tag">Contact</span></h3>
+ <ul class="contact">
+ <li><span class="k">Residence</span><span class="v">12 Ocotillo Court</span></li>
+ <li><span class="k">Residents Since</span><span class="v">1994</span></li>
+ <li><span class="k">Telephone</span><span class="v">(555) 012-3847</span></li>
+ <li><span class="k">Correspondence</span><a class="v" href="mailto:m.ellis@example.com">m.ellis@example.com</a></li>
+</ul>
+
+ <h3 class="ahead">The Menagerie <span class="tag">Pets</span></h3>
+ <div class="pets">
+ <div class="pet">
+ <img src="https://placedog.net/600/450?id=12" alt="Biscuit the corgi">
+ <div>
+ <div class="pname">Biscuit</div>
+ <div class="pbreed">Pembroke Welsh Corgi</div>
+</div>
+</div>
+ <div class="pet">
+ <img src="https://placecats.com/400/300" alt="Clementine the tabby cat">
+ <div>
+ <div class="pname">Clementine</div>
+ <div class="pbreed">Tabby Cat</div>
+</div>
+</div>
+</div>
+
+ <div class="optin">
+ <strong>A note from the editors.</strong> Directory listings are opt-in. Residents choose what to share.
+</div>
+</aside>
+</div>
+
+</main>
+
+ <!-- Footer -->
+ <footer>
+ <div class="wrap">
+ <div class="fmast">Winterhaven Village</div>
+ <div class="estab">Homeowners Association · Tucson, Arizona · Est. 1987</div>
+ <nav>
+ <a href="01-classic-editorial.html">Home</a>
+ <a href="#">Directory</a>
+ <a href="#">Board</a>
+ <a href="#">News</a>
+ <a href="#">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+ <div class="colophon">Printed for the residents of the village &middot; All the news that fits, from the foothills of the Catalinas.</div>
+</div>
+</footer>
+
+</body>
+</html>

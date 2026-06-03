@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Margaret &amp; Tom Ellis — Winterhaven Village Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --apricot: #ffd2a8;
+ --rose: #f4c2c0;
+ --gold: #ffe6ad;
+ --lavender: #d8d2e6;
+ --sand: #f6ead9;
+ --terracotta: #c97a52;
+ --ink: #3a2a26;
+ --ink-soft: #6e5a4f;
+ --glass: rgba(255, 252, 247, 0.55);
+ --glass-strong: rgba(255, 252, 247, 0.74);
+ --glass-border: rgba(255, 255, 255, 0.66);
+ --shadow: 0 22px 60px -20px rgba(120, 70, 45, 0.35);
+ --shadow-sm: 0 12px 32px -14px rgba(120, 70, 45, 0.28);
+ --radius: 28px;
+ --radius-sm: 20px;
+ --maxw: 1180px;
+ }
+
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+ color: var(--ink);
+ line-height: 1.6;
+ background:
+ radial-gradient(900px 700px at 12% -5%, var(--apricot) 0%, transparent 55%),
+ radial-gradient(1000px 800px at 95% 6%, var(--gold) 0%, transparent 55%),
+ radial-gradient(1100px 900px at 28% 42%, var(--rose) 0%, transparent 50%),
+ radial-gradient(1000px 900px at 90% 68%, var(--lavender) 0%, transparent 52%),
+ radial-gradient(900px 800px at 8% 95%, var(--apricot) 0%, transparent 55%),
+ linear-gradient(180deg, #fff7ee 0%, #faf0e4 100%);
+ background-attachment: fixed;
+ -webkit-font-smoothing: antialiased;
+ overflow-x: hidden;
+ }
+
+ .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+ /* floating decorative orbs — heat shimmer / rising sun */
+ .orb { position: fixed; border-radius: 50%; filter: blur(55px); opacity: 0.55; z-index: 0; pointer-events: none; }
+ .orb.a { width: 340px; height: 340px; background: radial-gradient(circle at 40% 40%, var(--gold), var(--apricot)); top: 8%; left: -90px; animation: float 18s ease-in-out infinite; }
+ .orb.b { width: 400px; height: 400px; background: radial-gradient(circle at 50% 50%, var(--rose), var(--lavender)); top: 48%; right: -130px; animation: float 22s ease-in-out infinite reverse; }
+ .orb.c { width: 280px; height: 280px; background: radial-gradient(circle at 50% 40%, var(--apricot), var(--rose)); bottom: 6%; left: 16%; animation: float 26s ease-in-out infinite; }
+
+ @keyframes float {
+ 0%, 100% { transform: translate(0, 0); }
+ 50% { transform: translate(28px, -42px); }
+ }
+
+ /* ---------- NAV ---------- */
+ nav {
+ position: sticky; top: 0; z-index: 100;
+ backdrop-filter: blur(20px) saturate(165%);
+ -webkit-backdrop-filter: blur(20px) saturate(165%);
+ background: rgba(255, 250, 243, 0.5);
+ border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+ }
+ .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+ .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.18rem; letter-spacing: -0.02em; text-decoration: none; color: var(--ink); }
+ .brand .mark {
+ width: 36px; height: 36px; border-radius: 12px;
+ background: linear-gradient(135deg, var(--gold), var(--apricot) 50%, var(--rose));
+ box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 0 6px 16px -6px rgba(200,120,80,0.6);
+ }
+ .nav-links { display: flex; gap: 6px; align-items: center; }
+ .nav-links a {
+ text-decoration: none; color: var(--ink-soft); font-weight: 600; font-size: 0.92rem;
+ padding: 9px 14px; border-radius: 12px; transition: all 0.25s ease;
+ }
+ .nav-links a:hover { color: var(--ink); background: rgba(255,255,255,0.6); }
+ .nav-cta {
+ background: linear-gradient(135deg, #f0975a, #e8746a) !important;
+ color: #fff !important; box-shadow: 0 8px 20px -8px rgba(220,120,80,0.7);
+ }
+ .nav-cta:hover { transform: translateY(-1px); }
+ .burger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 8px; }
+ .burger span { width: 24px; height: 2px; background: var(--ink); border-radius: 2px; }
+
+ /* ---------- PROFILE ---------- */
+ main { position: relative; z-index: 1; }
+ .profile-top { padding: 40px 0 0; }
+ .back-link {
+ display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+ color: var(--ink-soft); font-weight: 700; font-size: 0.92rem;
+ padding: 9px 16px; border-radius: 999px;
+ background: var(--glass); border: 1px solid var(--glass-border);
+ backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+ box-shadow: var(--shadow-sm); transition: all 0.25s ease;
+ }
+ .back-link:hover { color: var(--ink); transform: translateX(-3px); }
+
+ /* hero banner */
+ .profile-hero { position: relative; z-index: 1; padding: 28px 0 0; }
+ .profile-banner {
+ position: relative; border-radius: 36px; overflow: hidden;
+ box-shadow: var(--shadow); border: 1px solid var(--glass-border);
+ min-height: 360px; display: flex; align-items: flex-end;
+ }
+ .profile-banner img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+ .profile-banner .scrim {
+ position: absolute; inset: 0;
+ background: linear-gradient(180deg, rgba(70,35,20,0.06) 0%, rgba(70,35,20,0.62) 100%);
+ }
+ .banner-caption {
+ position: relative; z-index: 2; padding: 28px 36px;
+ color: rgba(255,255,255,0.92); font-size: 0.92rem; font-weight: 600;
+ display: inline-flex; align-items: center; gap: 8px;
+ }
+ .banner-caption .pin {
+ background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3);
+ padding: 6px 14px; border-radius: 999px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+ }
+
+ /* identity card overlapping banner */
+ .identity-wrap { position: relative; z-index: 3; margin-top: -70px; }
+ .identity-card {
+ backdrop-filter: blur(20px) saturate(165%); -webkit-backdrop-filter: blur(20px) saturate(165%);
+ background: var(--glass-strong); border: 1px solid var(--glass-border);
+ border-radius: var(--radius); box-shadow: var(--shadow);
+ padding: 36px 40px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+ }
+ .portraits { display: flex; }
+ .portraits img {
+ width: 96px; height: 96px; border-radius: 50%; object-fit: cover;
+ border: 4px solid rgba(255,255,255,0.92); box-shadow: var(--shadow-sm);
+ }
+ .portraits img:nth-child(2) { margin-left: -28px; }
+ .identity-text { flex: 1; min-width: 220px; }
+ .identity-text h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+ .identity-text .addr { color: var(--ink-soft); font-size: 1.05rem; margin-top: 6px; }
+ .badge-since {
+ display: inline-flex; align-items: center; gap: 8px; margin-top: 14px;
+ font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #a85a2e;
+ background: rgba(240,151,90,0.16); border: 1px solid rgba(240,151,90,0.28);
+ padding: 6px 14px; border-radius: 999px;
+ }
+ .contact-chips { display: flex; flex-direction: column; gap: 10px; }
+ .chip {
+ display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+ color: var(--ink); font-weight: 600; font-size: 0.95rem;
+ padding: 11px 18px; border-radius: 14px;
+ background: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.6);
+ transition: all 0.25s ease;
+ }
+ .chip:hover { background: rgba(255,255,255,0.72); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+ .chip .ic { font-size: 1.1rem; }
+
+ /* content grid */
+ .profile-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; margin-top: 32px; }
+ .glass-card {
+ backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
+ background: var(--glass); border: 1px solid var(--glass-border);
+ border-radius: var(--radius); box-shadow: var(--shadow-sm);
+ }
+ .kicker { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #d07a3f; margin-bottom: 12px; }
+ .bio-card { padding: 38px 42px; }
+ .bio-card h2 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 14px; }
+ .bio-card p { color: var(--ink-soft); font-size: 1.08rem; line-height: 1.75; }
+
+ .home-card { overflow: hidden; }
+ .home-card .photo { height: 240px; overflow: hidden; }
+ .home-card .photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+ .home-card:hover .photo img { transform: scale(1.06); }
+ .home-card .label { padding: 22px 26px 26px; }
+ .home-card .label h3 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; }
+ .home-card .label p { color: var(--ink-soft); font-size: 0.92rem; margin-top: 4px; }
+
+ /* pets */
+ .pets-block { margin-top: 24px; }
+ .pets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+ .pet-card { overflow: hidden; }
+ .pet-card .photo { height: 220px; overflow: hidden; }
+ .pet-card .photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+ .pet-card:hover .photo img { transform: scale(1.07); }
+ .pet-card .label { padding: 22px 26px 26px; display: flex; align-items: center; gap: 14px; }
+ .pet-card .label .emoji { font-size: 1.8rem; }
+ .pet-card .label h4 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; }
+ .pet-card .label p { color: var(--ink-soft); font-size: 0.92rem; font-style: italic; }
+
+ /* opt-in note */
+ .optin {
+ margin-top: 28px; padding: 22px 28px; border-radius: var(--radius-sm);
+ background: linear-gradient(135deg, rgba(255,230,173,0.5), rgba(216,210,230,0.45));
+ border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm);
+ display: flex; align-items: center; gap: 14px;
+ color: var(--ink-soft); font-size: 0.95rem;
+ }
+ .optin .ic { font-size: 1.3rem; }
+ .optin strong { color: var(--ink); }
+
+ .section-label { margin: 4px 0 18px; }
+ .section-label h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.025em; }
+
+ /* ---------- FOOTER ---------- */
+ footer { position: relative; z-index: 1; margin-top: 80px; padding: 50px 0 40px; }
+ .footer-card {
+ backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
+ background: var(--glass-strong); border: 1px solid var(--glass-border);
+ border-radius: var(--radius); box-shadow: var(--shadow-sm);
+ padding: 40px 44px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;
+ }
+ .footer-card .est { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.01em; }
+ .footer-card .est span { color: var(--ink-soft); font-weight: 500; }
+ .footer-links { display: flex; flex-wrap: wrap; gap: 8px 6px; }
+ .footer-links a { text-decoration: none; color: var(--ink-soft); font-weight: 600; font-size: 0.9rem; padding: 8px 14px; border-radius: 11px; transition: all 0.2s; }
+ .footer-links a:hover { color: var(--ink); background: rgba(255,255,255,0.6); }
+
+ /* ---------- RESPONSIVE ---------- */
+ @media (max-width: 900px) {
+ .profile-grid { grid-template-columns: 1fr; }
+ .nav-links { display: none; }
+ .burger { display: flex; }
+ .nav-links.open {
+ display: flex; flex-direction: column; position: absolute; top: 76px; left: 0; right: 0;
+ padding: 16px 28px 24px; gap: 4px;
+ backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+ background: rgba(255,250,243,0.9); border-bottom: 1px solid rgba(255,255,255,0.6);
+ }
+ .nav-links.open a { padding: 12px 14px; }
+ .identity-card { gap: 20px; }
+ }
+ @media (max-width: 600px) {
+ .wrap { padding: 0 18px; }
+ .pets-grid { grid-template-columns: 1fr; }
+ .identity-card, .bio-card { padding: 26px 24px; }
+ .footer-card { flex-direction: column; align-items: flex-start; }
+ .contact-chips { width: 100%; }
+ .chip { width: 100%; }
+ }
+</style>
+</head>
+<body>
+ <div class="orb a"></div>
+ <div class="orb b"></div>
+ <div class="orb c"></div>
+
+ <!-- NAV -->
+ <nav>
+ <div class="wrap nav-inner">
+ <a href="10-glass-gradient.html" class="brand"><div class="mark"></div> Winterhaven Village</a>
+ <div class="nav-links" id="navLinks">
+ <a href="10-glass-gradient.html">Home</a>
+ <a href="10-glass-gradient.html#neighbors">Directory</a>
+ <a href="10-glass-gradient.html#board">Board</a>
+ <a href="10-glass-gradient.html#news">News</a>
+ <a href="10-glass-gradient.html#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+ <a href="10-glass-gradient.html#neighbors" class="nav-cta">Resident Directory</a>
+</div>
+ <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+</nav>
+
+ <main>
+ <!-- BACK LINK -->
+ <div class="profile-top">
+ <div class="wrap">
+ <a href="10-glass-gradient.html#neighbors" class="back-link">&larr; Back to Directory</a>
+</div>
+</div>
+
+ <!-- PROFILE HERO BANNER -->
+ <section class="profile-hero">
+ <div class="wrap">
+ <div class="profile-banner">
+ <img class="bg" src="img/sonoran.jpg" alt="Courtyard garden of penstemon and agave at the Ellis home on Ocotillo Court" />
+ <div class="scrim"></div>
+ <div class="banner-caption">
+ <span class="pin">&#128205; 12 Ocotillo Court &middot; Winterhaven Village, Tucson</span>
+</div>
+</div>
+
+ <!-- IDENTITY CARD -->
+ <div class="identity-wrap wrap" style="padding:0;">
+ <div class="identity-card">
+ <div class="portraits">
+ <img src="https://i.pravatar.cc/400?img=32" alt="Margaret Ellis" />
+ <img src="https://i.pravatar.cc/400?img=11" alt="Tom Ellis" />
+</div>
+ <div class="identity-text">
+ <h1>Margaret &amp; Tom Ellis</h1>
+ <p class="addr">12 Ocotillo Court</p>
+ <span class="badge-since">Residents since 1994</span>
+</div>
+ <div class="contact-chips">
+ <a href="tel:5550123847" class="chip"><span class="ic">&#128222;</span> (555) 012-3847</a>
+ <a href="mailto:m.ellis@example.com" class="chip"><span class="ic">&#9993;&#65039;</span> m.ellis@example.com</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+ <!-- BIO + HOME -->
+ <section class="profile-hero" style="padding-top:0;">
+ <div class="wrap">
+ <div class="profile-grid">
+ <div class="glass-card bio-card">
+ <div class="kicker">About the Ellises</div>
+ <h2>A little about your neighbors</h2>
+ <p>Margaret taught third grade for thirty years and now runs the village book club with the same gentle authority. Tom, a retired civil engineer, spends his mornings on the loop trail before the heat sets in, photographing whatever the desert offers up. Their courtyard garden &mdash; penstemon, agave, and one stubborn rosebush &mdash; wins the spring garden walk more years than not, and they host the first porch gathering of every monsoon season.</p>
+</div>
+ <div class="glass-card home-card">
+ <div class="photo"><img src="img/house.jpg" alt="The Ellis home, an adobe-style house on Ocotillo Court" /></div>
+ <div class="label">
+ <h3>Their home</h3>
+ <p>Adobe on Ocotillo Court, courtyard garden out front</p>
+</div>
+</div>
+</div>
+
+ <!-- PETS -->
+ <div class="pets-block">
+ <div class="section-label">
+ <div class="kicker">The four-legged residents</div>
+ <h2>Meet the pets</h2>
+</div>
+ <div class="pets-grid">
+ <div class="glass-card pet-card">
+ <div class="photo"><img src="https://placedog.net/600/450?id=12" alt="Biscuit the Pembroke Welsh Corgi" /></div>
+ <div class="label">
+ <span class="emoji">&#128021;</span>
+ <div>
+ <h4>Biscuit</h4>
+ <p>Pembroke Welsh Corgi</p>
+</div>
+</div>
+</div>
+ <div class="glass-card pet-card">
+ <div class="photo"><img src="https://placecats.com/400/300" alt="Clementine the tabby cat" /></div>
+ <div class="label">
+ <span class="emoji">&#128008;</span>
+ <div>
+ <h4>Clementine</h4>
+ <p>Tabby cat</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+ <!-- OPT-IN NOTE -->
+ <div class="optin">
+ <span class="ic">&#128274;</span>
+ <p><strong>Directory listings are opt-in.</strong> Residents choose what to share.</p>
+</div>
+</div>
+</section>
+</main>
+
+ <!-- FOOTER -->
+ <footer>
+ <div class="wrap">
+ <div class="footer-card">
+ <div class="est">Winterhaven Village Homeowners Association <span>&middot; Tucson, Arizona &middot; Est. 1987</span></div>
+ <div class="footer-links">
+ <a href="10-glass-gradient.html">Home</a>
+ <a href="10-glass-gradient.html#neighbors">Directory</a>
+ <a href="10-glass-gradient.html#board">Board</a>
+ <a href="10-glass-gradient.html#news">News</a>
+ <a href="10-glass-gradient.html#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</div>
+</div>
+</div>
+</footer>
+
+ <script>
+ document.getElementById('burger').addEventListener('click', function () {
+ document.getElementById('navLinks').classList.toggle('open');
+ });
+ document.querySelectorAll('#navLinks a').forEach(function (a) {
+ a.addEventListener('click', function () {
+ document.getElementById('navLinks').classList.remove('open');
+ });
+ });
+</script>
+</body>
+</html>

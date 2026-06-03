@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Winterhaven Village — Life in the village, together.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,400..700&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --white: #ffffff;
+ --paper: #f6f7f8;
+ --stone-50: #eef0f1;
+ --stone-100: #dfe3e5;
+ --stone-300: #aeb6ba;
+ --stone-500: #6b7479;
+ --stone-700: #3b4448;
+ --ink: #1a2225;
+ --spruce: #1f3a31;
+ --spruce-deep: #14271f;
+ --glacier: #4aa6c9;
+ --glacier-soft: #d9eef5;
+ --radius-lg: 28px;
+ --radius-md: 18px;
+ --radius-sm: 12px;
+ --shadow-sm: 0 1px 2px rgba(20, 39, 31, 0.04), 0 4px 16px rgba(20, 39, 31, 0.05);
+ --shadow-md: 0 8px 30px rgba(20, 39, 31, 0.10);
+ --shadow-lg: 0 24px 60px rgba(20, 39, 31, 0.16);
+ --maxw: 1200px;
+ --ease: cubic-bezier(0.22, 1, 0.36, 1);
+ }
+
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: "Figtree", system-ui, -apple-system, sans-serif;
+ color: var(--ink);
+ background: var(--white);
+ line-height: 1.6;
+ -webkit-font-smoothing: antialiased;
+ text-rendering: optimizeLegibility;
+ overflow-x: hidden;
+ }
+
+ a { color: inherit; text-decoration: none; }
+ img { display: block; max-width: 100%; }
+
+ .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+
+ .eyebrow {
+ font-size: 0.74rem;
+ font-weight: 700;
+ letter-spacing: 0.22em;
+ text-transform: uppercase;
+ color: var(--glacier);
+ }
+
+ h1, h2, h3 { letter-spacing: -0.025em; line-height: 1.05; font-weight: 800; }
+
+ /* ---------- NAV ---------- */
+ .nav-shell {
+ position: fixed;
+ top: 0; left: 0; right: 0;
+ z-index: 100;
+ display: flex;
+ justify-content: center;
+ padding: 22px 24px;
+ pointer-events: none;
+ }
+ .nav {
+ pointer-events: auto;
+ width: 100%;
+ max-width: var(--maxw);
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 12px 14px 12px 26px;
+ background: rgba(255, 255, 255, 0.72);
+ backdrop-filter: blur(18px) saturate(140%);
+ -webkit-backdrop-filter: blur(18px) saturate(140%);
+ border: 1px solid rgba(255, 255, 255, 0.6);
+ border-radius: 999px;
+ box-shadow: var(--shadow-md);
+ transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+ }
+ .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em; }
+ .brand-mark {
+ width: 30px; height: 30px;
+ display: grid; place-items: center;
+ color: var(--spruce);
+ flex: none;
+ }
+ .nav-links { display: flex; align-items: center; gap: 4px; }
+ .nav-links a {
+ font-size: 0.9rem;
+ font-weight: 600;
+ color: var(--stone-700);
+ padding: 9px 15px;
+ border-radius: 999px;
+ transition: color 0.25s var(--ease), background 0.25s var(--ease);
+ }
+ .nav-links a:hover { color: var(--ink); background: var(--stone-50); }
+ .nav-cta {
+ background: var(--spruce);
+ color: var(--white) !important;
+ padding: 11px 22px !important;
+ font-weight: 700 !important;
+ border-radius: 999px;
+ box-shadow: 0 6px 18px rgba(31, 58, 49, 0.28);
+ }
+ .nav-cta:hover { background: var(--spruce-deep) !important; transform: translateY(-1px); }
+ .nav-toggle { display: none; }
+
+ /* ---------- HERO ---------- */
+ .hero {
+ position: relative;
+ min-height: 100vh;
+ display: flex;
+ align-items: flex-end;
+ color: var(--white);
+ overflow: hidden;
+ }
+ .hero-bg {
+ position: absolute; inset: 0;
+ background: url("https://picsum.photos/seed/cedarridge-peak7/1600/900") center 30% / cover no-repeat;
+ transform: scale(1.05);
+ animation: slowzoom 24s ease-in-out infinite alternate;
+ }
+ @keyframes slowzoom { to { transform: scale(1.13); } }
+ .hero::before {
+ content: "";
+ position: absolute; inset: 0;
+ background: linear-gradient(180deg, rgba(20, 39, 31, 0.45) 0%, rgba(20, 39, 31, 0.05) 35%, rgba(20, 39, 31, 0.62) 100%);
+ z-index: 1;
+ }
+ .hero-inner { position: relative; z-index: 2; width: 100%; padding-bottom: 120px; padding-top: 150px; }
+ .hero-eyebrow { color: var(--glacier-soft); }
+ .hero h1 {
+ font-size: clamp(3rem, 8vw, 6.6rem);
+ font-weight: 900;
+ letter-spacing: -0.04em;
+ margin: 14px 0 0;
+ max-width: 14ch;
+ text-shadow: 0 2px 30px rgba(0,0,0,0.25);
+ }
+ .hero-tag {
+ font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+ font-weight: 400;
+ color: rgba(255,255,255,0.92);
+ margin-top: 22px;
+ max-width: 30ch;
+ }
+ .hero-actions { display: flex; align-items: center; gap: 22px; margin-top: 38px; flex-wrap: wrap; }
+ .btn {
+ display: inline-flex; align-items: center; gap: 11px;
+ font-weight: 700; font-size: 1rem;
+ padding: 16px 30px;
+ border-radius: 999px;
+ transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease);
+ cursor: pointer; border: none;
+ }
+ .btn-primary {
+ background: var(--white); color: var(--spruce);
+ box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+ }
+ .btn-primary svg { transition: transform 0.3s var(--ease); }
+ .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+ .btn-primary:hover svg { transform: translateX(4px); }
+ .hero-stats { display: flex; gap: 38px; font-size: 0.92rem; color: rgba(255,255,255,0.85); }
+ .hero-stats b { display: block; font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+
+ /* mountain divider */
+ .divider { display: block; width: 100%; line-height: 0; }
+ .divider svg { display: block; width: 100%; height: auto; }
+ .hero .divider { position: absolute; bottom: -1px; left: 0; z-index: 2; }
+
+ /* ---------- SECTIONS ---------- */
+ section { position: relative; }
+ .section-pad { padding: 110px 0; }
+ .section-head { max-width: 640px; margin-bottom: 52px; }
+ .section-head h2 { font-size: clamp(2rem, 4vw, 3rem); margin-top: 12px; }
+ .section-head p { color: var(--stone-500); font-size: 1.08rem; margin-top: 14px; }
+
+ /* THIS WEEK */
+ .week { background: var(--paper); }
+ .week-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+ .news-card {
+ background: var(--white);
+ border-radius: var(--radius-lg);
+ overflow: hidden;
+ box-shadow: var(--shadow-sm);
+ border: 1px solid var(--stone-50);
+ transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+ display: flex; flex-direction: column;
+ }
+ .news-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+ .news-img { aspect-ratio: 16/10; overflow: hidden; }
+ .news-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s var(--ease); }
+ .news-card:hover .news-img img { transform: scale(1.07); }
+ .news-body { padding: 26px 26px 30px; flex: 1; display: flex; flex-direction: column; }
+ .tag {
+ align-self: flex-start;
+ font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+ color: var(--spruce);
+ background: var(--glacier-soft);
+ padding: 6px 12px; border-radius: 999px;
+ margin-bottom: 16px;
+ }
+ .news-body h3 { font-size: 1.32rem; font-weight: 800; line-height: 1.18; }
+ .news-body .date { margin-top: auto; padding-top: 18px; color: var(--stone-500); font-size: 0.9rem; font-weight: 600; }
+
+ /* LIGHTER SIDE */
+ .lighter { background: var(--spruce); color: var(--white); overflow: hidden; }
+ .lighter-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 60px; align-items: center; }
+ .lighter .eyebrow { color: var(--glacier); }
+ .lighter h2 { font-size: clamp(2rem, 4.5vw, 3.4rem); margin: 14px 0 22px; }
+ .lighter p { font-size: 1.3rem; line-height: 1.5; color: rgba(255,255,255,0.88); font-weight: 400; }
+ .lighter .deadline { display: inline-flex; align-items: center; gap: 10px; margin-top: 30px; font-weight: 700; color: var(--glacier-soft); font-size: 0.95rem; }
+ .lighter-photo {
+ position: relative;
+ border-radius: var(--radius-lg);
+ overflow: hidden;
+ box-shadow: var(--shadow-lg);
+ aspect-ratio: 4/3;
+ transform: rotate(1.4deg);
+ transition: transform 0.5s var(--ease);
+ }
+ .lighter-photo:hover { transform: rotate(0deg) scale(1.01); }
+ .lighter-photo img { width: 100%; height: 100%; object-fit: cover; }
+ .lighter-photo .caption-badge {
+ position: absolute; bottom: 16px; left: 16px;
+ background: rgba(255,255,255,0.92);
+ backdrop-filter: blur(8px);
+ color: var(--ink);
+ padding: 9px 16px; border-radius: 999px;
+ font-size: 0.82rem; font-weight: 700;
+ }
+
+ /* BOARD + CCR split */
+ .split { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+ .panel {
+ border-radius: var(--radius-lg);
+ padding: 44px;
+ border: 1px solid var(--stone-100);
+ transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+ }
+ .panel:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+ .panel-board { background: var(--white); }
+ .panel h2 { font-size: 1.9rem; margin: 12px 0 26px; }
+ .board-item {
+ display: flex; gap: 16px; align-items: flex-start;
+ padding: 20px 0;
+ border-top: 1px solid var(--stone-50);
+ }
+ .board-item:first-of-type { border-top: none; }
+ .board-icon {
+ flex: none; width: 44px; height: 44px; border-radius: 12px;
+ display: grid; place-items: center;
+ background: var(--glacier-soft); color: var(--spruce);
+ }
+ .board-item h4 { font-size: 1.08rem; font-weight: 700; letter-spacing: -0.01em; }
+ .board-item p { color: var(--stone-500); font-size: 0.94rem; margin-top: 2px; }
+ .board-link { display: inline-flex; align-items: center; gap: 7px; color: var(--glacier); font-weight: 700; font-size: 0.9rem; margin-top: 6px; transition: gap 0.25s var(--ease); }
+ .board-link:hover { gap: 12px; }
+
+ .panel-ccr {
+ background: linear-gradient(155deg, var(--spruce) 0%, var(--spruce-deep) 100%);
+ color: var(--white);
+ border: none;
+ }
+ .panel-ccr .eyebrow { color: var(--glacier); }
+ .ccr-q {
+ font-size: 1.55rem; font-weight: 800; line-height: 1.25; letter-spacing: -0.02em;
+ margin: 8px 0 24px;
+ position: relative; padding-left: 26px;
+ }
+ .ccr-q::before { content: "Q"; position: absolute; left: 0; top: 0; color: var(--glacier); }
+ .ccr-a {
+ background: rgba(255,255,255,0.06);
+ border: 1px solid rgba(255,255,255,0.12);
+ border-radius: var(--radius-md);
+ padding: 22px 24px;
+ font-size: 1.05rem; line-height: 1.55;
+ color: rgba(255,255,255,0.92);
+ }
+ .ccr-a .sec { display: inline-block; margin-top: 12px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--glacier); }
+
+ /* NEIGHBORS */
+ .neighbors { background: var(--paper); }
+ .neighbor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+ .neighbor-card {
+ background: var(--white);
+ border-radius: var(--radius-lg);
+ padding: 38px 30px 32px;
+ text-align: center;
+ border: 1px solid var(--stone-50);
+ box-shadow: var(--shadow-sm);
+ transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+ }
+ .neighbor-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+ .avatar-ring {
+ width: 104px; height: 104px; margin: 0 auto 20px;
+ border-radius: 50%; padding: 4px;
+ background: conic-gradient(from 140deg, var(--glacier), var(--spruce), var(--glacier));
+ }
+ .avatar-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--white); }
+ .neighbor-card h3 { font-size: 1.22rem; font-weight: 800; }
+ .neighbor-card .role { color: var(--glacier); font-weight: 700; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 6px; }
+ .neighbor-card .pet { color: var(--stone-500); font-size: 0.95rem; margin-top: 12px; }
+ .neighbors-foot { text-align: center; margin-top: 48px; }
+ .btn-outline {
+ background: transparent; color: var(--spruce);
+ border: 1.5px solid var(--stone-300);
+ }
+ .btn-outline:hover { border-color: var(--spruce); background: var(--spruce); color: var(--white); transform: translateY(-2px); }
+
+ /* FOOTER */
+ footer { background: var(--spruce-deep); color: rgba(255,255,255,0.8); }
+ .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; padding: 72px 0 48px; }
+ .footer-brand { display: flex; align-items: center; gap: 12px; color: #fff; font-weight: 800; font-size: 1.25rem; }
+ .footer-brand .brand-mark { color: var(--glacier); }
+ .footer-est { margin-top: 14px; font-size: 0.92rem; color: rgba(255,255,255,0.55); }
+ .footer-nav { display: flex; flex-wrap: wrap; gap: 10px 28px; }
+ .footer-nav a { font-weight: 600; font-size: 0.95rem; color: rgba(255,255,255,0.78); transition: color 0.25s; }
+ .footer-nav a:hover { color: var(--glacier); }
+ .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding: 26px 0; font-size: 0.85rem; color: rgba(255,255,255,0.45); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+ /* fade-in */
+ .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+ .reveal.in { opacity: 1; transform: none; }
+
+ /* ---------- RESPONSIVE ---------- */
+ @media (max-width: 980px) {
+ .week-grid, .neighbor-grid { grid-template-columns: 1fr 1fr; }
+ .lighter-grid, .split { grid-template-columns: 1fr; gap: 40px; }
+ .nav-links { display: none; }
+ .nav-toggle {
+ display: inline-flex; align-items: center;
+ background: var(--spruce); color: #fff; border: none;
+ padding: 11px 20px; border-radius: 999px; font-weight: 700; font-size: 0.9rem; font-family: inherit; cursor: pointer;
+ }
+ .section-pad { padding: 80px 0; }
+ }
+ @media (max-width: 620px) {
+ .wrap { padding: 0 20px; }
+ .nav-shell { padding: 14px 16px; }
+ .week-grid, .neighbor-grid { grid-template-columns: 1fr; }
+ .hero-inner { padding-bottom: 90px; padding-top: 130px; }
+ .panel { padding: 32px 26px; }
+ .hero-stats { gap: 24px; }
+ .footer-bottom { flex-direction: column; }
+ }
+</style>
+</head>
+<body>
+
+ <!-- NAV -->
+ <div class="nav-shell">
+ <nav class="nav">
+ <a href="#" class="brand">
+ <span class="brand-mark">
+ <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M3 24L11 9L16 17L20 11L27 24H3Z" fill="currentColor"/><circle cx="22" cy="7" r="3" fill="#4aa6c9"/></svg>
+</span>
+ Winterhaven Village
+</a>
+ <div class="nav-links">
+ <a href="#">Home</a>
+ <a href="#neighbors">Directory</a>
+ <a href="#board">Board</a>
+ <a href="#week">News</a>
+ <a href="#ccr">CC&amp;Rs</a>
+ <a href="#" class="nav-cta">Community Board</a>
+</div>
+ <button class="nav-toggle">Menu</button>
+</nav>
+</div>
+
+ <!-- HERO -->
+ <header class="hero">
+ <div class="hero-bg"></div>
+ <div class="hero-inner wrap">
+ <span class="eyebrow hero-eyebrow">A hillside community · Est. 1987</span>
+ <h1>Life in the village, together.</h1>
+ <p class="hero-tag">Winterhaven Village is where alpine air, good neighbors, and an outstanding natural setting share the same address.</p>
+ <div class="hero-actions">
+ <a href="#neighbors" class="btn btn-primary">
+ Resident Directory
+ <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9H15M15 9L10 4M15 9L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+ <div class="hero-stats">
+ <div><b>312</b>homes</div>
+ <div><b>1,400</b>acres of open space</div>
+</div>
+</div>
+</div>
+ <div class="divider">
+ <svg viewBox="0 0 1440 110" preserveAspectRatio="none"><path d="M0 110V70L210 28L420 64L640 14L860 58L1080 8L1260 50L1440 22V110H0Z" fill="#ffffff"/></svg>
+</div>
+</header>
+
+ <!-- THIS WEEK -->
+ <section class="week section-pad" id="week">
+ <div class="wrap">
+ <div class="section-head reveal">
+ <span class="eyebrow">Community Pulse</span>
+ <h2>This Week at Winterhaven Village</h2>
+ <p>What's happening across the village — events, projects, and the little things that make this a neighborhood.</p>
+</div>
+ <div class="week-grid">
+ <article class="news-card reveal">
+ <div class="news-img"><img src="https://picsum.photos/seed/cedarpool3/800/500" alt="Community pool" loading="lazy" /></div>
+ <div class="news-body">
+ <span class="tag">Amenities</span>
+ <h3>Pool resurfacing begins Monday</h3>
+ <span class="date">Closed approx. two weeks · Phase 1</span>
+</div>
+</article>
+ <article class="news-card reveal">
+ <div class="news-img"><img src="https://picsum.photos/seed/cedargarden9/800/500" alt="Native plant garden" loading="lazy" /></div>
+ <div class="news-body">
+ <span class="tag">Grounds</span>
+ <h3>New native plant garden at the north entrance</h3>
+ <span class="date">Planting volunteers welcome</span>
+</div>
+</article>
+ <article class="news-card reveal">
+ <div class="news-img"><img src="https://picsum.photos/seed/cedarpotluck5/800/500" alt="Summer potluck" loading="lazy" /></div>
+ <div class="news-body">
+ <span class="tag">Events</span>
+ <h3>Summer potluck — June 21, save the date</h3>
+ <span class="date">Ridge Pavilion · 5:00 PM</span>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+ <!-- LIGHTER SIDE -->
+ <div class="divider" style="background:var(--paper);"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 0L240 52L520 10L760 60L1010 16L1280 56L1440 24V90H0Z" fill="#1f3a31"/></svg></div>
+ <section class="lighter section-pad">
+ <div class="wrap">
+ <div class="lighter-grid">
+ <div class="reveal">
+ <span class="eyebrow">The Lighter Side</span>
+ <h2>Caption contest is open.</h2>
+ <p>The Hendersons' cat vs. the sprinkler system. We have photographic evidence. We need your wittiest caption.</p>
+ <span class="deadline">
+ <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M9 5V9L12 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+ Voting closes Friday
+</span>
+</div>
+ <div class="lighter-photo reveal">
+ <img src="https://picsum.photos/seed/cedarcat42/800/600" alt="A cat eyeing the sprinklers" loading="lazy" />
+ <span class="caption-badge">"Round two. I'm ready this time."</span>
+</div>
+</div>
+</div>
+</section>
+ <div class="divider" style="background:var(--white);"><svg viewBox="0 0 1440 90" preserveAspectRatio="none" style="transform:scaleY(-1)"><path d="M0 0L240 52L520 10L760 60L1010 16L1280 56L1440 24V90H0Z" fill="#1f3a31"/></svg></div>
+
+ <!-- BOARD + CCR -->
+ <section class="section-pad" id="board">
+ <div class="wrap">
+ <div class="split">
+ <div class="panel panel-board reveal">
+ <span class="eyebrow">Governance</span>
+ <h2>From the Board</h2>
+ <div class="board-item">
+ <div class="board-icon">
+ <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 3H15V17L10 14L5 17V3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</div>
+ <div>
+ <h4>May meeting minutes posted</h4>
+ <p>Full record from the May regular session is now available to all residents.</p>
+ <a href="#" class="board-link">Read the minutes
+ <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+</div>
+</div>
+ <div class="board-item">
+ <div class="board-icon">
+ <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 17L7 9L11 13L17 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+ <div>
+ <h4>Clubhouse facelift: bids under review</h4>
+ <p>Three contractor proposals are in. The board expects to select a partner by next session.</p>
+ <a href="#" class="board-link">Project details
+ <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+</div>
+</div>
+</div>
+
+ <div class="panel panel-ccr reveal" id="ccr">
+ <span class="eyebrow">CC&amp;R Corner</span>
+ <p style="color:rgba(255,255,255,0.6); font-size:0.92rem; font-weight:600; margin-top:6px;">Question of the Week</p>
+ <h3 class="ccr-q">Can I park my RV in my driveway overnight?</h3>
+ <div class="ccr-a">
+ Yes — up to 72 hours for active loading or unloading. Beyond that, recreational vehicles must be stored off-site or in an enclosed space.
+ <span class="sec">See section 4.3</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+ <!-- NEIGHBORS -->
+ <section class="neighbors section-pad" id="neighbors">
+ <div class="wrap">
+ <div class="section-head reveal" style="margin-left:auto;margin-right:auto;text-align:center;">
+ <span class="eyebrow">The Directory</span>
+ <h2>Meet Your Neighbors</h2>
+ <p>The faces — and pets — that make Winterhaven Village feel like home.</p>
+</div>
+ <div class="neighbor-grid">
+ <article class="neighbor-card reveal">
+ <div class="avatar-ring"><img src="https://i.pravatar.cc/300?img=32" alt="Margaret and Tom Ellis" loading="lazy" /></div>
+ <h3>Margaret &amp; Tom Ellis</h3>
+ <div class="role">Maple Court</div>
+ <p class="pet">Plus Biscuit, the resident corgi</p>
+</article>
+ <article class="neighbor-card reveal">
+ <div class="avatar-ring"><img src="https://i.pravatar.cc/300?img=12" alt="Robin Calloway" loading="lazy" /></div>
+ <h3>Robin Calloway</h3>
+ <div class="role">Summit Lane</div>
+ <p class="pet">Trail-run organizer &amp; sunrise hiker</p>
+</article>
+ <article class="neighbor-card reveal">
+ <div class="avatar-ring"><img src="https://i.pravatar.cc/300?img=56" alt="The Okafor Family" loading="lazy" /></div>
+ <h3>The Okafor Family</h3>
+ <div class="role">Spruce Hollow</div>
+ <p class="pet">And Mango, the (loud) parrot</p>
+</article>
+</div>
+ <div class="neighbors-foot reveal">
+ <a href="#" class="btn btn-outline">Browse the full directory
+ <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9H15M15 9L10 4M15 9L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+</div>
+</div>
+</section>
+
+ <!-- FOOTER -->
+ <footer>
+ <div class="divider"><svg viewBox="0 0 1440 70" preserveAspectRatio="none"><path d="M0 70V40L220 14L470 44L720 8L980 40L1230 12L1440 36V70H0Z" fill="#f6f7f8"/></svg></div>
+ <div class="wrap">
+ <div class="footer-top">
+ <div>
+ <div class="footer-brand">
+ <span class="brand-mark"><svg width="28" height="28" viewBox="0 0 30 30" fill="none"><path d="M3 24L11 9L16 17L20 11L27 24H3Z" fill="currentColor"/></svg></span>
+ Winterhaven Village
+</div>
+ <div class="footer-est">Winterhaven Village Homeowners Association · Est. 1987</div>
+</div>
+ <nav class="footer-nav">
+ <a href="#">Home</a>
+ <a href="#neighbors">Directory</a>
+ <a href="#board">Board</a>
+ <a href="#week">News</a>
+ <a href="#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+</div>
+ <div class="footer-bottom">
+ <span>© 2026 Winterhaven Village HOA. All rights reserved.</span>
+ <span>Life in the village, together.</span>
+</div>
+</div>
+</footer>
+
+ <script>
+ // understated reveal-on-scroll
+ const io = new IntersectionObserver((entries) => {
+ entries.forEach((e, i) => {
+ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+ });
+ }, { threshold: 0.15 });
+ document.querySelectorAll('.reveal').forEach((el, i) => {
+ el.style.transitionDelay = (i % 3) * 0.08 + 's';
+ io.observe(el);
+ });
+
+ // nav solidify on scroll
+ const nav = document.querySelector('.nav');
+ addEventListener('scroll', () => {
+ if (scrollY > 40) { nav.style.background = 'rgba(255,255,255,0.92)'; }
+ else { nav.style.background = 'rgba(255,255,255,0.72)'; }
+ });
+</script>
+</body>
+</html>

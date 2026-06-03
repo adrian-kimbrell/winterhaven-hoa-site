@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Margaret &amp; Tom Ellis · Winterhaven Village Directory · Tucson, Ariz.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Chivo:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Alfa+Slab+One&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --paper: #f4ecd6;
+ --paper-2: #ecdfbf;
+ --ink: #3a2b1c;
+ --ink-soft: #6b573c40;
+ --walnut: #7a5530;
+ --mustard: #d99f2b;
+ --mustard-deep: #b07c18;
+ --turq: #2c8f8a;
+ --turq-deep: #1d6360;
+ --brick: #b14a2f;
+ --brick-deep: #8a3420;
+ --cactus: #6b8f43;
+ --cactus-deep: #4d6b2d;
+ --rule: #8a6a3e;
+ --shadow: 0 2px 0 rgba(58,43,28,.12), 0 14px 28px -18px rgba(58,43,28,.55);
+ }
+
+ * { box-sizing: border-box; }
+ html { -webkit-text-size-adjust: 100%; }
+
+ body {
+ margin: 0;
+ background-color: var(--paper);
+ background-image:
+ radial-gradient(circle at 16% 10%, rgba(217,159,43,.07), transparent 40%),
+ radial-gradient(circle at 84% 80%, rgba(44,143,138,.07), transparent 44%),
+ url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+ color: var(--ink);
+ font-family: "Libre Caslon Text", Georgia, serif;
+ font-size: 18px;
+ line-height: 1.62;
+ }
+
+ .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+ a { color: inherit; }
+
+ .kicker {
+ font-family: "Chivo", sans-serif;
+ font-weight: 900;
+ text-transform: uppercase;
+ letter-spacing: .26em;
+ font-size: .72rem;
+ color: var(--brick);
+ }
+ .ornament { text-align: center; color: var(--rule); letter-spacing: .4em; font-size: 1.1rem; margin: 0; padding: 6px 0; }
+
+ /* ---------- Topbar / Masthead ---------- */
+ .topbar {
+ background: var(--ink);
+ color: var(--paper);
+ font-family: "Chivo", sans-serif;
+ font-weight: 700;
+ font-size: .68rem;
+ letter-spacing: .22em;
+ text-transform: uppercase;
+ }
+ .topbar .wrap {
+ display: flex; justify-content: space-between; align-items: center;
+ gap: 16px; padding-top: 9px; padding-bottom: 9px; flex-wrap: wrap;
+ }
+ .topbar span { white-space: nowrap; }
+ .topbar .dot { color: var(--mustard); }
+
+ .masthead { padding: 26px 0 8px; text-align: center; }
+ .masthead .est {
+ font-family: "Chivo", sans-serif; font-weight: 700; letter-spacing: .42em;
+ text-transform: uppercase; font-size: .66rem; color: var(--walnut); margin-bottom: 6px;
+ }
+ .masthead h1 {
+ font-family: "Abril Fatface", serif; font-weight: 400;
+ font-size: clamp(2.6rem, 8vw, 5.4rem);
+ line-height: .92; margin: 2px 0 4px; letter-spacing: -.01em;
+ color: var(--ink); text-shadow: 2px 2px 0 rgba(217,159,43,.28);
+ }
+ .masthead .sub { font-style: italic; font-size: 1.1rem; color: var(--walnut); }
+
+ /* ---------- Nav ---------- */
+ nav.mainnav { border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); margin-top: 8px; }
+ nav.mainnav .wrap { display: flex; justify-content: center; flex-wrap: wrap; padding: 0; }
+ nav.mainnav a {
+ font-family: "Chivo", sans-serif; font-weight: 700; text-transform: uppercase;
+ letter-spacing: .18em; font-size: .76rem; text-decoration: none; padding: 13px 20px;
+ transition: color .2s, background .2s;
+ }
+ nav.mainnav a + a { border-left: 1px solid var(--ink-soft); }
+ nav.mainnav a:hover { color: var(--paper); background: var(--brick); }
+ nav.mainnav a.active { background: var(--turq); color: var(--paper); }
+
+ /* ---------- Back affordance ---------- */
+ .backbar { margin: 26px 0 4px; }
+ .back {
+ font-family: "Chivo", sans-serif; font-weight: 900; text-transform: uppercase;
+ letter-spacing: .14em; font-size: .72rem; text-decoration: none; color: var(--turq-deep);
+ border-bottom: 1.5px solid var(--turq-deep); padding-bottom: 2px;
+ }
+ .back:hover { color: var(--brick); border-color: var(--brick); }
+
+ /* ---------- Profile header ---------- */
+ .phead {
+ margin: 18px 0 8px;
+ display: grid;
+ grid-template-columns: 1.25fr 1fr;
+ gap: 30px;
+ align-items: stretch;
+ }
+ .phead .id {
+ background: var(--paper-2);
+ border: 2px solid var(--ink);
+ box-shadow: 7px 7px 0 var(--mustard);
+ padding: 32px 34px 34px;
+ display: flex; flex-direction: column; justify-content: center;
+ position: relative;
+ }
+ .phead .stamp {
+ position: absolute; top: 18px; right: 22px;
+ font-family: "Chivo", sans-serif; font-weight: 900; font-size: .56rem;
+ letter-spacing: .12em; text-transform: uppercase;
+ color: var(--brick); border: 2px solid var(--brick); padding: 5px 9px;
+ transform: rotate(7deg); opacity: .82;
+ }
+ .phead h2 {
+ font-family: "Abril Fatface", serif; font-weight: 400;
+ font-size: clamp(2.1rem, 4.6vw, 3.2rem); line-height: 1; margin: 8px 0 8px;
+ }
+ .phead .addr {
+ font-family: "Chivo", sans-serif; font-weight: 700; text-transform: uppercase;
+ letter-spacing: .14em; font-size: .76rem; color: var(--turq-deep); margin: 0 0 18px;
+ }
+ .phead .contact { font-size: 1rem; margin: 0; }
+ .phead .contact a { color: var(--brick); text-underline-offset: 3px; }
+ .phead .contact .row { display: flex; gap: 10px; align-items: baseline; }
+ .phead .contact .lbl {
+ font-family: "Chivo", sans-serif; font-weight: 900; font-size: .58rem;
+ letter-spacing: .14em; text-transform: uppercase; color: var(--walnut); min-width: 64px;
+ }
+
+ /* portrait pair */
+ .portraits { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+ .pf {
+ background: #fffaf0; border: 1px solid #d8c79e; padding: 12px 12px 40px;
+ box-shadow: var(--shadow); position: relative;
+ }
+ .pf:nth-child(1) { transform: rotate(-1.4deg); }
+ .pf:nth-child(2) { transform: rotate(1.6deg); }
+ .pf img {
+ width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;
+ filter: sepia(.34) contrast(1.04) saturate(.9);
+ }
+ .pf figcaption {
+ position: absolute; left: 12px; right: 12px; bottom: 12px; text-align: center;
+ font-family: "Chivo", sans-serif; font-size: .68rem; font-weight: 700;
+ letter-spacing: .1em; text-transform: uppercase; color: var(--walnut);
+ }
+
+ /* ---------- Section header ---------- */
+ .sec { margin: 40px 0; }
+ .sec-head {
+ display: flex; align-items: baseline; gap: 16px;
+ border-bottom: 2px solid var(--ink); padding-bottom: 6px; margin-bottom: 22px;
+ }
+ .sec-head h3 {
+ font-family: "Abril Fatface", serif; font-weight: 400;
+ font-size: clamp(1.6rem, 3vw, 2.3rem); margin: 0; line-height: 1;
+ }
+ .sec-head .meta {
+ margin-left: auto; font-family: "Chivo", sans-serif; text-transform: uppercase;
+ letter-spacing: .2em; font-size: .62rem; font-weight: 700; color: var(--rule); white-space: nowrap;
+ }
+
+ /* ---------- Bio + home band ---------- */
+ .biorow { display: grid; grid-template-columns: 1fr 1.1fr; gap: 30px; align-items: start; }
+ .bio {
+ border: 3px double var(--ink); background: var(--paper-2);
+ padding: 28px 32px 30px; box-shadow: var(--shadow);
+ }
+ .bio .drop::first-letter {
+ font-family: "Abril Fatface", serif; float: left; font-size: 3.6rem;
+ line-height: .82; padding: 6px 10px 0 0; color: var(--brick);
+ }
+ .bio p { margin: 0; font-size: 1.06rem; }
+ .home-photo {
+ background: #fffaf0; border: 1px solid #d8c79e; padding: 14px 14px 52px;
+ box-shadow: var(--shadow); transform: rotate(.8deg); position: relative;
+ }
+ .home-photo img {
+ width: 100%; display: block; aspect-ratio: 3/2; object-fit: cover;
+ filter: sepia(.36) contrast(1.05) saturate(.92) hue-rotate(-6deg);
+ }
+ .home-photo figcaption {
+ position: absolute; left: 18px; right: 18px; bottom: 14px;
+ font-family: "Chivo", sans-serif; font-size: .72rem; font-style: italic;
+ letter-spacing: .04em; color: var(--walnut);
+ }
+ .home-photo .postmark {
+ position: absolute; top: -20px; right: -16px; width: 92px; height: 92px;
+ border: 2px solid var(--brick); border-radius: 50%; color: var(--brick);
+ transform: rotate(-9deg); display: grid; place-content: center; text-align: center;
+ font-family: "Chivo", sans-serif; font-weight: 900; text-transform: uppercase;
+ font-size: .5rem; letter-spacing: .1em; line-height: 1.5; opacity: .85; mix-blend-mode: multiply;
+ background: repeating-radial-gradient(circle, transparent 0 6px, rgba(177,74,47,.08) 6px 7px);
+ }
+ .home-photo .postmark span { display: block; }
+ .home-photo .postmark .big { font-size: .95rem; }
+
+ /* ---------- Pets ---------- */
+ .pets { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+ .pet {
+ background: #fffaf0; border: 1px solid #d8c79e; padding: 14px 14px 22px;
+ box-shadow: var(--shadow); text-align: center;
+ }
+ .pet:nth-child(1) { transform: rotate(-.8deg); }
+ .pet:nth-child(2) { transform: rotate(.7deg); }
+ .pet img {
+ width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block;
+ filter: sepia(.32) contrast(1.04) saturate(.92);
+ }
+ .pet .name { font-family: "Libre Caslon Text", serif; font-weight: 700; font-size: 1.22rem; margin: 16px 0 4px; }
+ .pet .breed {
+ font-family: "Chivo", sans-serif; font-size: .72rem; text-transform: uppercase;
+ letter-spacing: .12em; color: var(--turq-deep); font-weight: 700;
+ }
+
+ /* ---------- opt-in note ---------- */
+ .optin {
+ margin: 36px 0 10px; text-align: center;
+ font-style: italic; color: var(--walnut); font-size: 1.02rem;
+ border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
+ padding: 16px 0;
+ }
+ .optin span {
+ font-style: normal; font-family: "Chivo", sans-serif; font-weight: 900;
+ text-transform: uppercase; letter-spacing: .12em; font-size: .6rem; color: var(--turq-deep);
+ display: block; margin-bottom: 4px;
+ }
+
+ /* ---------- Footer ---------- */
+ footer { margin-top: 48px; background: var(--ink); color: var(--paper); padding: 36px 0 40px; text-align: center; }
+ footer .brand { font-family: "Abril Fatface", serif; font-size: 1.8rem; margin: 0 0 4px; }
+ footer .est {
+ font-family: "Chivo", sans-serif; text-transform: uppercase; letter-spacing: .3em;
+ font-size: .66rem; color: var(--mustard); margin-bottom: 18px;
+ }
+ footer nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 4px; }
+ footer nav a {
+ font-family: "Chivo", sans-serif; text-transform: uppercase; letter-spacing: .14em;
+ font-size: .72rem; font-weight: 700; text-decoration: none; padding: 6px 14px;
+ border: 1px solid rgba(244,236,214,.3); transition: background .2s, color .2s;
+ }
+ footer nav a:hover { background: var(--mustard); color: var(--ink); border-color: var(--mustard); }
+ footer .colophon { margin-top: 22px; font-size: .8rem; font-style: italic; color: rgba(244,236,214,.55); }
+
+ /* ---------- Responsive ---------- */
+ @media (max-width: 900px) {
+ .phead { grid-template-columns: 1fr; }
+ .biorow { grid-template-columns: 1fr; }
+ .home-photo { transform: rotate(0); }
+ }
+ @media (max-width: 760px) {
+ body { font-size: 17px; }
+ .pets { grid-template-columns: 1fr; }
+ .pet { transform: rotate(0) !important; }
+ .pf { transform: rotate(0) !important; }
+ .sec-head { flex-wrap: wrap; }
+ .sec-head .meta { margin-left: 0; flex-basis: 100%; }
+ }
+</style>
+</head>
+<body>
+
+ <!-- Top bar -->
+ <div class="topbar">
+ <div class="wrap">
+ <span>Vol. 39 <span class="dot">·</span> No. 23</span>
+ <span>Resident Directory · Opt-In Listing</span>
+ <span>Tucson, Ariz.</span>
+</div>
+</div>
+
+ <!-- Masthead -->
+ <header class="wrap masthead">
+ <div class="est">From the Winterhaven Village Directory</div>
+ <h1>Margaret &amp; Tom Ellis</h1>
+ <div class="sub">Residents of Ocotillo Court since 1994.</div>
+</header>
+
+ <!-- Nav -->
+ <nav class="mainnav">
+ <div class="wrap">
+ <a href="11-vintage-bulletin.html">Home</a>
+ <a class="active" href="#">Directory</a>
+ <a href="#">Board</a>
+ <a href="#">News</a>
+ <a href="#">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</div>
+</nav>
+
+ <main class="wrap">
+
+ <div class="backbar">
+ <a class="back" href="11-vintage-bulletin.html">← Back to Directory</a>
+</div>
+
+ <!-- Profile header -->
+ <section class="phead">
+ <div class="id">
+ <span class="stamp">Resident · Est. 1994</span>
+ <span class="kicker">Directory Listing</span>
+ <h2>Margaret &amp; Tom Ellis</h2>
+ <p class="addr">12 Ocotillo Court · Residents since 1994</p>
+ <p class="contact">
+ <span class="row"><span class="lbl">Phone</span><a href="tel:+15550123847">(555) 012-3847</a></span>
+ <span class="row"><span class="lbl">Email</span><a href="mailto:m.ellis@example.com">m.ellis@example.com</a></span>
+</p>
+</div>
+ <div class="portraits">
+ <figure class="pf">
+ <img src="https://i.pravatar.cc/400?img=32" alt="Portrait of Margaret Ellis" />
+ <figcaption>Margaret</figcaption>
+</figure>
+ <figure class="pf">
+ <img src="https://i.pravatar.cc/400?img=11" alt="Portrait of Tom Ellis" />
+ <figcaption>Tom</figcaption>
+</figure>
+</div>
+</section>
+
+ <p class="ornament">❦ ※ ❦ ※ ❦</p>
+
+ <!-- Bio + home -->
+ <section class="sec">
+ <div class="sec-head">
+ <h3>About the Ellises</h3>
+ <span class="meta">Neighbor Profile</span>
+</div>
+ <div class="biorow">
+ <article class="bio">
+ <p class="drop">Margaret taught third grade for thirty years and now runs the village book club with the same gentle authority. Tom, a retired civil engineer, spends his mornings on the loop trail before the heat sets in, photographing whatever the desert offers up. Their courtyard garden — penstemon, agave, and one stubborn rosebush — wins the spring garden walk more years than not, and they host the first porch gathering of every monsoon season.</p>
+</article>
+ <figure class="home-photo">
+ <span class="postmark"><span>Ocotillo Ct.</span><span class="big"></span><span>Tucson</span></span>
+ <img src="img/house.jpg" alt="The Ellis home on Ocotillo Court — adobe walls and a desert courtyard garden" />
+ <figcaption>The Ellis home on Ocotillo Court — adobe walls, agave, and that one stubborn rosebush.</figcaption>
+</figure>
+</div>
+</section>
+
+ <p class="ornament">※ ❧ ※</p>
+
+ <!-- Pets -->
+ <section class="sec">
+ <div class="sec-head">
+ <h3>The Household Menagerie</h3>
+ <span class="meta">Pets in Residence</span>
+</div>
+ <div class="pets">
+ <figure class="pet">
+ <img src="https://placedog.net/600/450?id=12" alt="Biscuit the Pembroke Welsh Corgi" />
+ <div class="name">Biscuit</div>
+ <div class="breed">Pembroke Welsh Corgi</div>
+</figure>
+ <figure class="pet">
+ <img src="https://placecats.com/400/300" alt="Clementine the tabby cat" />
+ <div class="name">Clementine</div>
+ <div class="breed">Tabby Cat</div>
+</figure>
+</div>
+</section>
+
+ <!-- Opt-in note -->
+ <p class="optin">
+ <span>A Note on Privacy</span>
+ Directory listings are opt-in. Residents choose what to share.
+</p>
+
+ <div class="backbar" style="margin: 28px 0 8px;">
+ <a class="back" href="11-vintage-bulletin.html">← Back to Directory</a>
+</div>
+
+</main>
+
+ <!-- Footer -->
+ <footer>
+ <p class="brand">Winterhaven Village</p>
+ <div class="est">Homeowners Association · Tucson, Arizona · Est. 1987</div>
+ <nav>
+ <a href="11-vintage-bulletin.html">Home</a>
+ <a href="#">Directory</a>
+ <a href="#">Board</a>
+ <a href="#">News</a>
+ <a href="#">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+ <p class="colophon">Printed with care for the residents of the village ※ Tucson, Ariz. ※ Vol. 39 · No. 23</p>
+</footer>
+
+</body>
+</html>

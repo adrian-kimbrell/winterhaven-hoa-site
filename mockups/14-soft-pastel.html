@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Winterhaven Village — Life in the village, together.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+<style>
+ :root{
+ --powder:#cfe4f4;
+ --powder-deep:#aacdec;
+ --blush:#f7dce4;
+ --blush-deep:#f0bcca;
+ --lavender:#e4ddf3;
+ --lavender-deep:#c9bdec;
+ --mint:#d5efe2;
+ --mint-deep:#aadcc4;
+ --cream:#fbfaf6;
+ --warm-white:#fffdf9;
+ --ink:#43414f;
+ --ink-soft:#6d6a7c;
+ --ink-faint:#9a98a8;
+ --rose-accent:#e08aa0;
+ --blue-accent:#6fa6d4;
+ --shadow-soft:0 18px 40px -18px rgba(94,104,140,.32);
+ --shadow-card:0 14px 34px -16px rgba(94,104,140,.30);
+ --radius-lg:32px;
+ --radius-md:22px;
+ --radius-sm:14px;
+ --maxw:1180px;
+ }
+
+ *{box-sizing:border-box;}
+ html{scroll-behavior:smooth;}
+ body{
+ margin:0;
+ font-family:"DM Sans",system-ui,sans-serif;
+ color:var(--ink);
+ background:var(--warm-white);
+ line-height:1.65;
+ -webkit-font-smoothing:antialiased;
+ font-size:17px;
+ }
+ h1,h2,h3{font-family:"DM Serif Display",Georgia,serif;font-weight:400;line-height:1.12;letter-spacing:.2px;margin:0;color:var(--ink);}
+ p{margin:0;}
+ a{color:inherit;text-decoration:none;}
+ img{display:block;max-width:100%;}
+
+ .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+
+ /* ---------- squiggle underline ---------- */
+ .squiggle{position:relative;display:inline-block;}
+ .squiggle svg{
+ position:absolute;left:-2%;bottom:-14px;width:104%;height:14px;overflow:visible;
+ pointer-events:none;
+ }
+ .squiggle svg path{
+ fill:none;stroke-width:4;stroke-linecap:round;
+ stroke-dasharray:600;stroke-dashoffset:600;
+ animation:draw 1.6s ease forwards;
+ }
+ @keyframes draw{to{stroke-dashoffset:0;}}
+
+ /* ---------- pill tag ---------- */
+ .tag{
+ display:inline-flex;align-items:center;gap:7px;
+ font-size:.74rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+ padding:7px 16px;border-radius:999px;color:var(--ink);
+ background:#fff;border:1.5px solid rgba(255,255,255,.7);
+ box-shadow:0 6px 16px -10px rgba(94,104,140,.5);
+ }
+ .tag .dot{width:8px;height:8px;border-radius:50%;}
+
+ /* ---------- buttons ---------- */
+ .btn{
+ display:inline-flex;align-items:center;gap:11px;
+ font-family:"DM Sans",sans-serif;font-weight:600;font-size:1rem;
+ padding:16px 30px;border-radius:999px;border:none;cursor:pointer;
+ background:linear-gradient(135deg,var(--rose-accent),#e7a9b9);
+ color:#fff;box-shadow:0 16px 30px -12px rgba(224,138,160,.7);
+ transition:transform .25s cubic-bezier(.2,.8,.3,1),box-shadow .25s ease;
+ }
+ .btn:hover{transform:translateY(-3px);box-shadow:0 22px 38px -12px rgba(224,138,160,.8);}
+ .btn .arrow{transition:transform .25s ease;}
+ .btn:hover .arrow{transform:translateX(4px);}
+ .btn-ghost{
+ background:#fff;color:var(--ink);font-weight:600;
+ box-shadow:0 10px 24px -14px rgba(94,104,140,.5);
+ border:1.5px solid var(--lavender);
+ }
+ .btn-ghost:hover{transform:translateY(-3px);box-shadow:0 16px 30px -14px rgba(94,104,140,.6);}
+
+ /* ---------- nav ---------- */
+ header.site{position:sticky;top:0;z-index:50;}
+ .nav-inner{
+ margin:14px auto 0;max-width:var(--maxw);
+ display:flex;align-items:center;justify-content:space-between;
+ padding:13px 22px;border-radius:999px;
+ background:rgba(255,253,249,.82);backdrop-filter:blur(14px);
+ border:1.5px solid rgba(255,255,255,.9);
+ box-shadow:0 12px 30px -18px rgba(94,104,140,.55);
+ }
+ .brand{display:flex;align-items:center;gap:13px;}
+ .brand .mark{
+ width:42px;height:42px;border-radius:50%;flex:none;
+ background:conic-gradient(from 200deg,var(--powder),var(--blush),var(--lavender),var(--mint),var(--powder));
+ display:grid;place-items:center;box-shadow:inset 0 0 0 4px rgba(255,255,255,.7);
+ }
+ .brand .mark span{font-family:"DM Serif Display",serif;font-size:1.2rem;color:var(--ink);}
+ .brand b{font-family:"DM Serif Display",serif;font-weight:400;font-size:1.32rem;}
+ .brand small{display:block;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-top:-2px;}
+ nav.links{display:flex;align-items:center;gap:4px;}
+ nav.links a{
+ font-size:.95rem;font-weight:500;color:var(--ink-soft);
+ padding:9px 15px;border-radius:999px;transition:background .2s,color .2s;position:relative;
+ }
+ nav.links a:hover{background:var(--lavender);color:var(--ink);}
+ .menu-btn{display:none;border:none;background:#fff;width:46px;height:46px;border-radius:50%;cursor:pointer;box-shadow:var(--shadow-card);}
+ .menu-btn span,.menu-btn span::before,.menu-btn span::after{
+ content:"";display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;margin:0 auto;position:relative;
+ }
+ .menu-btn span::before{position:absolute;top:-6px;}
+ .menu-btn span::after{position:absolute;top:6px;}
+
+ /* ---------- hero ---------- */
+ .hero{position:relative;padding:38px 0 80px;overflow:hidden;}
+ .hero::before{
+ content:"";position:absolute;inset:0;z-index:-1;
+ background:
+ radial-gradient(50% 40% at 12% 8%,var(--blush) 0%,transparent 60%),
+ radial-gradient(46% 42% at 90% 18%,var(--powder) 0%,transparent 62%),
+ radial-gradient(60% 55% at 70% 95%,var(--mint) 0%,transparent 60%),
+ radial-gradient(50% 50% at 25% 92%,var(--lavender) 0%,transparent 60%),
+ var(--warm-white);
+ }
+ .hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:54px;align-items:center;margin-top:34px;}
+ .hero-copy .eyebrow{margin-bottom:22px;}
+ .hero h1{font-size:clamp(2.9rem,6vw,4.6rem);}
+ .hero h1 em{font-style:italic;color:var(--rose-accent);}
+ .hero .lede{font-size:1.18rem;color:var(--ink-soft);margin:28px 0 34px;max-width:30ch;}
+ .hero-cta{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+ .hero-photo{position:relative;}
+ .hero-photo img{
+ width:100%;height:520px;object-fit:cover;border-radius:var(--radius-lg);
+ box-shadow:var(--shadow-soft);
+ }
+ .hero-photo .frame{
+ position:absolute;inset:-12px;border-radius:42px;z-index:-1;
+ background:linear-gradient(135deg,var(--powder),var(--blush));
+ transform:rotate(-1.6deg);box-shadow:var(--shadow-card);
+ }
+ .hero-photo .badge{
+ position:absolute;bottom:-24px;left:-24px;background:#fff;
+ padding:16px 22px;border-radius:var(--radius-md);box-shadow:var(--shadow-card);
+ display:flex;align-items:center;gap:14px;
+ }
+ .hero-photo .badge .ring{
+ width:46px;height:46px;border-radius:50%;flex:none;
+ background:radial-gradient(circle at 35% 30%,var(--mint),var(--mint-deep));
+ display:grid;place-items:center;font-size:1.3rem;
+ }
+ .hero-photo .badge b{font-family:"DM Serif Display",serif;font-weight:400;font-size:1.15rem;display:block;}
+ .hero-photo .badge small{color:var(--ink-faint);font-size:.82rem;}
+
+ /* ---------- section scaffolding ---------- */
+ section{padding:84px 0;position:relative;}
+ .band-blush{background:linear-gradient(180deg,#fff6f8,#fdeef2);}
+ .band-powder{background:linear-gradient(180deg,#f1f8fd,#e9f3fb);}
+ .band-mint{background:linear-gradient(180deg,#f1faf5,#e7f5ee);}
+ .band-lavender{background:linear-gradient(180deg,#f6f3fc,#efeafa);}
+ .sec-head{max-width:640px;margin-bottom:46px;}
+ .sec-head.center{margin-left:auto;margin-right:auto;text-align:center;}
+ .sec-head .tag{margin-bottom:20px;}
+ .sec-head h2{font-size:clamp(2.1rem,4vw,3rem);}
+ .sec-head p{color:var(--ink-soft);margin-top:18px;font-size:1.08rem;}
+
+ /* wavy divider */
+ .wave{display:block;width:100%;height:46px;}
+
+ /* ---------- news cards ---------- */
+ .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+ .card{
+ background:#fff;border-radius:var(--radius-md);overflow:hidden;
+ box-shadow:var(--shadow-card);border:1.5px solid rgba(255,255,255,.9);
+ transition:transform .3s cubic-bezier(.2,.8,.3,1),box-shadow .3s ease;
+ display:flex;flex-direction:column;
+ }
+ .card:hover{transform:translateY(-8px);box-shadow:0 26px 48px -20px rgba(94,104,140,.42);}
+ .card .pic{height:180px;overflow:hidden;}
+ .card .pic img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+ .card:hover .pic img{transform:scale(1.06);}
+ .card .body{padding:24px 24px 28px;display:flex;flex-direction:column;gap:14px;flex:1;}
+ .card .when{font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--rose-accent);}
+ .card h3{font-size:1.42rem;}
+ .card .more{margin-top:auto;font-weight:600;font-size:.95rem;color:var(--blue-accent);display:inline-flex;gap:7px;align-items:center;}
+ .card .more .arrow{transition:transform .25s;}
+ .card:hover .more .arrow{transform:translateX(4px);}
+
+ /* ---------- lighter side ---------- */
+ .lighter{
+ display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;
+ background:#fff;border-radius:var(--radius-lg);padding:48px;
+ box-shadow:var(--shadow-soft);border:1.5px solid rgba(255,255,255,.9);position:relative;overflow:hidden;
+ }
+ .lighter::after{
+ content:"";position:absolute;width:280px;height:280px;border-radius:50%;
+ right:-90px;top:-90px;background:radial-gradient(circle,var(--blush),transparent 70%);opacity:.7;
+ }
+ .lighter .emoji{font-size:3rem;line-height:1;margin-bottom:10px;}
+ .lighter h2{font-size:clamp(1.9rem,3.4vw,2.6rem);position:relative;z-index:1;}
+ .lighter p{color:var(--ink-soft);font-size:1.18rem;margin:22px 0 28px;position:relative;z-index:1;max-width:42ch;}
+ .lighter .cat-card{
+ position:relative;z-index:1;border-radius:var(--radius-md);overflow:hidden;
+ box-shadow:var(--shadow-card);transform:rotate(1.5deg);
+ }
+ .lighter .cat-card img{width:100%;height:300px;object-fit:cover;}
+ .lighter .cat-card .vote{
+ position:absolute;bottom:14px;left:14px;background:rgba(255,253,249,.92);backdrop-filter:blur(6px);
+ padding:9px 16px;border-radius:999px;font-weight:600;font-size:.86rem;display:flex;align-items:center;gap:8px;
+ }
+
+ /* ---------- from the board ---------- */
+ .board-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+ .board-card{
+ background:#fff;border-radius:var(--radius-md);padding:34px;
+ box-shadow:var(--shadow-card);border:1.5px solid rgba(255,255,255,.9);
+ display:flex;flex-direction:column;gap:16px;transition:transform .3s,box-shadow .3s;
+ }
+ .board-card:hover{transform:translateY(-6px);box-shadow:0 24px 44px -20px rgba(94,104,140,.4);}
+ .board-card .ico{
+ width:56px;height:56px;border-radius:18px;display:grid;place-items:center;font-size:1.6rem;
+ }
+ .board-card.a .ico{background:var(--powder);}
+ .board-card.b .ico{background:var(--mint);}
+ .board-card h3{font-size:1.5rem;}
+ .board-card p{color:var(--ink-soft);}
+ .board-card .link{font-weight:600;color:var(--rose-accent);display:inline-flex;gap:7px;align-items:center;margin-top:4px;}
+ .board-card .link .arrow{transition:transform .25s;}
+ .board-card:hover .link .arrow{transform:translateX(4px);}
+ .status-pill{align-self:flex-start;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 13px;border-radius:999px;background:var(--lavender);color:var(--ink);}
+
+ /* ---------- CC&R corner ---------- */
+ .ccr{
+ max-width:820px;margin:0 auto;background:#fff;border-radius:var(--radius-lg);
+ padding:52px 56px;box-shadow:var(--shadow-soft);border:1.5px solid rgba(255,255,255,.9);position:relative;
+ }
+ .ccr .qa{display:flex;gap:22px;align-items:flex-start;}
+ .ccr .qa+.qa{margin-top:30px;padding-top:30px;border-top:2px dashed var(--lavender);}
+ .ccr .bubble{
+ flex:none;width:48px;height:48px;border-radius:16px;display:grid;place-items:center;
+ font-family:"DM Serif Display",serif;font-size:1.5rem;color:#fff;
+ }
+ .ccr .bubble.q{background:linear-gradient(135deg,var(--blue-accent),var(--powder-deep));}
+ .ccr .bubble.a{background:linear-gradient(135deg,var(--rose-accent),var(--blush-deep));}
+ .ccr .qa h3{font-size:1.45rem;margin-bottom:6px;}
+ .ccr .qa p{color:var(--ink-soft);font-size:1.1rem;}
+ .ccr .qa .ref{font-size:.9rem;color:var(--ink-faint);font-weight:600;margin-top:6px;}
+
+ /* ---------- neighbors ---------- */
+ .neighbors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+ .person{
+ background:#fff;border-radius:var(--radius-md);padding:34px 30px;text-align:center;
+ box-shadow:var(--shadow-card);border:1.5px solid rgba(255,255,255,.9);position:relative;overflow:hidden;
+ transition:transform .3s,box-shadow .3s;
+ }
+ .person::before{content:"";position:absolute;top:0;left:0;right:0;height:78px;}
+ .person.p1::before{background:linear-gradient(180deg,var(--blush),transparent);}
+ .person.p2::before{background:linear-gradient(180deg,var(--powder),transparent);}
+ .person.p3::before{background:linear-gradient(180deg,var(--mint),transparent);}
+ .person:hover{transform:translateY(-8px);box-shadow:0 26px 48px -20px rgba(94,104,140,.42);}
+ .person .avatar{
+ width:108px;height:108px;border-radius:50%;object-fit:cover;margin:0 auto 18px;position:relative;z-index:1;
+ border:5px solid #fff;box-shadow:var(--shadow-card);
+ }
+ .person h3{font-size:1.4rem;}
+ .person .pet{font-size:.92rem;color:var(--ink-soft);margin-top:6px;}
+ .person .pet-tag{
+ display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:.78rem;font-weight:600;
+ padding:6px 14px;border-radius:999px;background:var(--cream);color:var(--ink-soft);border:1.5px solid var(--lavender);
+ }
+ .neighbors-cta{text-align:center;margin-top:48px;}
+
+ /* ---------- footer ---------- */
+ footer{background:linear-gradient(180deg,#eef2f9,#e6ecf6);padding:70px 0 38px;color:var(--ink-soft);}
+ .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;align-items:flex-start;padding-bottom:38px;border-bottom:2px dashed rgba(150,150,180,.35);}
+ .foot-brand{max-width:300px;}
+ .foot-brand .brand{margin-bottom:16px;}
+ .foot-brand p{font-size:.98rem;}
+ .foot-links{display:flex;gap:48px;flex-wrap:wrap;}
+ .foot-col h4{font-family:"DM Sans",sans-serif;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);font-weight:700;margin-bottom:14px;}
+ .foot-col a{display:block;padding:5px 0;font-size:.98rem;transition:color .2s,transform .2s;}
+ .foot-col a:hover{color:var(--rose-accent);transform:translateX(3px);}
+ .foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:28px;font-size:.9rem;color:var(--ink-faint);}
+ .foot-bottom .hearts{display:flex;gap:6px;}
+ .foot-bottom .hearts span{width:11px;height:11px;border-radius:50%;}
+
+ /* ---------- responsive ---------- */
+ @media (max-width:900px){
+ nav.links{display:none;}
+ .menu-btn{display:grid;place-items:center;}
+ .hero-grid{grid-template-columns:1fr;gap:60px;}
+ .hero-photo img{height:420px;}
+ .news-grid,.neighbors-grid{grid-template-columns:1fr;}
+ .lighter,.board-grid{grid-template-columns:1fr;}
+ .lighter{padding:34px;}
+ .ccr{padding:38px 28px;}
+ }
+ @media (max-width:560px){
+ body{font-size:16px;}
+ .wrap{padding:0 18px;}
+ section{padding:64px 0;}
+ .hero-photo .badge{left:50%;transform:translateX(-50%);bottom:-28px;}
+ .ccr .qa{flex-direction:column;gap:14px;}
+ }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="site">
+ <div class="wrap">
+ <div class="nav-inner">
+ <a class="brand" href="#top">
+ <span class="mark"><span>CR</span></span>
+ <span><b>Winterhaven Village</b><small>Homeowners Assoc.</small></span>
+</a>
+ <nav class="links">
+ <a href="#top">Home</a>
+ <a href="#neighbors">Directory</a>
+ <a href="#board">Board</a>
+ <a href="#news">News</a>
+ <a href="#ccr">CC&amp;Rs</a>
+ <a href="#community">Community Board</a>
+</nav>
+ <button class="menu-btn" aria-label="Open menu"><span></span></button>
+</div>
+</div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top" style="padding-top:34px;">
+ <div class="wrap">
+ <div class="hero-grid">
+ <div class="hero-copy">
+ <span class="tag eyebrow"><span class="dot" style="background:var(--rose-accent)"></span> A hillside neighborhood since 1987</span>
+ <h1>Life in the village, <em class="squiggle">together.
+ <svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M2 8 C 40 2, 70 12, 110 6 S 190 2, 230 9 S 290 4, 298 7" stroke="var(--rose-accent)"/></svg>
+</em></h1>
+ <p class="lede">Welcome to Winterhaven Village — a warm little community tucked into the hills, with neighbors who wave, gardens that bloom, and a view worth slowing down for.</p>
+ <div class="hero-cta">
+ <a class="btn" href="#neighbors">Resident Directory <span class="arrow">&rarr;</span></a>
+ <a class="btn btn-ghost" href="#news">See what's new</a>
+</div>
+</div>
+ <div class="hero-photo">
+ <div class="frame"></div>
+ <img src="https://picsum.photos/seed/cedarridge1/1600/900" alt="Sunlit hillside view over Winterhaven Village" />
+ <div class="badge">
+ <span class="ring">&#9728;&#65039;</span>
+ <span><b>72&deg; &amp; clear</b><small>A lovely week in the village</small></span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<svg class="wave" viewBox="0 0 1440 46" preserveAspectRatio="none" style="background:var(--warm-white);"><path d="M0,30 C240,8 480,8 720,26 C960,44 1200,44 1440,22 L1440,46 L0,46 Z" fill="#fdeef2"/></svg>
+
+<!-- ============ NEWS ============ -->
+<section class="band-blush" id="news">
+ <div class="wrap">
+ <div class="sec-head">
+ <span class="tag"><span class="dot" style="background:var(--blush-deep)"></span> The week ahead</span>
+ <h2 class="squiggle">This Week at Winterhaven Village
+ <svg viewBox="0 0 420 14" preserveAspectRatio="none"><path d="M2 8 C 60 3, 110 12, 170 6 S 290 2, 350 9 S 410 5, 418 7" stroke="var(--blush-deep)"/></svg>
+</h2>
+ <p>Little updates, friendly reminders, and the things worth marking on your calendar.</p>
+</div>
+ <div class="news-grid">
+ <article class="card">
+ <div class="pic"><img src="https://picsum.photos/seed/pool42/800/600" alt="Community pool" loading="lazy" /></div>
+ <div class="body">
+ <span class="when">Starts Monday</span>
+ <h3>Pool resurfacing begins Monday</h3>
+ <p>The pool will be closed for a fresh, sparkling finish. We'll share a reopening date as soon as it cures.</p>
+ <a class="more" href="#news">Read more <span class="arrow">&rarr;</span></a>
+</div>
+</article>
+ <article class="card">
+ <div class="pic"><img src="https://picsum.photos/seed/garden88/800/600" alt="Native plant garden" loading="lazy" /></div>
+ <div class="body">
+ <span class="when">Now blooming</span>
+ <h3>New native plant garden at the north entrance</h3>
+ <p>Drought-friendly natives are now in the ground — pollinators and walkers alike are already approving.</p>
+ <a class="more" href="#news">Read more <span class="arrow">&rarr;</span></a>
+</div>
+</article>
+ <article class="card">
+ <div class="pic"><img src="https://picsum.photos/seed/potluck15/800/600" alt="Community potluck table" loading="lazy" /></div>
+ <div class="body">
+ <span class="when">June 21</span>
+ <h3>Summer potluck — save the date</h3>
+ <p>Bring a dish to share and a chair to sit a while. Lemonade, lawn games, and good company on the green.</p>
+ <a class="more" href="#community">Save the date <span class="arrow">&rarr;</span></a>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<!-- ============ LIGHTER SIDE ============ -->
+<section class="band-powder" id="community">
+ <div class="wrap">
+ <div class="lighter">
+ <div>
+ <div class="emoji">&#128049;&#128166;</div>
+ <span class="tag" style="margin-bottom:18px;"><span class="dot" style="background:var(--blue-accent)"></span> The Lighter Side</span>
+ <h2>Caption contest is on!</h2>
+ <p>The Hendersons' cat vs. the sprinkler system — a rivalry for the ages. Submit your funniest caption and let the village decide.</p>
+ <a class="btn" href="#community">Cast your vote <span class="arrow">&rarr;</span></a>
+</div>
+ <div class="cat-card">
+ <img src="https://picsum.photos/seed/sprinklercat/800/700" alt="A cat eyeing a garden sprinkler" loading="lazy" />
+ <div class="vote">&#128499;&#65039; Voting closes Friday</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ FROM THE BOARD ============ -->
+<section class="band-mint" id="board">
+ <div class="wrap">
+ <div class="sec-head center">
+ <span class="tag"><span class="dot" style="background:var(--mint-deep)"></span> Keeping you in the loop</span>
+ <h2 class="squiggle">From the Board
+ <svg viewBox="0 0 240 14" preserveAspectRatio="none"><path d="M2 8 C 40 3, 70 12, 110 6 S 180 2, 230 9" stroke="var(--mint-deep)"/></svg>
+</h2>
+ <p>Transparent, neighborly, and always a phone call away.</p>
+</div>
+ <div class="board-grid">
+ <article class="board-card a">
+ <span class="ico">&#128221;</span>
+ <span class="status-pill">Posted</span>
+ <h3>May meeting minutes</h3>
+ <p>The notes from May's board meeting are posted and ready to read — including budget notes and landscaping votes.</p>
+ <a class="link" href="#board">View the May minutes <span class="arrow">&rarr;</span></a>
+</article>
+ <article class="board-card b">
+ <span class="ico">&#127959;&#65039;</span>
+ <span class="status-pill" style="background:var(--blush);">In progress</span>
+ <h3>Clubhouse facelift</h3>
+ <p>We're freshening up the gathering space everyone loves. Contractor bids are in and currently under review.</p>
+ <a class="link" href="#board">Follow the project <span class="arrow">&rarr;</span></a>
+</article>
+</div>
+</div>
+</section>
+
+<!-- ============ CC&R CORNER ============ -->
+<section class="band-lavender" id="ccr">
+ <div class="wrap">
+ <div class="sec-head center">
+ <span class="tag"><span class="dot" style="background:var(--lavender-deep)"></span> CC&amp;R Corner</span>
+ <h2 class="squiggle">Question of the Week
+ <svg viewBox="0 0 360 14" preserveAspectRatio="none"><path d="M2 8 C 60 3, 110 12, 170 6 S 290 2, 358 9" stroke="var(--lavender-deep)"/></svg>
+</h2>
+ <p>Friendly answers to the things neighbors actually ask.</p>
+</div>
+ <div class="ccr">
+ <div class="qa">
+ <span class="bubble q">Q</span>
+ <div>
+ <h3>Can I park my RV in my driveway overnight?</h3>
+ <p>A common one — especially around long weekends and road trips.</p>
+</div>
+</div>
+ <div class="qa">
+ <span class="bubble a">A</span>
+ <div>
+ <h3>Yes — up to 72 hours.</h3>
+ <p>Overnight parking is just fine for loading and unloading, up to 72 hours at a time.</p>
+ <p class="ref">See CC&amp;Rs, section 4.3</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ NEIGHBORS ============ -->
+<section class="band-blush" id="neighbors">
+ <div class="wrap">
+ <div class="sec-head center">
+ <span class="tag"><span class="dot" style="background:var(--rose-accent)"></span> Say hello</span>
+ <h2 class="squiggle">Meet Your Neighbors
+ <svg viewBox="0 0 380 14" preserveAspectRatio="none"><path d="M2 8 C 60 3, 120 12, 180 6 S 300 2, 378 9" stroke="var(--rose-accent)"/></svg>
+</h2>
+ <p>A few of the friendly faces you'll find around the village — and a couple of four-legged ones, too.</p>
+</div>
+ <div class="neighbors-grid">
+ <article class="person p1">
+ <img class="avatar" src="https://i.pravatar.cc/300?img=32" alt="Margaret and Tom Ellis" loading="lazy" />
+ <h3>Margaret &amp; Tom Ellis</h3>
+ <p class="pet">Lakeview Court</p>
+ <span class="pet-tag">&#128021; with Biscuit the corgi</span>
+</article>
+ <article class="person p2">
+ <img class="avatar" src="https://i.pravatar.cc/300?img=12" alt="Robin Calloway" loading="lazy" />
+ <h3>Robin Calloway</h3>
+ <p class="pet">Ridgecrest Lane</p>
+ <span class="pet-tag">&#127793; Garden club volunteer</span>
+</article>
+ <article class="person p3">
+ <img class="avatar" src="https://i.pravatar.cc/300?img=56" alt="The Okafor Family" loading="lazy" />
+ <h3>The Okafor Family</h3>
+ <p class="pet">Summit Way</p>
+ <span class="pet-tag">&#129418; with Mango the parrot</span>
+</article>
+</div>
+ <div class="neighbors-cta">
+ <a class="btn" href="#neighbors">Browse the full directory <span class="arrow">&rarr;</span></a>
+</div>
+</div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+ <div class="wrap">
+ <div class="foot-top">
+ <div class="foot-brand">
+ <a class="brand" href="#top">
+ <span class="mark"><span>CR</span></span>
+ <span><b>Winterhaven Village</b><small>Homeowners Assoc.</small></span>
+</a>
+ <p>A hillside community with an outstanding natural setting — and the kind of neighbors who make it home.</p>
+</div>
+ <div class="foot-links">
+ <div class="foot-col">
+ <h4>Explore</h4>
+ <a href="#top">Home</a>
+ <a href="#neighbors">Directory</a>
+ <a href="#board">Board</a>
+</div>
+ <div class="foot-col">
+ <h4>Stay in touch</h4>
+ <a href="#news">News</a>
+ <a href="#ccr">CC&amp;Rs</a>
+ <a href="#community">Community Board</a>
+</div>
+</div>
+</div>
+ <div class="foot-bottom">
+ <span>Winterhaven Village Homeowners Association &middot; Est. 1987</span>
+ <span class="hearts">
+ <span style="background:var(--powder-deep)"></span>
+ <span style="background:var(--blush-deep)"></span>
+ <span style="background:var(--lavender-deep)"></span>
+ <span style="background:var(--mint-deep)"></span>
+</span>
+</div>
+</div>
+</footer>
+
+<script>
+ // Tiny enhancement: smooth mobile menu placeholder + replay squiggle draw when scrolled into view
+ document.querySelector('.menu-btn')?.addEventListener('click', function(){
+ document.querySelector('nav.links')?.scrollIntoView({behavior:'smooth'});
+ });
+ const obs = new IntersectionObserver((entries)=>{
+ entries.forEach(e=>{
+ if(e.isIntersecting){
+ e.target.querySelectorAll('svg path').forEach(p=>{
+ p.style.animation='none'; void p.offsetWidth; p.style.animation='draw 1.6s ease forwards';
+ });
+ }
+ });
+ },{threshold:.5});
+ document.querySelectorAll('.squiggle').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

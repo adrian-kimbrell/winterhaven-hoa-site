@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Margaret &amp; Tom Ellis &middot; Winterhaven Village Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Petrona:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+ :root{
+ --sage-900:#2c3a2e;
+ --sage-800:#374a39;
+ --sage-700:#46603f;
+ --sage-600:#5a7a4e;
+ --sage-500:#7a9468;
+ --sage-300:#aebf9c;
+ --sand:#f4ecdc;
+ --sand-2:#ece0c8;
+ --paper:#fbf6ec;
+ --clay:#b9714e;
+ --clay-soft:#f2dcc8;
+ --blossom:#d98aa0;
+ --blossom-soft:#f5dde2;
+ --blossom-deep:#c26a82;
+ --ink:#34402f;
+ --gold:#bf9658;
+ --shadow:rgba(44,58,46,.16);
+ --serif:"Cormorant Infant", Georgia, serif;
+ --body:"Petrona", Georgia, serif;
+ }
+
+ *{box-sizing:border-box;}
+ html{scroll-behavior:smooth;}
+ body{
+ margin:0;font-family:var(--body);color:var(--ink);background:var(--paper);
+ line-height:1.7;font-size:18px;-webkit-font-smoothing:antialiased;
+ }
+ img{display:block;max-width:100%;}
+ a{color:inherit;text-decoration:none;}
+ .wrap{max-width:1100px;margin:0 auto;padding:0 40px;}
+
+ .label{
+ font-family:var(--body);font-style:italic;font-size:.78rem;
+ letter-spacing:.28em;text-transform:uppercase;color:var(--gold);
+ display:inline-flex;align-items:center;gap:.7em;
+ }
+ .label::before,.label::after{content:"";width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+ .label.solo::after{display:none;}
+
+ h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.05;margin:0;letter-spacing:.005em;}
+
+ /* Nav (shared) */
+ header.site{
+ position:sticky;top:0;z-index:50;background:rgba(251,246,236,.88);
+ backdrop-filter:blur(10px);border-bottom:1px solid rgba(70,96,63,.18);
+ }
+ .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;max-width:1200px;margin:0 auto;}
+ .brand{display:flex;align-items:center;gap:14px;}
+ .brand svg{width:40px;height:40px;color:var(--sage-700);}
+ .brand .name{font-family:var(--serif);font-size:1.7rem;font-weight:700;color:var(--sage-800);line-height:1;}
+ .brand .est{font-style:italic;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
+ nav ul{display:flex;gap:30px;list-style:none;margin:0;padding:0;align-items:center;}
+ nav a{font-size:.86rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage-800);position:relative;padding:4px 0;font-style:italic;}
+ nav a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background:var(--blossom-deep);transition:width .35s ease;}
+ nav a:hover{color:var(--sage-600);}
+ nav a:hover::after{width:100%;}
+ .menu-btn{display:none;background:none;border:1px solid var(--sage-600);color:var(--sage-700);border-radius:30px;padding:8px 16px;font-family:var(--body);font-style:italic;cursor:pointer;}
+
+ /* Breadcrumb */
+ .crumb{background:var(--sand);border-bottom:1px solid rgba(70,96,63,.12);}
+ .crumb .wrap{display:flex;align-items:center;gap:10px;padding-top:18px;padding-bottom:18px;}
+ .back{
+ display:inline-flex;align-items:center;gap:10px;font-style:italic;
+ color:var(--sage-700);font-size:.95rem;letter-spacing:.04em;
+ border:1px solid rgba(70,96,63,.28);border-radius:30px;padding:8px 20px;
+ transition:background .3s,color .3s,transform .3s;
+ }
+ .back svg{width:18px;transition:transform .3s;}
+ .back:hover{background:var(--sage-700);color:var(--sand);transform:translateX(-3px);}
+ .back:hover svg{transform:translateX(-3px);}
+
+ /* Profile header */
+ .profile-hero{background:var(--sand);position:relative;overflow:hidden;padding:70px 0 80px;}
+ .profile-hero .flora-deco{position:absolute;color:var(--sage-500);opacity:.4;pointer-events:none;}
+ .ph-tl{top:-30px;left:-30px;width:150px;}
+ .ph-br{bottom:-50px;right:-40px;width:170px;opacity:.35;}
+ .ph-inner{position:relative;z-index:2;display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:center;}
+ .portraits{display:flex;gap:-10px;}
+ .portrait{
+ width:150px;height:184px;overflow:hidden;
+ border-radius:50% 50% 14px 14px / 40% 40% 14px 14px;
+ border:1px solid rgba(191,150,88,.5);
+ box-shadow:inset 0 0 0 6px var(--paper),0 22px 44px -24px var(--sage-900);
+ background:var(--paper);
+ }
+ .portrait + .portrait{margin-left:-26px;margin-top:34px;}
+ .portrait img{width:100%;height:100%;object-fit:cover;}
+ .ph-copy h1{font-size:clamp(2.6rem,5.4vw,4.4rem);color:var(--sage-800);margin:14px 0 8px;}
+ .ph-copy h1 em{font-style:italic;color:var(--clay);font-weight:500;}
+ .ph-meta{display:flex;flex-wrap:wrap;gap:14px;margin-top:18px;}
+ .meta-tag{
+ display:inline-flex;align-items:center;gap:9px;font-style:italic;font-size:.86rem;
+ color:var(--sage-700);background:var(--paper);border:1px solid rgba(70,96,63,.22);
+ border-radius:30px;padding:8px 18px;
+ }
+ .meta-tag svg{width:17px;color:var(--clay);}
+
+ /* Body layout */
+ .profile-body{padding:80px 0;}
+ .grid{display:grid;grid-template-columns:1.5fr 1fr;gap:54px;align-items:start;}
+
+ .bio .label{margin-bottom:18px;}
+ .bio h2{font-size:clamp(2rem,3.6vw,2.8rem);color:var(--sage-800);margin-bottom:18px;}
+ .bio p{font-size:1.12rem;color:#4f5d49;margin:0 0 22px;}
+ .bio p .lead{font-family:var(--serif);font-style:italic;font-size:1.3em;color:var(--sage-700);}
+
+ /* arched residence photo */
+ .home-photo{position:relative;margin-top:18px;}
+ .arch{
+ position:relative;border-radius:50% 50% 14px 14px / 30% 30% 14px 14px;overflow:hidden;
+ box-shadow:0 30px 60px -28px var(--sage-900);border:1px solid rgba(70,96,63,.25);
+ }
+ .arch::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 8px rgba(251,246,236,.55), inset 0 0 0 9px rgba(70,96,63,.22);pointer-events:none;}
+ .arch img{width:100%;height:420px;object-fit:cover;}
+ .home-photo .tag{
+ position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:var(--paper);
+ color:var(--sage-700);font-style:italic;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;
+ padding:8px 22px;border-radius:30px;box-shadow:0 8px 20px -10px var(--sage-900);white-space:nowrap;
+ border:1px solid rgba(191,150,88,.4);
+ }
+
+ /* Side card: contact */
+ .card{
+ background:var(--paper);border:1px solid rgba(70,96,63,.2);border-radius:10px;
+ padding:34px 32px;box-shadow:0 18px 44px -32px var(--sage-900);position:relative;overflow:hidden;
+ }
+ .card + .card{margin-top:30px;}
+ .card .corner{position:absolute;top:8px;right:8px;width:96px;color:var(--sage-500);opacity:.35;}
+ .card h3{font-size:1.7rem;color:var(--sage-800);margin-bottom:18px;}
+ .contact-row{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px dashed rgba(70,96,63,.28);}
+ .contact-row:last-child{border-bottom:none;}
+ .contact-row .ico{flex:0 0 auto;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--sand-2);color:var(--sage-700);border:1px solid rgba(70,96,63,.2);}
+ .contact-row .ico svg{width:20px;}
+ .contact-row .k{font-style:italic;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+ .contact-row .v{font-size:1.02rem;color:var(--sage-800);}
+
+ .optin{
+ margin-top:30px;background:var(--blossom-soft);border:1px solid rgba(194,106,130,.4);
+ border-radius:10px;padding:26px 30px;display:flex;gap:16px;align-items:flex-start;
+ }
+ .optin svg{flex:0 0 auto;width:30px;color:var(--blossom-deep);margin-top:2px;}
+ .optin p{margin:0;font-style:italic;color:var(--sage-800);font-size:1rem;}
+ .optin p strong{color:var(--blossom-deep);font-weight:500;}
+
+ /* Pets */
+ .pets{background:var(--sand);}
+ .sec-head{text-align:center;margin-bottom:46px;display:flex;flex-direction:column;align-items:center;gap:14px;}
+ .sec-head h2{font-size:clamp(2.2rem,4.4vw,3.2rem);color:var(--sage-800);}
+ .pets-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;max-width:860px;margin:0 auto;}
+ .pet-card{
+ background:var(--paper);border:1px solid rgba(70,96,63,.18);border-radius:10px;overflow:hidden;
+ box-shadow:0 16px 40px -30px var(--sage-900);transition:transform .35s ease,box-shadow .35s ease;
+ }
+ .pet-card:hover{transform:translateY(-6px);box-shadow:0 28px 54px -28px var(--sage-900);}
+ .pet-card .photo{height:260px;overflow:hidden;}
+ .pet-card .photo img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease;}
+ .pet-card:hover .photo img{transform:scale(1.06);}
+ .pet-card .cap{padding:22px 26px 26px;text-align:center;}
+ .pet-card .lot{font-style:italic;color:var(--gold);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;}
+ .pet-card h3{font-size:1.8rem;color:var(--sage-800);margin:4px 0 0;}
+ .pet-card .breed{font-style:italic;color:var(--sage-600);font-size:.98rem;}
+
+ /* Footer (shared) */
+ footer{background:var(--sage-900);color:var(--sage-300);padding:70px 0 40px;position:relative;overflow:hidden;}
+ footer .ridge-foot{position:absolute;top:-12px;left:50%;transform:translateX(-50%);width:220px;color:var(--sage-700);opacity:.7;}
+ .foot-inner{text-align:center;position:relative;z-index:2;}
+ .foot-inner .brand-mark{width:56px;color:var(--blossom);margin:0 auto 18px;}
+ .foot-inner h3{font-family:var(--serif);font-size:2rem;color:var(--sand);}
+ .foot-inner .est{font-style:italic;letter-spacing:.22em;text-transform:uppercase;font-size:.74rem;color:var(--gold);margin-top:6px;}
+ .foot-nav{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin:30px 0 26px;list-style:none;padding:0;}
+ .foot-nav a{font-style:italic;letter-spacing:.08em;color:var(--sage-300);font-size:.94rem;transition:color .3s;}
+ .foot-nav a:hover{color:var(--blossom);}
+ .foot-rule{width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--sage-600),transparent);margin:0 auto 22px;}
+ .copy{font-size:.84rem;color:var(--sage-500);font-style:italic;}
+
+ @media(max-width:900px){
+ .ph-inner{grid-template-columns:1fr;gap:34px;text-align:center;}
+ .portraits{justify-content:center;}
+ .ph-meta{justify-content:center;}
+ .grid{grid-template-columns:1fr;gap:42px;}
+ .pets-grid{grid-template-columns:1fr;max-width:420px;}
+ nav ul{display:none;}
+ .menu-btn{display:inline-block;}
+ nav ul.open{display:flex;flex-direction:column;position:absolute;top:74px;right:20px;background:var(--paper);padding:22px 28px;border-radius:10px;gap:16px;box-shadow:0 20px 50px -20px var(--sage-900);border:1px solid rgba(70,96,63,.18);}
+ }
+ @media(max-width:560px){
+ .wrap{padding:0 22px;}
+ .nav{padding:16px 22px;}
+ .profile-body{padding:56px 0;}
+ .arch img{height:320px;}
+ }
+</style>
+</head>
+<body>
+
+<!-- ======= HEADER ======= -->
+<header class="site">
+ <div class="nav">
+ <a class="brand" href="12-botanical.html">
+ <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M32 60V18"/>
+ <path d="M32 40V30c0-5-4-9-9-9s-9 4-9 9v6c0 4 3 7 7 7"/>
+ <path d="M32 34v-6c0-5 4-9 9-9s9 4 9 9v9c0 4-3 7-7 7"/>
+</svg>
+ <span>
+ <span class="name">Winterhaven Village</span><br/>
+ <span class="est">Homeowners Association</span>
+</span>
+</a>
+ <nav>
+ <button class="menu-btn" onclick="document.getElementById('navlist').classList.toggle('open')">Menu</button>
+ <ul id="navlist">
+ <li><a href="12-botanical.html">Home</a></li>
+ <li><a href="12-botanical.html#neighbors">Directory</a></li>
+ <li><a href="12-botanical.html#board">Board</a></li>
+ <li><a href="12-botanical.html#news">News</a></li>
+ <li><a href="12-botanical.html#ccr">CC&amp;Rs</a></li>
+ <li><a href="#">Community Board</a></li>
+</ul>
+</nav>
+</div>
+</header>
+
+<!-- ======= BREADCRUMB ======= -->
+<div class="crumb">
+ <div class="wrap">
+ <a class="back" href="12-botanical.html#neighbors">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+ Back to Directory
+</a>
+</div>
+</div>
+
+<!-- ======= PROFILE HERO ======= -->
+<section class="profile-hero">
+ <!-- Brittlebush w/ blooms, top-left -->
+ <svg class="flora-deco ph-tl" viewBox="0 0 150 150" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M75 148C72 110 60 80 40 56M75 148C75 108 78 78 90 52M75 148C78 112 96 84 120 64"/>
+ <circle cx="40" cy="50" r="8"/><path d="M40 42v-7M40 58v7M32 50h-7M48 50h7M34 44l-5-5M46 44l5-5M34 56l-5 5M46 56l5 5"/>
+ <circle cx="92" cy="46" r="7"/><path d="M92 39v-6M92 53v6M85 46h-6M99 46h6"/>
+ <circle cx="124" cy="58" r="6"/><path d="M124 52v-5M124 64v5M118 58h-5M130 58h5"/>
+</svg>
+ <!-- Agave, bottom-right -->
+ <svg class="flora-deco ph-br" viewBox="0 0 170 170" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M85 160C85 100 82 56 85 24"/>
+ <path d="M85 160C58 116 40 80 28 44M85 160C112 116 130 80 142 44"/>
+ <path d="M85 160C68 124 46 98 22 82M85 160C102 124 124 98 148 82"/>
+</svg>
+ <div class="wrap ph-inner">
+ <div class="portraits">
+ <div class="portrait"><img src="https://i.pravatar.cc/400?img=32" alt="Margaret Ellis" /></div>
+ <div class="portrait"><img src="https://i.pravatar.cc/400?img=11" alt="Tom Ellis" /></div>
+</div>
+ <div class="ph-copy">
+ <span class="label solo">Resident Profile &middot; Opt-in Directory</span>
+ <h1>Margaret &amp; <em>Tom Ellis</em></h1>
+ <div class="ph-meta">
+ <span class="meta-tag">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
+ 12 Ocotillo Court
+</span>
+ <span class="meta-tag">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+ Residents since 1994
+</span>
+ <span class="meta-tag">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5.2c-1.5-1.5-4-1.4-5.3.3-1.3 1.7-1 4 .7 5.5L12 18l6.6-7c1.7-1.5 2-3.8.7-5.5-1.3-1.7-3.8-1.8-5.3-.3"/></svg>
+ &amp; Biscuit and Clementine
+</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ======= BODY ======= -->
+<section class="profile-body">
+ <div class="wrap grid">
+ <div class="bio">
+ <span class="label solo">A few words</span>
+ <h2>Neighbors on Ocotillo Court</h2>
+ <p><span class="lead">Margaret taught third grade for thirty years</span> and now runs the village book club with the same gentle authority. Tom, a retired civil engineer, spends his mornings on the loop trail before the heat sets in, photographing whatever the desert offers up.</p>
+ <p>Their courtyard garden &mdash; penstemon, agave, and one stubborn rosebush &mdash; wins the spring garden walk more years than not, and they host the first porch gathering of every monsoon season.</p>
+
+ <div class="home-photo">
+ <div class="arch">
+ <img src="img/house.jpg" alt="The Ellis home at 12 Ocotillo Court" />
+</div>
+ <span class="tag">Their Home &middot; 12 Ocotillo Court</span>
+</div>
+</div>
+
+ <aside>
+ <div class="card">
+ <svg class="corner" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+ <ellipse cx="48" cy="68" rx="20" ry="25"/>
+ <ellipse cx="28" cy="40" rx="14" ry="17" transform="rotate(-26 28 40)"/>
+ <ellipse cx="68" cy="42" rx="13" ry="16" transform="rotate(24 68 42)"/>
+ <circle cx="72" cy="26" r="4"/>
+</svg>
+ <h3>Get in touch</h3>
+ <div class="contact-row">
+ <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>
+ <div><div class="k">Telephone</div><div class="v">(555) 012-3847</div></div>
+</div>
+ <div class="contact-row">
+ <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+ <div><div class="k">Email</div><div class="v">m.ellis@example.com</div></div>
+</div>
+ <div class="contact-row">
+ <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+ <div><div class="k">Residence</div><div class="v">12 Ocotillo Court</div></div>
+</div>
+</div>
+
+ <div class="optin">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+ <p><strong>Directory listings are opt-in.</strong> Residents choose what to share &mdash; the Ellises were glad to.</p>
+</div>
+</aside>
+</div>
+</section>
+
+<!-- ======= PETS ======= -->
+<section class="pets">
+ <div class="wrap">
+ <div class="sec-head">
+ <span class="label">The Household</span>
+ <h2>And the Four-Legged Residents</h2>
+</div>
+ <div class="pets-grid">
+ <article class="pet-card">
+ <div class="photo"><img src="https://placedog.net/600/450?id=12" alt="Biscuit the corgi" /></div>
+ <div class="cap">
+ <div class="lot">Pembroke Welsh Corgi</div>
+ <h3>Biscuit</h3>
+ <p class="breed">Chief greeter of Ocotillo Court</p>
+</div>
+</article>
+ <article class="pet-card">
+ <div class="photo"><img src="https://placecats.com/400/300" alt="Clementine the tabby cat" /></div>
+ <div class="cap">
+ <div class="lot">Tabby Cat</div>
+ <h3>Clementine</h3>
+ <p class="breed">Supervises the courtyard from the windowsill</p>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<!-- ======= FOOTER ======= -->
+<footer>
+ <svg class="ridge-foot" viewBox="0 0 220 50" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M4 48L48 22 86 34 124 14 166 30 216 48"/>
+ <path d="M96 34V16M96 24c0-4-4-6-8-4M96 22c0-4 4-6 8-4"/>
+ <path d="M150 30V18M150 24c0-3 3-4 6-3"/>
+</svg>
+ <div class="wrap foot-inner">
+ <svg class="brand-mark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M32 60V18"/>
+ <path d="M32 40V30c0-5-4-9-9-9s-9 4-9 9v6c0 4 3 7 7 7"/>
+ <path d="M32 34v-6c0-5 4-9 9-9s9 4 9 9v9c0 4-3 7-7 7"/>
+</svg>
+ <h3>Winterhaven Village</h3>
+ <div class="est">Homeowners Association &middot; Tucson, Arizona &middot; Est. 1987</div>
+ <ul class="foot-nav">
+ <li><a href="12-botanical.html">Home</a></li>
+ <li><a href="12-botanical.html#neighbors">Directory</a></li>
+ <li><a href="12-botanical.html#board">Board</a></li>
+ <li><a href="12-botanical.html#news">News</a></li>
+ <li><a href="12-botanical.html#ccr">CC&amp;Rs</a></li>
+ <li><a href="#">Community Board</a></li>
+</ul>
+ <div class="foot-rule"></div>
+ <p class="copy">Desert living, neighborly spirit. &middot; Rooted in the Sonoran since 1987.</p>
+</div>
+</footer>
+
+</body>
+</html>

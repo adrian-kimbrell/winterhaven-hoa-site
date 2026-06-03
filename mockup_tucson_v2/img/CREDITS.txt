@@ -1,0 +1,14 @@
+Placeholder photos from Wikimedia Commons (various free licenses).
+For mockup/demo use; replace with real Winterhaven Village photos before launch.
+
+sunset1.jpg: File:Saguaro Sunset (50614966803).jpg (https://commons.wikimedia.org/wiki/File:Saguaro_Sunset_(50614966803).jpg)
+saguaro-np.jpg: File:Carnegiea gigantea in Saguaro National Park near Tucson, Arizona during November (58).jpg (https://commons.wikimedia.org/wiki/File:Carnegiea_gigantea_in_Saguaro_National_Park_near_Tucson,_Arizona_during_November_(58).jpg)
+sonoran.jpg: File:Carnegiea Sonoran Desert 05.jpg (https://commons.wikimedia.org/wiki/File:Carnegiea_Sonoran_Desert_05.jpg)
+catalinas.jpg: File:Santa Catalina Mountains in Tucson, Arizona.jpg (https://commons.wikimedia.org/wiki/File:Santa_Catalina_Mountains_in_Tucson,_Arizona.jpg)
+ocotillo.jpg: File:Leafy ocotillo after rain in the Sonoran Desert (54963913479).jpg (https://commons.wikimedia.org/wiki/File:Leafy_ocotillo_after_rain_in_the_Sonoran_Desert_(54963913479).jpg)
+wildflowers.jpg: File:Ffrom Zion W then SE along Hwy 59 & then 89 to Marble Canyon in Arizona - desert wildflowers - (19922778228).jpg (https://commons.wikimedia.org/wiki/File:Ffrom_Zion_W_then_SE_along_Hwy_59_%26_then_89_to_Marble_Canyon_in_Arizona_-_desert_wildflowers_-_(19922778228).jpg)
+prickly-pear.jpg: File:Prickly Pear Cactus with Flower.jpg (https://commons.wikimedia.org/wiki/File:Prickly_Pear_Cactus_with_Flower.jpg)
+garden.jpg: File:Tohono Chul wall.jpg (https://commons.wikimedia.org/wiki/File:Tohono_Chul_wall.jpg)
+pool.jpg: File:Swimming pool and Makuti-thatched villa in Malindi.jpg (https://commons.wikimedia.org/wiki/File:Swimming_pool_and_Makuti-thatched_villa_in_Malindi.jpg)
+tucson.jpg: File:Tucson az from space.jpg (https://commons.wikimedia.org/wiki/File:Tucson_az_from_space.jpg)
+saguaro-close.jpg: File:Saguaro Fruits (50619134741).jpg (https://commons.wikimedia.org/wiki/File:Saguaro_Fruits_(50619134741).jpg)

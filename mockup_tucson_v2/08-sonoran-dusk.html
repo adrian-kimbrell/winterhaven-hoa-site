@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Winterhaven Village — Desert living, neighborly spirit.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet" />
+<style>
+ :root {
+ --ink: #0c0d16;
+ --ink-2: #11121d;
+ --panel: #161827;
+ --panel-2: #1b1d2e;
+ --line: rgba(255, 224, 210, 0.08);
+ --line-strong: rgba(255, 224, 210, 0.15);
+ --text: #ece4dc;
+ --text-dim: #9d96a8;
+ --text-faint: #6a6578;
+ --coral: #f0795f;
+ --coral-soft: #ff9d82;
+ --amber: #f2b157;
+ --amber-soft: #ffd28a;
+ --dusk: #c5527a;
+ --indigo: #4a4a8c;
+ --glow: rgba(240, 121, 95, 0.5);
+ --radius: 18px;
+ --radius-lg: 26px;
+ --maxw: 1200px;
+ }
+
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: "Sora", system-ui, sans-serif;
+ background:
+ radial-gradient(1300px 760px at 78% -12%, rgba(240, 121, 95, 0.16), transparent 60%),
+ radial-gradient(900px 620px at 10% -5%, rgba(197, 82, 122, 0.14), transparent 55%),
+ radial-gradient(1100px 700px at 50% 8%, rgba(74, 74, 140, 0.12), transparent 60%),
+ var(--ink);
+ color: var(--text);
+ line-height: 1.6;
+ -webkit-font-smoothing: antialiased;
+ overflow-x: hidden;
+ position: relative;
+ }
+
+ /* Faint star field */
+ body::before {
+ content: "";
+ position: fixed;
+ inset: 0;
+ pointer-events: none;
+ z-index: 0;
+ background-image:
+ radial-gradient(1px 1px at 20% 30%, rgba(255, 236, 220, 0.55), transparent),
+ radial-gradient(1px 1px at 70% 12%, rgba(255, 236, 220, 0.42), transparent),
+ radial-gradient(1px 1px at 40% 64%, rgba(255, 236, 220, 0.32), transparent),
+ radial-gradient(1.5px 1.5px at 85% 50%, rgba(255, 236, 220, 0.45), transparent),
+ radial-gradient(1px 1px at 12% 82%, rgba(255, 236, 220, 0.3), transparent),
+ radial-gradient(1px 1px at 55% 40%, rgba(255, 236, 220, 0.3), transparent),
+ radial-gradient(1.5px 1.5px at 92% 86%, rgba(255, 236, 220, 0.35), transparent),
+ radial-gradient(1px 1px at 33% 18%, rgba(255, 236, 220, 0.3), transparent);
+ background-repeat: repeat;
+ background-size: 620px 620px;
+ opacity: 0.5;
+ }
+
+ .wrap { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+
+ a { color: inherit; text-decoration: none; }
+
+ .eyebrow {
+ font-size: 12px;
+ letter-spacing: 0.28em;
+ text-transform: uppercase;
+ color: var(--coral-soft);
+ font-weight: 600;
+ display: inline-flex;
+ align-items: center;
+ gap: 10px;
+ }
+ .eyebrow::before {
+ content: "";
+ width: 26px;
+ height: 1px;
+ background: linear-gradient(90deg, var(--coral), transparent);
+ }
+
+ h1, h2, h3 { line-height: 1.12; font-weight: 600; letter-spacing: -0.01em; }
+
+ .serif { font-family: "Fraunces", Georgia, serif; font-weight: 500; }
+
+ /* ---------- SAGUARO HORIZON DIVIDER ---------- */
+ .horizon {
+ position: relative;
+ z-index: 1;
+ width: 100%;
+ line-height: 0;
+ color: var(--ink-2);
+ opacity: 0.9;
+ filter: drop-shadow(0 -12px 30px rgba(240, 121, 95, 0.12));
+ }
+ .horizon svg { width: 100%; height: 80px; display: block; }
+
+ /* ---------- NAV ---------- */
+ header {
+ position: sticky;
+ top: 0;
+ z-index: 50;
+ backdrop-filter: blur(14px);
+ background: linear-gradient(180deg, rgba(12, 13, 22, 0.88), rgba(12, 13, 22, 0.45));
+ border-bottom: 1px solid var(--line);
+ }
+ .nav {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ height: 76px;
+ }
+ .brand {
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ font-family: "Fraunces", serif;
+ font-size: 22px;
+ font-weight: 600;
+ letter-spacing: -0.02em;
+ }
+ .brand .mark {
+ width: 34px; height: 34px;
+ display: grid; place-items: center;
+ border-radius: 10px;
+ background: linear-gradient(145deg, rgba(240, 121, 95, 0.24), rgba(197, 82, 122, 0.14));
+ border: 1px solid var(--line-strong);
+ box-shadow: 0 0 24px rgba(240, 121, 95, 0.2);
+ }
+ .brand .mark svg { width: 19px; height: 19px; }
+ .navlinks { display: flex; align-items: center; gap: 6px; }
+ .navlinks a {
+ font-size: 14px;
+ color: var(--text-dim);
+ padding: 9px 14px;
+ border-radius: 10px;
+ transition: color 0.2s, background 0.2s;
+ }
+ .navlinks a:hover { color: var(--text); background: rgba(255, 224, 210, 0.05); }
+ .menu-btn { display: none; background: none; border: 1px solid var(--line-strong); color: var(--text); width: 42px; height: 42px; border-radius: 10px; cursor: pointer; }
+
+ /* ---------- BUTTONS ---------- */
+ .btn {
+ display: inline-flex;
+ align-items: center;
+ gap: 10px;
+ font-family: "Sora", sans-serif;
+ font-weight: 500;
+ font-size: 15px;
+ padding: 14px 24px;
+ border-radius: 999px;
+ border: 1px solid transparent;
+ cursor: pointer;
+ transition: transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s, background 0.25s;
+ }
+ .btn-primary {
+ color: #2a0f0a;
+ background: linear-gradient(135deg, var(--amber-soft), var(--coral) 55%, var(--dusk));
+ box-shadow: 0 10px 30px -8px var(--glow), inset 0 1px 0 rgba(255,255,255,0.4);
+ }
+ .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 18px 42px -10px var(--glow), inset 0 1px 0 rgba(255,255,255,0.5); }
+ .btn-primary svg { transition: transform 0.25s; }
+ .btn-primary:hover svg { transform: translateX(4px); }
+ .btn-ghost {
+ color: var(--text);
+ border-color: var(--line-strong);
+ background: rgba(255, 224, 210, 0.02);
+ }
+ .btn-ghost:hover { background: rgba(255, 224, 210, 0.06); border-color: var(--coral); }
+
+ /* ---------- HERO ---------- */
+ .hero { padding: 70px 0 90px; }
+ .hero-grid {
+ display: grid;
+ grid-template-columns: 1.05fr 1fr;
+ gap: 64px;
+ align-items: center;
+ }
+ .hero h1 {
+ font-family: "Fraunces", serif;
+ font-size: clamp(44px, 5.8vw, 78px);
+ font-weight: 500;
+ margin: 22px 0 8px;
+ letter-spacing: -0.025em;
+ }
+ .hero h1 .accent {
+ background: linear-gradient(120deg, var(--amber-soft), var(--coral) 55%, var(--dusk));
+ -webkit-background-clip: text;
+ background-clip: text;
+ color: transparent;
+ font-style: italic;
+ }
+ .hero .tag {
+ font-size: clamp(18px, 2vw, 22px);
+ color: var(--text-dim);
+ max-width: 32ch;
+ margin-bottom: 34px;
+ }
+ .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+ .hero-stats { display: flex; gap: 30px; margin-top: 46px; padding-top: 28px; border-top: 1px solid var(--line); }
+ .hero-stats .stat .n { font-family: "Fraunces", serif; font-size: 30px; color: var(--amber-soft); }
+ .hero-stats .stat .l { font-size: 12.5px; color: var(--text-faint); letter-spacing: 0.04em; }
+
+ .hero-photo {
+ position: relative;
+ border-radius: var(--radius-lg);
+ overflow: hidden;
+ border: 1px solid var(--line-strong);
+ box-shadow:
+ 0 40px 90px -30px rgba(0,0,0,0.8),
+ 0 0 80px -20px rgba(240, 121, 95, 0.32);
+ }
+ .hero-photo::after {
+ content: "";
+ position: absolute; inset: 0;
+ background: linear-gradient(180deg, transparent 38%, rgba(12,13,22,0.6) 100%);
+ }
+ .hero-photo img { width: 100%; height: 540px; object-fit: cover; display: block; filter: saturate(1.05); }
+ .hero-photo .badge {
+ position: absolute;
+ bottom: 22px; left: 22px;
+ z-index: 2;
+ display: flex; align-items: center; gap: 10px;
+ padding: 10px 16px;
+ border-radius: 999px;
+ background: rgba(12,13,22,0.55);
+ backdrop-filter: blur(8px);
+ border: 1px solid var(--line-strong);
+ font-size: 13px;
+ color: var(--text);
+ }
+ .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 12px var(--coral); }
+
+ /* ---------- SECTION SHELL ---------- */
+ section { padding: 78px 0; }
+ .sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 40px; }
+ .sec-head h2 { font-family: "Fraunces", serif; font-size: clamp(30px, 3.4vw, 42px); font-weight: 500; }
+ .sec-head .sub { color: var(--text-dim); font-size: 15px; margin-top: 8px; }
+ .link-more { color: var(--coral-soft); font-size: 14px; font-weight: 500; display: inline-flex; gap: 6px; align-items: center; white-space: nowrap; }
+ .link-more:hover { color: var(--amber-soft); }
+ .link-more svg { transition: transform 0.2s; }
+ .link-more:hover svg { transform: translateX(3px); }
+
+ .card {
+ background: linear-gradient(180deg, var(--panel), var(--ink-2));
+ border: 1px solid var(--line);
+ border-radius: var(--radius);
+ transition: transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s, box-shadow 0.3s;
+ }
+ .card:hover {
+ transform: translateY(-4px);
+ border-color: var(--line-strong);
+ box-shadow: 0 24px 50px -24px rgba(0,0,0,0.7), 0 0 40px -18px var(--glow);
+ }
+
+ /* ---------- NEWS ---------- */
+ .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+ .news-card { overflow: hidden; }
+ .news-card .ph { position: relative; height: 190px; overflow: hidden; }
+ .news-card .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; filter: saturate(0.95) brightness(0.85); }
+ .news-card:hover .ph img { transform: scale(1.06); }
+ .news-card .ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(17,18,29,0.92)); }
+ .news-card .body { padding: 22px 24px 26px; }
+ .tagchip {
+ font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+ color: var(--coral-soft); font-weight: 600;
+ display: inline-block; margin-bottom: 12px;
+ }
+ .news-card h3 { font-size: 19px; font-weight: 600; margin-bottom: 10px; }
+ .news-card p { color: var(--text-dim); font-size: 14px; }
+ .news-card .when { margin-top: 16px; font-size: 12.5px; color: var(--text-faint); display: flex; align-items: center; gap: 8px; }
+
+ /* ---------- TWO COLUMN FEATURE (Lighter Side + Board) ---------- */
+ .feature-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 24px; }
+
+ .lighter {
+ position: relative;
+ padding: 40px;
+ overflow: hidden;
+ background:
+ radial-gradient(500px 300px at 110% -20%, rgba(197,82,122,0.26), transparent 60%),
+ linear-gradient(180deg, var(--panel-2), var(--ink-2));
+ }
+ .lighter .emoji { font-size: 40px; margin-bottom: 18px; display: block; }
+ .lighter h2 { font-family: "Fraunces", serif; font-size: 32px; font-weight: 500; margin-bottom: 14px; }
+ .lighter p { font-size: 18px; color: var(--text); max-width: 40ch; }
+ .lighter .vote {
+ margin-top: 26px;
+ display: inline-flex; align-items: center; gap: 10px;
+ font-size: 13px; color: var(--amber-soft);
+ padding: 10px 16px; border-radius: 999px;
+ border: 1px solid var(--line-strong);
+ background: rgba(240,121,95,0.08);
+ }
+
+ .board { padding: 40px; }
+ .board h2 { font-family: "Fraunces", serif; font-size: 26px; font-weight: 500; margin-bottom: 22px; }
+ .board-item {
+ display: flex; gap: 16px; align-items: flex-start;
+ padding: 18px 0;
+ border-top: 1px solid var(--line);
+ }
+ .board-item:first-of-type { border-top: none; padding-top: 0; }
+ .board-item .ico {
+ flex: none; width: 40px; height: 40px; border-radius: 11px;
+ display: grid; place-items: center;
+ background: rgba(240,121,95,0.12);
+ border: 1px solid var(--line-strong);
+ color: var(--coral-soft);
+ }
+ .board-item .ico svg { width: 19px; height: 19px; }
+ .board-item h4 { font-size: 15.5px; font-weight: 600; margin-bottom: 3px; }
+ .board-item p { font-size: 13.5px; color: var(--text-dim); }
+ .board-item a.row-link { color: var(--coral-soft); font-size: 13px; margin-top: 6px; display: inline-block; }
+ .board-item a.row-link:hover { text-decoration: underline; }
+
+ /* ---------- CC&R CORNER ---------- */
+ .ccr {
+ position: relative;
+ padding: 54px 48px;
+ border-radius: var(--radius-lg);
+ background:
+ radial-gradient(700px 400px at 0% 0%, rgba(240,121,95,0.12), transparent 55%),
+ linear-gradient(160deg, var(--panel-2), var(--ink-2));
+ border: 1px solid var(--line);
+ overflow: hidden;
+ }
+ .ccr::before {
+ content: "\201C";
+ position: absolute;
+ top: -40px; right: 20px;
+ font-family: "Fraunces", serif;
+ font-size: 300px;
+ color: rgba(240,121,95,0.07);
+ line-height: 1;
+ }
+ .ccr .inner { position: relative; max-width: 760px; }
+ .ccr .q {
+ font-family: "Fraunces", serif;
+ font-size: clamp(24px, 3vw, 34px);
+ font-weight: 500;
+ margin: 18px 0 22px;
+ line-height: 1.25;
+ }
+ .ccr .a { font-size: 17px; color: var(--text-dim); }
+ .ccr .a strong { color: var(--amber-soft); font-weight: 600; }
+ .ccr .ref { margin-top: 10px; font-size: 13px; color: var(--text-faint); }
+
+ /* ---------- NEIGHBORS ---------- */
+ .neighbors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+ .neighbor { padding: 30px; text-align: center; }
+ .neighbor .avatar {
+ width: 96px; height: 96px; border-radius: 50%;
+ margin: 0 auto 20px;
+ object-fit: cover;
+ border: 2px solid var(--line-strong);
+ box-shadow: 0 0 0 6px rgba(240,121,95,0.07), 0 14px 30px -12px rgba(0,0,0,0.6);
+ }
+ .neighbor h3 { font-size: 19px; font-weight: 600; margin-bottom: 6px; }
+ .neighbor .role { font-size: 13px; color: var(--coral-soft); letter-spacing: 0.04em; margin-bottom: 12px; }
+ .neighbor p { font-size: 13.5px; color: var(--text-dim); }
+ .neighbor .pet {
+ display: inline-flex; align-items: center; gap: 7px;
+ margin-top: 16px; font-size: 12.5px;
+ padding: 7px 14px; border-radius: 999px;
+ border: 1px solid var(--line); color: var(--text-dim);
+ }
+ .neighbor .view-profile {
+ display: flex; align-items: center; justify-content: center; gap: 6px;
+ margin-top: 18px; font-size: 13px; font-weight: 500;
+ color: var(--coral-soft);
+ opacity: 0; transform: translateY(6px);
+ transition: opacity 0.3s, transform 0.3s, color 0.2s;
+ }
+ .neighbor .view-profile svg { transition: transform 0.2s; }
+ a.neighbor:hover .view-profile { opacity: 1; transform: translateY(0); }
+ a.neighbor:hover .view-profile svg { transform: translateX(3px); }
+
+ /* ---------- FOOTER ---------- */
+ footer {
+ position: relative; z-index: 1;
+ margin-top: 40px;
+ border-top: 1px solid var(--line);
+ background: linear-gradient(180deg, transparent, rgba(197,82,122,0.06));
+ }
+ .footer-inner { padding: 60px 0 50px; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+ .footer-brand { display: flex; flex-direction: column; gap: 8px; }
+ .footer-brand .name { font-family: "Fraunces", serif; font-size: 22px; }
+ .footer-brand .est { font-size: 13px; color: var(--text-faint); letter-spacing: 0.04em; }
+ .footer-links { display: flex; flex-wrap: wrap; gap: 8px 4px; }
+ .footer-links a { font-size: 14px; color: var(--text-dim); padding: 8px 14px; border-radius: 9px; transition: color 0.2s, background 0.2s; }
+ .footer-links a:hover { color: var(--coral-soft); background: rgba(255,224,210,0.04); }
+ .footer-bottom { border-top: 1px solid var(--line); padding: 22px 0; font-size: 12.5px; color: var(--text-faint); text-align: center; }
+
+ /* ---------- RESPONSIVE ---------- */
+ @media (max-width: 940px) {
+ .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+ .hero-photo img { height: 400px; }
+ .news-grid { grid-template-columns: 1fr 1fr; }
+ .feature-grid { grid-template-columns: 1fr; }
+ .neighbors-grid { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; }
+ }
+ @media (max-width: 680px) {
+ .wrap { padding: 0 20px; }
+ .navlinks { display: none; }
+ .navlinks.open { display: flex; position: absolute; top: 76px; left: 0; right: 0; flex-direction: column; align-items: stretch; padding: 14px 20px 22px; background: var(--ink-2); border-bottom: 1px solid var(--line); gap: 2px; }
+ .menu-btn { display: grid; place-items: center; }
+ section { padding: 56px 0; }
+ .news-grid { grid-template-columns: 1fr; }
+ .sec-head { flex-direction: column; align-items: flex-start; }
+ .ccr { padding: 36px 26px; }
+ .lighter, .board { padding: 30px 26px; }
+ .hero-stats { gap: 22px; flex-wrap: wrap; }
+ .horizon svg { height: 50px; }
+ }
+</style>
+</head>
+<body>
+
+<header>
+ <div class="wrap nav">
+ <a href="08-sonoran-dusk.html" class="brand">
+ <span class="mark">
+ <svg viewBox="0 0 24 24" fill="none" stroke="#f0795f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M12 22V7M12 7c0-2 1.6-3.6 3.6-3.6S19 5 19 7v4c0 1.4-1.1 2.5-2.5 2.5H12M12 11H8.4C7 11 5.9 9.9 5.9 8.5V6.5"/>
+ <circle cx="17.5" cy="3.5" r="1.6" fill="#f2b157" stroke="none"/>
+</svg>
+</span>
+ Winterhaven Village
+</a>
+ <nav class="navlinks" id="nav">
+ <a href="08-sonoran-dusk.html">Home</a>
+ <a href="#neighbors">Directory</a>
+ <a href="#board">Board</a>
+ <a href="#news">News</a>
+ <a href="#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+ <button class="menu-btn" id="menuBtn" aria-label="Menu">
+ <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+</button>
+</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+ <div class="wrap hero-grid">
+ <div class="hero-copy">
+ <span class="eyebrow">A Sonoran community · Tucson, AZ · Est. 1987</span>
+ <h1>Desert living,<br /><span class="accent serif">neighborly spirit.</span></h1>
+ <p class="tag">Tucked in the shadow of the Catalinas, where the dusk turns coral and your neighbors know your dog's name.</p>
+ <div class="hero-cta">
+ <a href="#neighbors" class="btn btn-primary">
+ Resident Directory
+ <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+</a>
+ <a href="#news" class="btn btn-ghost">This week's news</a>
+</div>
+ <div class="hero-stats">
+ <div class="stat"><div class="n">312</div><div class="l">Homes in the village</div></div>
+ <div class="stat"><div class="n">39</div><div class="l">Years in the desert</div></div>
+ <div class="stat"><div class="n">2,640'</div><div class="l">Elevation in the foothills</div></div>
+</div>
+</div>
+ <div class="hero-photo">
+ <img src="img/sunset1.jpg" alt="Saguaros silhouetted against a coral Tucson sunset over the Santa Catalina mountains" />
+ <div class="badge"><span class="dot"></span> Sunset over the Catalinas · Tonight 7:38 PM</div>
+</div>
+</div>
+</section>
+
+<!-- Saguaro horizon divider -->
+<div class="horizon" aria-hidden="true">
+ <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="currentColor">
+ <path d="M0,80 L0,52 C40,52 70,50 110,50 L118,50 L118,30 C118,27 122,27 122,30 L122,44 C122,46 126,46 126,44 L126,38 C126,35 130,35 130,38 L130,50 L150,50 C200,50 230,46 280,46 L300,46 L300,22 C300,19 305,19 305,22 L305,40 C305,43 310,43 310,40 L310,33 C310,30 315,30 315,33 L315,46 L340,46 C400,46 440,52 510,52 L560,52 L560,34 C560,31 565,31 565,34 L565,48 C565,50 569,50 569,48 L569,42 C569,39 573,39 573,42 L573,52 L620,52 C690,52 740,48 820,48 L870,48 L870,18 C870,15 875,15 875,18 L875,42 C875,45 880,45 880,42 L880,30 C880,27 885,27 885,30 L885,48 L930,48 C1000,48 1040,52 1110,52 L1150,52 L1150,36 C1150,33 1155,33 1155,36 L1155,50 C1155,52 1159,52 1159,50 L1159,44 C1159,41 1163,41 1163,44 L1163,52 L1200,52 C1280,52 1340,50 1400,50 L1440,50 L1440,80 Z"/>
+</svg>
+</div>
+
+<!-- NEWS -->
+<section id="news" style="padding-top:46px;">
+ <div class="wrap">
+ <div class="sec-head">
+ <div>
+ <span class="eyebrow">What's happening</span>
+ <h2>This Week at Winterhaven Village</h2>
+ <p class="sub">Three things worth knowing before the heat of the weekend.</p>
+</div>
+ <a href="#" class="link-more">All updates <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+ <div class="news-grid">
+ <article class="card news-card">
+ <div class="ph"><img src="img/pool.jpg" alt="Community pool with the Catalinas beyond" /></div>
+ <div class="body">
+ <span class="tagchip">Amenities</span>
+ <h3>Pool resurfacing begins Monday</h3>
+ <p>The main pool closes for refinishing — fresh plaster and crisp new tile. Swim laps under the Catalinas by July.</p>
+ <div class="when"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f0795f" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Starts Mon · ready by July</div>
+</div>
+</article>
+ <article class="card news-card">
+ <div class="ph"><img src="img/garden.jpg" alt="Native pollinator garden with desert wildflowers" /></div>
+ <div class="body">
+ <span class="tagchip">Grounds</span>
+ <h3>New native pollinator garden at the east gate</h3>
+ <p>Penstemon, fairy duster, and desert marigold are in — built by volunteers and already buzzing with hummingbirds.</p>
+ <div class="when"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f0795f" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Now planted</div>
+</div>
+</article>
+ <article class="card news-card">
+ <div class="ph"><img src="img/sunset1.jpg" alt="Sunset potluck on the commons with string lights" /></div>
+ <div class="body">
+ <span class="tagchip">Events</span>
+ <h3>Sunset potluck on the commons — June 21</h3>
+ <p>Long tables, patio string lights, and the longest evening of the year. Bring a dish and a lawn chair.</p>
+ <div class="when"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f0795f" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Sat, Jun 21 · 6 PM</div>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<!-- LIGHTER SIDE + BOARD -->
+<section id="board" style="padding-top:0;">
+ <div class="wrap feature-grid">
+ <div class="card lighter">
+ <span class="eyebrow">The Lighter Side</span>
+  <h2 class="serif">Caption Contest</h2>
+ <p>The Hendersons' cat vs. the drip irrigation system. An eternal desert standoff, captured. Give it your best caption.</p>
+ <span class="vote">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M8 12l3 3 5-6"/></svg>
+ Voting closes Friday
+</span>
+</div>
+
+ <div class="card board">
+ <span class="eyebrow">From the Board</span>
+ <h2 class="serif" style="margin-top:14px;">Recent &amp; in progress</h2>
+ <div class="board-item">
+ <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg></span>
+ <div>
+ <h4>May minutes posted</h4>
+ <p>Budget review, the pollinator-garden vote, and pool refinishing bids — all recorded.</p>
+ <a href="#" class="row-link">Read the minutes →</a>
+</div>
+</div>
+ <div class="board-item">
+ <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V10l8-6 8 6v10M9 20v-6h6v6"/></svg></span>
+ <div>
+ <h4>Clubhouse facelift: bids under review</h4>
+ <p>Three contractor proposals in for new flooring, paint, and a refreshed lounge. Decision expected next month.</p>
+ <a href="#" class="row-link">See the project →</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CC&R CORNER -->
+<section id="ccr" style="padding-top:0;">
+ <div class="wrap">
+ <div class="ccr">
+ <div class="inner">
+ <span class="eyebrow">CC&amp;R Corner · Question of the Week</span>
+ <p class="q serif">“Can I park my RV in my driveway overnight?”</p>
+ <p class="a"><strong>Short answer:</strong> Yes — up to 72 hours for loading and unloading. Beyond that, RVs need to be stored off-site or in an enclosed garage.</p>
+ <p class="ref">Reference: CC&amp;Rs, Section 4.3 — Vehicles &amp; Parking</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- NEIGHBORS -->
+<section id="neighbors">
+ <div class="wrap">
+ <div class="sec-head">
+ <div>
+ <span class="eyebrow">Directory preview</span>
+ <h2>Meet Your Neighbors</h2>
+ <p class="sub">A few of the folks who make the village feel like home.</p>
+</div>
+ <a href="#" class="link-more">Full directory <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+ <div class="neighbors-grid">
+ <a href="08-sonoran-dusk-profile.html" class="card neighbor">
+ <img class="avatar" src="https://i.pravatar.cc/300?img=32" alt="Margaret & Tom Ellis" />
+ <h3>Margaret &amp; Tom Ellis</h3>
+ <div class="role">12 Ocotillo Court · Since 1994</div>
+ <p>Keepers of the best courtyard garden on the loop and hosts of the first porch gathering each monsoon season.</p>
+ <span class="pet"> Biscuit the corgi</span>
+ <span class="view-profile">View profile <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+</a>
+ <article class="card neighbor">
+ <img class="avatar" src="https://i.pravatar.cc/300?img=12" alt="Robin Calloway" />
+ <h3>Robin Calloway</h3>
+ <div class="role">Palo Verde Drive · Trail volunteer</div>
+ <p>Knows every bend of the loop trail and which overlook catches the best light off the Catalinas.</p>
+ <span class="pet"> Always on the trail</span>
+</article>
+ <article class="card neighbor">
+ <img class="avatar" src="https://i.pravatar.cc/300?img=56" alt="The Okafor Family" />
+ <h3>The Okafor Family</h3>
+ <div class="role">Saguaro Lane · Since 2016</div>
+ <p>Block-party masterminds with the loudest, friendliest backyard in the village.</p>
+ <span class="pet"> Mango the parrot</span>
+</article>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+ <div class="wrap">
+ <div class="footer-inner">
+ <div class="footer-brand">
+ <span class="name serif">Winterhaven Village</span>
+ <span class="est">Homeowners Association · Tucson, Arizona · Est. 1987</span>
+</div>
+ <nav class="footer-links">
+ <a href="08-sonoran-dusk.html">Home</a>
+ <a href="#neighbors">Directory</a>
+ <a href="#board">Board</a>
+ <a href="#news">News</a>
+ <a href="#ccr">CC&amp;Rs</a>
+ <a href="#">Community Board</a>
+</nav>
+</div>
+ <div class="footer-bottom">© 1987–2026 Winterhaven Village Homeowners Association · Tucson, Arizona · Where the desert glows coral every dusk.</div>
+</div>
+</footer>
+
+<script>
+ var btn = document.getElementById('menuBtn');
+ var nav = document.getElementById('nav');
+ btn.addEventListener('click', function () { nav.classList.toggle('open'); });
+ nav.addEventListener('click', function (e) { if (e.target.tagName === 'A') nav.classList.remove('open'); });
+</script>
+</body>
+</html>
