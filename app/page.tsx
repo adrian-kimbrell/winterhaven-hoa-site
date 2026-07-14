@@ -20,34 +20,6 @@ const todayFmt = new Intl.DateTimeFormat("en-US", {
   timeZone: "America/Phoenix",
 });
 
-const INSIDE = [
-  {
-    title: "Resident Directory",
-    href: "/directory",
-    desc: "Neighbors' photos, bios, and the pets of the village — opt-in, always.",
-  },
-  {
-    title: "Community Board",
-    href: "/community",
-    desc: "Conversations between neighbors: questions, tips, borrowed ladders.",
-  },
-  {
-    title: "Community News",
-    href: "/news",
-    desc: "The weekly update on projects, plantings, and potlucks.",
-  },
-  {
-    title: "From the Board",
-    href: "/board",
-    desc: "Meeting minutes, project updates, and frequent plain-spoken communication.",
-  },
-  {
-    title: "CC&R Corner",
-    href: "/ccrs",
-    desc: "One covenant question answered in plain English every week.",
-  },
-];
-
 /* Ocotillo sprig — the Botanical (No. 12) accent, used sparingly. */
 function Ocotillo() {
   return (
@@ -212,28 +184,6 @@ export default async function Home() {
             <div className="ornament">
               <Ocotillo />
             </div>
-
-            <section id="inside">
-              <div className="container">
-                <div className="section-head">
-                  <p className="eyebrow">For Residents</p>
-                  <h2 className="section-title">Inside the Gate</h2>
-                  <p className="lede">
-                    Everything neighborly lives behind the password — here is
-                    what waits inside.
-                  </p>
-                </div>
-                <div className="inside-grid">
-                  {INSIDE.map((item, i) => (
-                    <a className="inside-card" href={item.href} key={item.href}>
-                      <p className="inside-num">No. {i + 1}</p>
-                      <h3>{item.title}</h3>
-                      <p>{item.desc}</p>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </section>
 
             <section className="lighter">
               <div className="container lighter-inner">
