@@ -65,6 +65,43 @@ export const verification = pgTable("verification", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+/* Resident directory. Listing is opt-in; any field left empty is
+   simply not shared. Photo columns store private-blob pathnames served
+   through the session-checked /api/photos route. */
+export const profile = pgTable("profile", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => user.id, { onDelete: "cascade" }),
+  optIn: boolean("opt_in").notNull().default(false),
+  unit: text("unit"),
+  phone: text("phone"),
+  bio: text("bio"),
+  facts: text("facts"),
+  photoKey: text("photo_key"),
+  residencePhotoKey: text("residence_photo_key"),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const profileRelations = relations(profile, ({ one, many }) => ({
+  user: one(user, { fields: [profile.userId], references: [user.id] }),
+  pets: many(pet),
+}));
+
+export const pet = pgTable("pet", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  species: text("species"),
+  photoKey: text("photo_key"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const petRelations = relations(pet, ({ one }) => ({
+  profile: one(profile, { fields: [pet.userId], references: [profile.userId] }),
+}));
+
 /* Community content. */
 
 /* Forum threads on the community board. lastReplyAt drives "latest

@@ -1,12 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      // Placeholder avatars for the alpha prototype only — replaced by
-      // resident-uploaded photos once the directory is real.
-      { protocol: "https", hostname: "i.pravatar.cc" },
-    ],
+  experimental: {
+    // Profile forms can carry two 5 MB photos.
+    serverActions: { bodySizeLimit: "12mb" },
   },
 };
 

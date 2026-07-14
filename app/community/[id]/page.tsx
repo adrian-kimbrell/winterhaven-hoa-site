@@ -65,7 +65,7 @@ export default async function ThreadPage({
     <>
       <SiteHeader signedIn />
       <main className="board-main">
-        <a className="text-link thread-back" href="/board">
+        <a className="text-link thread-back" href="/community">
           All conversations
         </a>
         <article className={`thread-post${topicHidden ? " comment-hidden" : ""}`}>

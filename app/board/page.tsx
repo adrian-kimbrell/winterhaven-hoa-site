@@ -1,138 +1,67 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { and, count, desc, eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { comment, thread, user } from "@/lib/schema";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { createThread } from "./actions";
 
-const dateFmt = new Intl.DateTimeFormat("en-US", {
-  dateStyle: "long",
-  timeZone: "America/Phoenix",
-});
+/* Placeholder content until the board module lands (minutes uploads,
+   project tracker, member bios per the requirements). */
+const MINUTES = [
+  { month: "May 2026", note: "Posted — clubhouse bids, pool schedule, monsoon prep." },
+  { month: "April 2026", note: "Posted — landscaping contract renewal, east gate garden." },
+  { month: "March 2026", note: "Posted — annual budget review." },
+];
 
-const ERRORS: Record<string, string> = {
-  "title-empty": "Give your conversation a title.",
-  "title-toolong": "Titles are capped at 120 characters.",
-  "body-empty": "Write something first — the board is listening.",
-  "body-toolong": "Posts are capped at 5,000 characters.",
-  cooldown: "You just started a conversation — give it a minute.",
-};
-
-export default async function BoardPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ error?: string }>;
-}) {
+export default async function BoardPage() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/login");
-  const isAdmin = session.user.role === "admin";
-  const { error } = await searchParams;
-
-  const rows = await db
-    .select({
-      id: thread.id,
-      title: thread.title,
-      status: thread.status,
-      createdAt: thread.createdAt,
-      lastReplyAt: thread.lastReplyAt,
-      authorName: user.name,
-      replies: count(comment.id),
-    })
-    .from(thread)
-    .innerJoin(user, eq(thread.userId, user.id))
-    .leftJoin(
-      comment,
-      and(
-        eq(comment.targetType, "thread"),
-        eq(comment.targetId, thread.id),
-        eq(comment.status, "visible")
-      )
-    )
-    .where(isAdmin ? undefined : eq(thread.status, "visible"))
-    .groupBy(thread.id, user.name)
-    .orderBy(desc(thread.lastReplyAt))
-    .limit(50);
 
   return (
     <>
       <SiteHeader signedIn />
       <main className="board-main">
-        <p className="eyebrow">Residents Only</p>
-        <h1 className="section-title">Community Board</h1>
+        <p className="eyebrow">From the Board</p>
+        <h1 className="section-title">Board Updates &amp; Minutes</h1>
         <p className="board-lede">
-          Start a conversation, ask a question, borrow a ladder, report a
-          javelina. Every topic belongs to the whole village.
+          What your board is working on, decided, and planning — posted here
+          first, frequently and plainly.
         </p>
 
-        <details className="new-topic" open={!!error}>
-          <summary>
-            <span>Start a conversation</span>
-            <span className="new-topic-glyph" aria-hidden="true">
-              +
-            </span>
-          </summary>
-          <form action={createThread}>
-            {error && ERRORS[error] && (
-              <p className="auth-error">{ERRORS[error]}</p>
-            )}
-            <div className="field">
-              <label htmlFor="title">Title</label>
-              <input
-                id="title"
-                name="title"
-                type="text"
-                maxLength={120}
-                required
-                placeholder="What would you like to talk about?"
-              />
-            </div>
-            <textarea
-              className="board-input"
-              name="body"
-              maxLength={5000}
-              required
-              placeholder="Say more about it"
-              aria-label="Your post"
-            />
-            <div className="board-form-foot">
-              <span className="posting-as">Posting as {session.user.name}</span>
-              <button className="btn" type="submit">
-                Post Topic
-              </button>
-            </div>
-          </form>
-        </details>
+        <h2 className="replies-head">Current Projects</h2>
+        <ul className="board-list">
+          <li>
+            <p className="board-kind">Project Update</p>
+            <h4>Clubhouse facelift: bids under review</h4>
+            <p>
+              Proposals are being evaluated in two parts — structural work and
+              cosmetic refresh. A recommendation goes to the board this month.
+            </p>
+          </li>
+          <li>
+            <p className="board-kind">Project Update</p>
+            <h4>Pool resurfacing</h4>
+            <p>
+              Begins Monday; two-week closure. Weekly progress notes will be
+              posted in the community news.
+            </p>
+          </li>
+        </ul>
 
-        {rows.length === 0 ? (
-          <p className="board-empty">
-            No conversations yet — be the first to start one.
-          </p>
-        ) : (
-          <div className="thread-list">
-            {rows.map((t) => (
-              <a className="thread-row" href={`/board/${t.id}`} key={t.id}>
-                <div>
-                  <h3 className="thread-title">
-                    {t.title}
-                    {t.status === "hidden" && <span className="pill">Hidden</span>}
-                  </h3>
-                  <p className="thread-meta">
-                    Started by {t.authorName} · {dateFmt.format(t.createdAt)}
-                  </p>
-                </div>
-                <div className="thread-replies">
-                  <span className="thread-count">{t.replies}</span>
-                  <span className="thread-count-label">
-                    {t.replies === 1 ? "reply" : "replies"}
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-        )}
+        <h2 className="replies-head">Meeting Minutes</h2>
+        <ul className="board-list">
+          {MINUTES.map((m) => (
+            <li key={m.month}>
+              <p className="board-kind">Minutes</p>
+              <h4>{m.month}</h4>
+              <p>{m.note}</p>
+            </li>
+          ))}
+        </ul>
+
+        <p className="optin-note">
+          Board member photos, bios, and downloadable minutes arrive with the
+          board module — placeholder entries until then.
+        </p>
       </main>
       <SiteFooter />
     </>

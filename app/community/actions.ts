@@ -35,15 +35,15 @@ export async function createThread(formData: FormData) {
   if (!title.success) {
     redirect(
       field(formData, "title").trim() === ""
-        ? "/board?error=title-empty"
-        : "/board?error=title-toolong"
+        ? "/community?error=title-empty"
+        : "/community?error=title-toolong"
     );
   }
   if (!body.success) {
     redirect(
       field(formData, "body").trim() === ""
-        ? "/board?error=body-empty"
-        : "/board?error=body-toolong"
+        ? "/community?error=body-empty"
+        : "/community?error=body-toolong"
     );
   }
 
@@ -53,7 +53,7 @@ export async function createThread(formData: FormData) {
       gt(thread.createdAt, new Date(Date.now() - THREAD_COOLDOWN_MS))
     ),
   });
-  if (recent) redirect("/board?error=cooldown");
+  if (recent) redirect("/community?error=cooldown");
 
   const id = randomUUID();
   await db.insert(thread).values({
@@ -62,9 +62,9 @@ export async function createThread(formData: FormData) {
     title: title.data,
     body: body.data,
   });
-  revalidatePath("/board");
+  revalidatePath("/community");
   revalidatePath("/");
-  redirect(`/board/${id}`);
+  redirect(`/community/${id}`);
 }
 
 export async function createReply(threadId: string, formData: FormData) {
@@ -75,9 +75,9 @@ export async function createReply(threadId: string, formData: FormData) {
   const target = await db.query.thread.findFirst({
     where: eq(thread.id, threadId),
   });
-  if (!target || (target.status === "hidden" && !isAdmin)) redirect("/board");
+  if (!target || (target.status === "hidden" && !isAdmin)) redirect("/community");
 
-  const back = `/board/${threadId}`;
+  const back = `/community/${threadId}`;
   const raw = field(formData, "body");
   const parsed = replyBodySchema.safeParse(raw);
   if (!parsed.success) {
@@ -103,7 +103,7 @@ export async function createReply(threadId: string, formData: FormData) {
     .update(thread)
     .set({ lastReplyAt: new Date() })
     .where(eq(thread.id, threadId));
-  revalidatePath("/board");
+  revalidatePath("/community");
   revalidatePath(back);
   revalidatePath("/");
   redirect(back);
@@ -123,9 +123,9 @@ export async function deleteOwnThread(id: string) {
       .delete(thread)
       .where(and(eq(thread.id, id), eq(thread.userId, session.user.id)));
   }
-  revalidatePath("/board");
+  revalidatePath("/community");
   revalidatePath("/");
-  redirect("/board");
+  redirect("/community");
 }
 
 export async function deleteOwnReply(id: string, threadId: string) {
@@ -134,8 +134,8 @@ export async function deleteOwnReply(id: string, threadId: string) {
   await db
     .delete(comment)
     .where(and(eq(comment.id, id), eq(comment.userId, session.user.id)));
-  revalidatePath(`/board/${threadId}`);
-  revalidatePath("/board");
+  revalidatePath(`/community/${threadId}`);
+  revalidatePath("/community");
 }
 
 export async function setThreadHidden(id: string, hidden: boolean) {
@@ -149,8 +149,8 @@ export async function setThreadHidden(id: string, hidden: boolean) {
         : { status: "visible", hiddenById: null, hiddenAt: null }
     )
     .where(eq(thread.id, id));
-  revalidatePath("/board");
-  revalidatePath(`/board/${id}`);
+  revalidatePath("/community");
+  revalidatePath(`/community/${id}`);
   revalidatePath("/");
 }
 
@@ -169,5 +169,5 @@ export async function setReplyHidden(
         : { status: "visible", hiddenById: null, hiddenAt: null }
     )
     .where(eq(comment.id, id));
-  revalidatePath(`/board/${threadId}`);
+  revalidatePath(`/community/${threadId}`);
 }

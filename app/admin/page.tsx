@@ -27,7 +27,7 @@ const MODULES: { title: string; desc: string; href?: string }[] = [
   {
     title: "Community Board",
     desc: "Moderate the public comment board.",
-    href: "/board",
+    href: "/community",
   },
 ];
 

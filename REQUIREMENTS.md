@@ -55,6 +55,20 @@ Source: Email from Jerry to the committee (received June 2026).
 - **Traffic:** Very low volume — small community. No need for scale engineering, caching layers, or premium infra.
 - **Front-end quality: spare no expense.** The UI is the product — polished, beautiful, premium feel. Budget constraints apply to infrastructure only, never to design quality.
 
+## Committee Feedback — July 2026 (Jerry's email after committee meeting)
+
+Committee present: Jerry, Kay, Robin, Kathleen (Sue not mentioned).
+
+1. **Design direction settled:** committee saw the choice narrowed to #6 (Quiet Luxury) and unanimously approved — "as good as any because they were all good."
+2. **Public/private split:**
+   - A general public page anyone can access: mission statement + general info on the community. Jerry suggests a photo of the mountains and gate driving in.
+   - **Access by password to the rest** — more content behind login than originally assumed.
+3. **Interactive vs. informational:** views varied; consensus is a mix of both.
+4. **Moderation/monitoring:** open questions about who monitors and responds — needs a concrete proposal from Adrian.
+5. **Priorities per Jerry:** directory is important, human-interest content, humor, and a positive way to start presenting the project. Committee open to meeting again and following Adrian's guidance on format.
+
+Content needed from committee: mission statement text, photo of the entrance/mountains.
+
 ## Notes
 
 - Photos/bios in the directory are **opt-in** ("for those who choose").
