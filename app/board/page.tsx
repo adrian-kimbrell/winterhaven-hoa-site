@@ -1,23 +1,24 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { and, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { comment } from "@/lib/schema";
+import { comment, thread, user } from "@/lib/schema";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { postComment, deleteOwnComment, setCommentHidden } from "./actions";
+import { createThread } from "./actions";
 
 const dateFmt = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",
-  timeStyle: "short",
   timeZone: "America/Phoenix",
 });
 
 const ERRORS: Record<string, string> = {
-  empty: "Write something first — the board is listening.",
-  toolong: "Comments are capped at 2,000 characters.",
-  cooldown: "You're posting quickly — give it half a minute and try again.",
+  "title-empty": "Give your conversation a title.",
+  "title-toolong": "Titles are capped at 120 characters.",
+  "body-empty": "Write something first — the board is listening.",
+  "body-toolong": "Posts are capped at 5,000 characters.",
+  cooldown: "You just started a conversation — give it a minute.",
 };
 
 export default async function BoardPage({
@@ -30,14 +31,30 @@ export default async function BoardPage({
   const isAdmin = session.user.role === "admin";
   const { error } = await searchParams;
 
-  const rows = await db.query.comment.findMany({
-    where: isAdmin
-      ? eq(comment.targetType, "board")
-      : and(eq(comment.targetType, "board"), eq(comment.status, "visible")),
-    with: { author: true },
-    orderBy: [desc(comment.createdAt)],
-    limit: 100,
-  });
+  const rows = await db
+    .select({
+      id: thread.id,
+      title: thread.title,
+      status: thread.status,
+      createdAt: thread.createdAt,
+      lastReplyAt: thread.lastReplyAt,
+      authorName: user.name,
+      replies: count(comment.id),
+    })
+    .from(thread)
+    .innerJoin(user, eq(thread.userId, user.id))
+    .leftJoin(
+      comment,
+      and(
+        eq(comment.targetType, "thread"),
+        eq(comment.targetId, thread.id),
+        eq(comment.status, "visible")
+      )
+    )
+    .where(isAdmin ? undefined : eq(thread.status, "visible"))
+    .groupBy(thread.id, user.name)
+    .orderBy(desc(thread.lastReplyAt))
+    .limit(50);
 
   return (
     <>
@@ -46,75 +63,74 @@ export default async function BoardPage({
         <p className="eyebrow">Residents Only</p>
         <h1 className="section-title">Community Board</h1>
         <p className="board-lede">
-          Say hello, ask a question, borrow a ladder, report a javelina. This
-          board belongs to everyone at Winterhaven Village.
+          Start a conversation, ask a question, borrow a ladder, report a
+          javelina. Every topic belongs to the whole village.
         </p>
 
-        <form className="board-form" action={postComment}>
-          {error && ERRORS[error] && <p className="auth-error">{ERRORS[error]}</p>}
-          <textarea
-            className="board-input"
-            name="body"
-            maxLength={2000}
-            required
-            placeholder="Share something with your neighbors"
-            aria-label="Your comment"
-          />
-          <div className="board-form-foot">
-            <span className="posting-as">
-              Posting as {session.user.name}
+        <details className="new-topic" open={!!error}>
+          <summary>
+            <span>Start a conversation</span>
+            <span className="new-topic-glyph" aria-hidden="true">
+              +
             </span>
-            <button className="btn" type="submit">
-              Post Comment
-            </button>
-          </div>
-        </form>
+          </summary>
+          <form action={createThread}>
+            {error && ERRORS[error] && (
+              <p className="auth-error">{ERRORS[error]}</p>
+            )}
+            <div className="field">
+              <label htmlFor="title">Title</label>
+              <input
+                id="title"
+                name="title"
+                type="text"
+                maxLength={120}
+                required
+                placeholder="What would you like to talk about?"
+              />
+            </div>
+            <textarea
+              className="board-input"
+              name="body"
+              maxLength={5000}
+              required
+              placeholder="Say more about it"
+              aria-label="Your post"
+            />
+            <div className="board-form-foot">
+              <span className="posting-as">Posting as {session.user.name}</span>
+              <button className="btn" type="submit">
+                Post Topic
+              </button>
+            </div>
+          </form>
+        </details>
 
         {rows.length === 0 ? (
           <p className="board-empty">
-            Nothing here yet — be the first to say hello.
+            No conversations yet — be the first to start one.
           </p>
         ) : (
-          <div className="comment-list">
-            {rows.map((c) => {
-              const hidden = c.status === "hidden";
-              const mine = c.userId === session.user.id;
-              return (
-                <article
-                  key={c.id}
-                  className={`comment-item${hidden ? " comment-hidden" : ""}`}
-                >
-                  <div className="comment-head">
-                    <span className="comment-author">{c.author.name}</span>
-                    <span className="comment-date">
-                      {dateFmt.format(c.createdAt)}
-                    </span>
-                    {hidden && <span className="pill">Hidden</span>}
-                  </div>
-                  <p className="comment-body">{c.body}</p>
-                  {(mine || isAdmin) && (
-                    <div className="comment-actions">
-                      {mine && (
-                        <form action={deleteOwnComment.bind(null, c.id)}>
-                          <button className="comment-action-btn" type="submit">
-                            Delete
-                          </button>
-                        </form>
-                      )}
-                      {isAdmin && (
-                        <form
-                          action={setCommentHidden.bind(null, c.id, !hidden)}
-                        >
-                          <button className="comment-action-btn" type="submit">
-                            {hidden ? "Unhide" : "Hide"}
-                          </button>
-                        </form>
-                      )}
-                    </div>
-                  )}
-                </article>
-              );
-            })}
+          <div className="thread-list">
+            {rows.map((t) => (
+              <a className="thread-row" href={`/board/${t.id}`} key={t.id}>
+                <div>
+                  <h3 className="thread-title">
+                    {t.title}
+                    {t.status === "hidden" && <span className="pill">Hidden</span>}
+                  </h3>
+                  <p className="thread-meta">
+                    Started by {t.authorName} · {dateFmt.format(t.createdAt)}
+                  </p>
+                </div>
+                <div className="thread-replies">
+                  <span className="thread-count">{t.replies}</span>
+                  <span className="thread-count-label">
+                    {t.replies === 1 ? "reply" : "replies"}
+                  </span>
+                </div>
+              </a>
+            ))}
           </div>
         )}
       </main>

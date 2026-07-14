@@ -67,8 +67,28 @@ export const verification = pgTable("verification", {
 
 /* Community content. */
 
-/* Comments are generic: targetType "board" is the community comment
-   board; later targets (e.g. CC&R posts) reuse the same table.
+/* Forum threads on the community board. lastReplyAt drives "latest
+   activity" ordering and is bumped by each reply. */
+export const thread = pgTable("thread", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  title: text("title").notNull(),
+  body: text("body").notNull(),
+  status: text("status").notNull().default("visible"),
+  hiddenById: text("hidden_by_id").references(() => user.id),
+  hiddenAt: timestamp("hidden_at"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  lastReplyAt: timestamp("last_reply_at").notNull().defaultNow(),
+});
+
+export const threadRelations = relations(thread, ({ one }) => ({
+  author: one(user, { fields: [thread.userId], references: [user.id] }),
+}));
+
+/* Comments are generic: targetType "thread" + targetId is a forum
+   reply; later targets (e.g. CC&R posts) reuse the same table.
    Moderation is soft-hide with an audit trail, never silent edits. */
 export const comment = pgTable("comment", {
   id: text("id").primaryKey(),

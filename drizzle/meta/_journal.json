@@ -15,6 +15,13 @@
       "when": 1784039006065,
       "tag": "0001_free_lockheed",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784040506300,
+      "tag": "0002_tranquil_prima",
+      "breakpoints": true
     }
   ]
 }

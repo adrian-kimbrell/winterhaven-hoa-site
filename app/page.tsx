@@ -1,6 +1,16 @@
 import Image from "next/image";
+import { headers } from "next/headers";
+import { and, count, desc, eq } from "drizzle-orm";
+import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { comment, thread, user } from "@/lib/schema";
 import { NAV_LINKS } from "@/lib/nav";
 import { SiteFooter } from "@/components/site-footer";
+
+const boardDateFmt = new Intl.DateTimeFormat("en-US", {
+  dateStyle: "long",
+  timeZone: "America/Phoenix",
+});
 
 /* Ocotillo sprig — the Botanical (No. 12) accent, used sparingly. */
 function Ocotillo() {
@@ -25,7 +35,33 @@ function Ocotillo() {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  const conversations = session
+    ? await db
+        .select({
+          id: thread.id,
+          title: thread.title,
+          createdAt: thread.createdAt,
+          authorName: user.name,
+          replies: count(comment.id),
+        })
+        .from(thread)
+        .innerJoin(user, eq(thread.userId, user.id))
+        .leftJoin(
+          comment,
+          and(
+            eq(comment.targetType, "thread"),
+            eq(comment.targetId, thread.id),
+            eq(comment.status, "visible")
+          )
+        )
+        .where(eq(thread.status, "visible"))
+        .groupBy(thread.id, user.name)
+        .orderBy(desc(thread.lastReplyAt))
+        .limit(3)
+    : [];
+
   return (
     <>
       <header className="hero">
@@ -204,6 +240,63 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section id="community">
+          <div className="container">
+            <div className="section-head">
+              <p className="eyebrow">Community Board</p>
+              <h2 className="section-title">Neighbors Are Talking</h2>
+            </div>
+            {session ? (
+              <>
+                {conversations.length === 0 ? (
+                  <p className="board-empty">
+                    No conversations yet — be the first to start one.
+                  </p>
+                ) : (
+                  <div className="thread-list">
+                    {conversations.map((t) => (
+                      <a
+                        className="thread-row"
+                        href={`/board/${t.id}`}
+                        key={t.id}
+                      >
+                        <div>
+                          <h3 className="thread-title">{t.title}</h3>
+                          <p className="thread-meta">
+                            Started by {t.authorName} ·{" "}
+                            {boardDateFmt.format(t.createdAt)}
+                          </p>
+                        </div>
+                        <div className="thread-replies">
+                          <span className="thread-count">{t.replies}</span>
+                          <span className="thread-count-label">
+                            {t.replies === 1 ? "reply" : "replies"}
+                          </span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                )}
+                <div className="community-cta">
+                  <a className="text-link" href="/board">
+                    Visit the Community Board
+                  </a>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="community-invite">
+                  The conversation is just for neighbors — questions, tips, and
+                  the occasional javelina sighting.
+                </p>
+                <a className="btn" href="/login">
+                  Sign in to join
+                </a>
+              </>
+            )}
           </div>
         </section>
 
