@@ -98,6 +98,7 @@ export default async function Home() {
                     {label}
                   </a>
                 ))}
+                <a href="/profile">My Profile</a>
               </>
             ) : (
               <>

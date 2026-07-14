@@ -1,8 +1,8 @@
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { ResidentGate } from "@/components/resident-gate";
 
 /* Placeholder content until the board module lands (minutes uploads,
    project tracker, member bios per the requirements). */
@@ -14,7 +14,15 @@ const MINUTES = [
 
 export default async function BoardPage() {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) redirect("/login");
+  if (!session) {
+    return (
+      <ResidentGate
+        eyebrow="From the Board"
+        title="Board Updates &amp; Minutes"
+        lede="What your board is working on, decided, and planning — posted here first, frequently and plainly."
+      />
+    );
+  }
 
   return (
     <>

@@ -1,8 +1,8 @@
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { ResidentGate } from "@/components/resident-gate";
 
 /* Placeholder content until the CC&R module lands (weekly Q&A with a
    comment thread per question, reusing the comments table). */
@@ -19,7 +19,15 @@ const PAST_QUESTIONS = [
 
 export default async function CcrsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) redirect("/login");
+  if (!session) {
+    return (
+      <ResidentGate
+        eyebrow="CC&amp;R Corner"
+        title="Covenants, Plainly Answered"
+        lede="One resident question about the CC&amp;Rs answered every week — in plain English, with the section reference for the curious."
+      />
+    );
+  }
 
   return (
     <>

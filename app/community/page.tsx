@@ -1,11 +1,11 @@
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { and, count, desc, eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { comment, thread, user } from "@/lib/schema";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { ResidentGate } from "@/components/resident-gate";
 import { createThread } from "./actions";
 
 const dateFmt = new Intl.DateTimeFormat("en-US", {
@@ -27,7 +27,15 @@ export default async function BoardPage({
   searchParams: Promise<{ error?: string }>;
 }) {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) redirect("/login");
+  if (!session) {
+    return (
+      <ResidentGate
+        eyebrow="Community Board"
+        title="Community Board"
+        lede="Neighbors asking questions, trading tips, and looking out for each other. Conversations are for residents only."
+      />
+    );
+  }
   const isAdmin = session.user.role === "admin";
   const { error } = await searchParams;
 

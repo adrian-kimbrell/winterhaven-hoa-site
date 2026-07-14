@@ -63,14 +63,6 @@ export default async function ResidentPage({
               {row.phone && <p>{row.phone}</p>}
               <p>{row.user.email}</p>
             </div>
-            {(isSelf || isAdmin) && (
-              <a
-                className="text-link"
-                href={isSelf ? "/profile" : `/profile?for=${id}`}
-              >
-                Edit profile
-              </a>
-            )}
           </div>
         </header>
 

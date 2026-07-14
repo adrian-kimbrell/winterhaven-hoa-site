@@ -1,15 +1,23 @@
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { profile } from "@/lib/schema";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { ResidentGate } from "@/components/resident-gate";
 
 export default async function DirectoryPage() {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) redirect("/login");
+  if (!session) {
+    return (
+      <ResidentGate
+        eyebrow="Resident Directory"
+        title="Resident Directory"
+        lede="The neighbors of Winterhaven Village — listings are opt-in, and residents choose exactly what to share."
+      />
+    );
+  }
 
   const rows = await db.query.profile.findMany({
     where: eq(profile.optIn, true),
@@ -27,12 +35,6 @@ export default async function DirectoryPage() {
           The neighbors of Winterhaven Village — listings are opt-in, and
           residents choose exactly what to share.
         </p>
-        <div className="dir-bar">
-          <a className="btn" href="/profile">
-            Edit My Profile
-          </a>
-        </div>
-
         {rows.length === 0 ? (
           <p className="board-empty">
             The directory is brand new — add your profile and be the first

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { ResidentGate } from "@/components/resident-gate";
 
 /* Placeholder content until the admin news module lands — then this
    page reads from the database like the community board does. */
@@ -33,7 +33,15 @@ const STORIES = [
 
 export default async function NewsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) redirect("/login");
+  if (!session) {
+    return (
+      <ResidentGate
+        eyebrow="Community News"
+        title="This Week at Winterhaven Village"
+        lede="The weekly update on everything happening around the village — projects, plantings, and potlucks."
+      />
+    );
+  }
 
   return (
     <>

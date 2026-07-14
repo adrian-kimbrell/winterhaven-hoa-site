@@ -14,7 +14,14 @@ export function SiteHeader({ signedIn = false }: { signedIn?: boolean }) {
             {label}
           </a>
         ))}
-        {signedIn ? <NavSignOut /> : <a href="/login">Sign In</a>}
+        {signedIn ? (
+          <>
+            <a href="/profile">My Profile</a>
+            <NavSignOut />
+          </>
+        ) : (
+          <a href="/login">Sign In</a>
+        )}
       </div>
     </nav>
   );
