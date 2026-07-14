@@ -1,14 +1,6 @@
 import Image from "next/image";
-
-const NAV_LINKS = [
-  ["Home", "/"],
-  ["Directory", "#neighbors"],
-  ["Board", "#board"],
-  ["News", "#news"],
-  ["CC&Rs", "#ccr"],
-  ["Community Board", "#"],
-  ["Sign In", "/login"],
-] as const;
+import { NAV_LINKS } from "@/lib/nav";
+import { SiteFooter } from "@/components/site-footer";
 
 /* Ocotillo sprig — the Botanical (No. 12) accent, used sparingly. */
 function Ocotillo() {
@@ -59,6 +51,7 @@ export default function Home() {
                 {label}
               </a>
             ))}
+            <a href="/login">Sign In</a>
           </div>
         </nav>
         <div className="hero-content">
@@ -272,32 +265,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-top">
-            <div>
-              <a className="wordmark" href="/">
-                Winterhaven Village
-              </a>
-              <p className="tagline">Desert living, neighborly spirit.</p>
-            </div>
-            <div className="footer-nav">
-              {NAV_LINKS.map(([label, href]) => (
-                <a key={label} href={href}>
-                  {label}
-                </a>
-              ))}
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>
-              Winterhaven Village Homeowners Association · Tucson, Arizona ·
-              Est. 1987
-            </p>
-            <p>Alpha prototype — every name, photo, and story is fictional.</p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

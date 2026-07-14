@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { SignOutButton } from "@/components/sign-out-button";
 
-const MODULES = [
+const MODULES: { title: string; desc: string; href?: string }[] = [
   {
     title: "Community News",
     desc: "Post and edit the weekly news items shown on the homepage.",
@@ -27,6 +27,7 @@ const MODULES = [
   {
     title: "Community Board",
     desc: "Moderate the public comment board.",
+    href: "/board",
   },
 ];
 
@@ -54,13 +55,21 @@ export default async function AdminPage() {
           managed from here. Modules light up as they are built.
         </p>
         <div className="admin-grid">
-          {MODULES.map((m) => (
-            <div className="admin-card" key={m.title}>
-              <h3>{m.title}</h3>
-              <p>{m.desc}</p>
-              <span className="pill">Coming next</span>
-            </div>
-          ))}
+          {MODULES.map((m) =>
+            m.href ? (
+              <a className="admin-card admin-card-link" href={m.href} key={m.title}>
+                <h3>{m.title}</h3>
+                <p>{m.desc}</p>
+                <span className="pill pill-live">Live</span>
+              </a>
+            ) : (
+              <div className="admin-card" key={m.title}>
+                <h3>{m.title}</h3>
+                <p>{m.desc}</p>
+                <span className="pill">Coming next</span>
+              </div>
+            )
+          )}
         </div>
       </main>
     </div>
