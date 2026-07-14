@@ -33,6 +33,12 @@ export default async function BoardPage({
         eyebrow="Community Board"
         title="Community Board"
         lede="Neighbors asking questions, trading tips, and looking out for each other. Conversations are for residents only."
+        active="/community"
+        features={[
+          "Start a conversation or ask the village anything",
+          "Reply to neighbors and follow what's active",
+          "Friendly moderation by the HOA",
+        ]}
       />
     );
   }
@@ -66,7 +72,7 @@ export default async function BoardPage({
 
   return (
     <>
-      <SiteHeader signedIn />
+      <SiteHeader signedIn active="/community" />
       <main className="board-main">
         <p className="eyebrow">Residents Only</p>
         <h1 className="section-title">Community Board</h1>
@@ -142,7 +148,7 @@ export default async function BoardPage({
           </div>
         )}
       </main>
-      <SiteFooter />
+      <SiteFooter signedIn />
     </>
   );
 }

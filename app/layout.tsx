@@ -26,7 +26,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${cormorant.variable} ${jost.variable}`}>
-      <body>{children}</body>
+      <body>
+        <div className="alpha-bar">Alpha preview · all content is placeholder</div>
+        {children}
+      </body>
     </html>
   );
 }

@@ -39,13 +39,19 @@ export default async function NewsPage() {
         eyebrow="Community News"
         title="This Week at Winterhaven Village"
         lede="The weekly update on everything happening around the village — projects, plantings, and potlucks."
+        active="/news"
+        features={[
+          "A fresh community update every week",
+          "Project progress, plantings, and event announcements",
+          "Photos from around the village",
+        ]}
       />
     );
   }
 
   return (
     <>
-      <SiteHeader signedIn />
+      <SiteHeader signedIn active="/news" />
       <main className="board-main">
         <p className="eyebrow">Community News</p>
         <h1 className="section-title">This Week at Winterhaven Village</h1>
@@ -79,7 +85,7 @@ export default async function NewsPage() {
           stories until then.
         </p>
       </main>
-      <SiteFooter />
+      <SiteFooter signedIn />
     </>
   );
 }

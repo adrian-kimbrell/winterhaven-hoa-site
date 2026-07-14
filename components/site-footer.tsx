@@ -1,6 +1,6 @@
 import { NAV_LINKS } from "@/lib/nav";
 
-export function SiteFooter() {
+export function SiteFooter({ signedIn = false }: { signedIn?: boolean }) {
   return (
     <footer className="footer">
       <div className="container">
@@ -17,7 +17,11 @@ export function SiteFooter() {
                 {label}
               </a>
             ))}
-            <a href="/login">Sign In</a>
+            {signedIn ? (
+              <a href="/profile">My Profile</a>
+            ) : (
+              <a href="/login">Sign In</a>
+            )}
           </div>
         </div>
         <div className="footer-bottom">

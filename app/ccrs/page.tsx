@@ -25,13 +25,19 @@ export default async function CcrsPage() {
         eyebrow="CC&amp;R Corner"
         title="Covenants, Plainly Answered"
         lede="One resident question about the CC&amp;Rs answered every week — in plain English, with the section reference for the curious."
+        active="/ccrs"
+        features={[
+          "A new resident question answered every week",
+          "Plain-English answers with section references",
+          "A growing archive of past questions",
+        ]}
       />
     );
   }
 
   return (
     <>
-      <SiteHeader signedIn />
+      <SiteHeader signedIn active="/ccrs" />
       <main className="board-main">
         <p className="eyebrow">CC&amp;R Corner</p>
         <h1 className="section-title">Covenants, Plainly Answered</h1>
@@ -66,7 +72,7 @@ export default async function CcrsPage() {
           with the CC&amp;R module — placeholder questions until then.
         </p>
       </main>
-      <SiteFooter />
+      <SiteFooter signedIn />
     </>
   );
 }

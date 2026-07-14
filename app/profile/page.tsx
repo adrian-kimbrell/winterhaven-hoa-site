@@ -46,7 +46,7 @@ export default async function ProfileEditPage({
 
   return (
     <>
-      <SiteHeader signedIn />
+      <SiteHeader signedIn active="/profile" />
       <main className="board-main">
         <p className="eyebrow">Resident Directory</p>
         <h1 className="section-title">
@@ -225,7 +225,7 @@ export default async function ProfileEditPage({
           </div>
         </form>
       </main>
-      <SiteFooter />
+      <SiteFooter signedIn />
     </>
   );
 }

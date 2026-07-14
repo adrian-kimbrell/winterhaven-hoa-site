@@ -15,6 +15,12 @@ export default async function DirectoryPage() {
         eyebrow="Resident Directory"
         title="Resident Directory"
         lede="The neighbors of Winterhaven Village — listings are opt-in, and residents choose exactly what to share."
+        active="/directory"
+        features={[
+          "Neighbors' photos, bios, and contact info",
+          "Pets of the village, by name",
+          "Opt-in only — every resident controls their own listing",
+        ]}
       />
     );
   }
@@ -27,7 +33,7 @@ export default async function DirectoryPage() {
 
   return (
     <>
-      <SiteHeader signedIn />
+      <SiteHeader signedIn active="/directory" />
       <main className="board-main dir-main">
         <p className="eyebrow">Residents Only</p>
         <h1 className="section-title">Resident Directory</h1>
@@ -69,7 +75,7 @@ export default async function DirectoryPage() {
           </div>
         )}
       </main>
-      <SiteFooter />
+      <SiteFooter signedIn />
     </>
   );
 }

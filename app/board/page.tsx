@@ -20,13 +20,19 @@ export default async function BoardPage() {
         eyebrow="From the Board"
         title="Board Updates &amp; Minutes"
         lede="What your board is working on, decided, and planning — posted here first, frequently and plainly."
+        active="/board"
+        features={[
+          "Minutes from every board meeting",
+          "Live updates on village projects",
+          "Board member contacts and bios",
+        ]}
       />
     );
   }
 
   return (
     <>
-      <SiteHeader signedIn />
+      <SiteHeader signedIn active="/board" />
       <main className="board-main">
         <p className="eyebrow">From the Board</p>
         <h1 className="section-title">Board Updates &amp; Minutes</h1>
@@ -71,7 +77,7 @@ export default async function BoardPage() {
           board module — placeholder entries until then.
         </p>
       </main>
-      <SiteFooter />
+      <SiteFooter signedIn />
     </>
   );
 }

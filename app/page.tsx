@@ -6,11 +6,47 @@ import { db } from "@/lib/db";
 import { comment, profile, thread, user } from "@/lib/schema";
 import { NAV_LINKS } from "@/lib/nav";
 import { SiteFooter } from "@/components/site-footer";
+import { NavSignOut } from "@/components/nav-sign-out";
 
 const boardDateFmt = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",
   timeZone: "America/Phoenix",
 });
+
+const todayFmt = new Intl.DateTimeFormat("en-US", {
+  weekday: "long",
+  month: "long",
+  day: "numeric",
+  timeZone: "America/Phoenix",
+});
+
+const INSIDE = [
+  {
+    title: "Resident Directory",
+    href: "/directory",
+    desc: "Neighbors' photos, bios, and the pets of the village — opt-in, always.",
+  },
+  {
+    title: "Community Board",
+    href: "/community",
+    desc: "Conversations between neighbors: questions, tips, borrowed ladders.",
+  },
+  {
+    title: "Community News",
+    href: "/news",
+    desc: "The weekly update on projects, plantings, and potlucks.",
+  },
+  {
+    title: "From the Board",
+    href: "/board",
+    desc: "Meeting minutes, project updates, and frequent plain-spoken communication.",
+  },
+  {
+    title: "CC&R Corner",
+    href: "/ccrs",
+    desc: "One covenant question answered in plain English every week.",
+  },
+];
 
 /* Ocotillo sprig — the Botanical (No. 12) accent, used sparingly. */
 function Ocotillo() {
@@ -73,7 +109,7 @@ export default async function Home() {
 
   return (
     <>
-      <header className="hero">
+      <header className={session ? "hero hero-resident" : "hero"}>
         <Image
           src="/img/sunset1.jpg"
           alt="Saguaros at sunset in the Sonoran desert"
@@ -83,9 +119,6 @@ export default async function Home() {
           className="hero-img"
         />
         <div className="hero-scrim" />
-        <div className="alpha-tag">
-          Alpha preview · all content is placeholder
-        </div>
         <nav className="nav">
           <a className="wordmark" href="/">
             Winterhaven Village
@@ -99,6 +132,7 @@ export default async function Home() {
                   </a>
                 ))}
                 <a href="/profile">My Profile</a>
+                <NavSignOut />
               </>
             ) : (
               <>
@@ -110,29 +144,29 @@ export default async function Home() {
           </div>
         </nav>
         <div className="hero-content">
-          <p className="hero-eyebrow">Winterhaven Village · Tucson, Arizona</p>
-          <h1>Desert living, neighborly spirit.</h1>
-          <div className="hero-actions">
-            {session ? (
-              <>
-                <a className="btn" href="/directory">
-                  Resident Directory
-                </a>
-                <a className="btn btn-ghost" href="#news">
-                  This Week&rsquo;s News
-                </a>
-              </>
-            ) : (
-              <>
+          {session ? (
+            <>
+              <p className="hero-eyebrow">
+                {todayFmt.format(new Date())} · Tucson, Arizona
+              </p>
+              <h1>Welcome home, {session.user.name.split(" ")[0]}.</h1>
+            </>
+          ) : (
+            <>
+              <p className="hero-eyebrow">
+                Winterhaven Village · Tucson, Arizona
+              </p>
+              <h1>Desert living, neighborly spirit.</h1>
+              <div className="hero-actions">
                 <a className="btn" href="/login">
                   Resident Sign In
                 </a>
                 <a className="btn btn-ghost" href="#about">
                   About the Village
                 </a>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
       </header>
 
@@ -179,12 +213,33 @@ export default async function Home() {
               <Ocotillo />
             </div>
 
+            <section id="inside">
+              <div className="container">
+                <div className="section-head">
+                  <p className="eyebrow">For Residents</p>
+                  <h2 className="section-title">Inside the Gate</h2>
+                  <p className="lede">
+                    Everything neighborly lives behind the password — here is
+                    what waits inside.
+                  </p>
+                </div>
+                <div className="inside-grid">
+                  {INSIDE.map((item, i) => (
+                    <a className="inside-card" href={item.href} key={item.href}>
+                      <p className="inside-num">No. {i + 1}</p>
+                      <h3>{item.title}</h3>
+                      <p>{item.desc}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </section>
+
             <section className="lighter">
               <div className="container lighter-inner">
                 <p className="eyebrow">Residents</p>
                 <blockquote>
-                  The directory, community board, news, and neighborly rest of
-                  it live behind the gate.
+                  If you live in the village, this site is yours.
                 </blockquote>
                 <p className="closes">
                   Accounts are created by the HOA for Winterhaven Village
@@ -458,7 +513,7 @@ export default async function Home() {
         )}
       </main>
 
-      <SiteFooter />
+      <SiteFooter signedIn={!!session} />
     </>
   );
 }

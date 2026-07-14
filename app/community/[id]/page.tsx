@@ -63,7 +63,7 @@ export default async function ThreadPage({
 
   return (
     <>
-      <SiteHeader signedIn />
+      <SiteHeader signedIn active="/community" />
       <main className="board-main">
         <a className="text-link thread-back" href="/community">
           All conversations
@@ -167,7 +167,7 @@ export default async function ThreadPage({
           </div>
         </form>
       </main>
-      <SiteFooter />
+      <SiteFooter signedIn />
     </>
   );
 }

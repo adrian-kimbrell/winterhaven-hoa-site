@@ -31,7 +31,7 @@ export default async function ResidentPage({
 
   return (
     <>
-      <SiteHeader signedIn />
+      <SiteHeader signedIn active="/directory" />
       <main className="board-main">
         <a className="text-link thread-back" href="/directory">
           Full directory
@@ -122,7 +122,7 @@ export default async function ResidentPage({
           Directory listings are opt-in. Residents choose what to share.
         </p>
       </main>
-      <SiteFooter />
+      <SiteFooter signedIn />
     </>
   );
 }
