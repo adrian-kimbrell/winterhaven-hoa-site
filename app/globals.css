@@ -834,29 +834,115 @@ section { padding: 110px 0; }
   font-weight: 500;
   color: var(--copper);
 }
-.resident-head {
-  display: flex;
-  gap: 44px;
-  align-items: center;
-  padding-bottom: 40px;
-  border-bottom: 1px solid var(--line);
-  flex-wrap: wrap;
+/* Directory people grid */
+.people-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+  margin-top: 48px;
 }
-.resident-portrait {
-  width: 168px;
-  height: 168px;
-  border-radius: 50%;
+.person-card {
+  display: block;
+  background: #fdfaf3;
+  border: 1px solid var(--sand-deep);
+  border-radius: 3px;
   overflow: hidden;
-  outline: 1px solid var(--sand-deep);
-  outline-offset: 6px;
-  background: var(--sand);
-  flex-shrink: 0;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.resident-portrait img { width: 100%; height: 100%; object-fit: cover; }
-.resident-portrait .dir-initial { font-size: 64px; }
-.resident-meta { color: var(--ink-soft); margin: 10px 0 14px; }
-.resident-meta p { font-size: 15.5px; }
-.resident-section { margin-top: 8px; }
+.person-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 44px rgba(60, 45, 25, 0.14);
+}
+.person-photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--sand);
+  overflow: hidden;
+}
+.person-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.person-card:hover .person-photo img { transform: scale(1.04); }
+.person-photo .dir-initial { font-size: 84px; }
+.person-body { padding: 22px 24px 24px; }
+.person-body h4 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+  transition: color 0.2s ease;
+}
+.person-card:hover .person-body h4 { color: var(--pool-deep); }
+.person-body .street {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 8px;
+}
+.person-body .pets {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 16.5px;
+  color: var(--muted);
+}
+
+/* Resident profile page */
+.resident-layout {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 72px;
+  align-items: start;
+  margin-top: 12px;
+}
+.resident-photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--sand);
+}
+.resident-photo img { width: 100%; height: 100%; object-fit: cover; }
+.resident-photo .dir-initial { width: 100%; height: 100%; font-size: 110px; }
+.resident-contact {
+  margin-top: 26px;
+  background: #fdfaf3;
+  border: 1px solid var(--sand-deep);
+  border-radius: 3px;
+  padding: 10px 28px;
+}
+.contact-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+.contact-row:first-child { border-top: 0; }
+.contact-label {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.contact-value { font-size: 15.5px; color: var(--ink); overflow-wrap: anywhere; }
+.resident-unit {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-top: 2px;
+}
+.resident-section { margin-top: 12px; }
+.residence-section { margin-top: 56px; }
 .pet-cards { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 18px; }
 .pet-card {
   width: 220px;
@@ -1078,6 +1164,8 @@ section { padding: 110px 0; }
   .story { grid-template-columns: 1fr; gap: 20px; }
   .gate-grid { grid-template-columns: 1fr; gap: 40px; }
   .inside-grid { grid-template-columns: 1fr; }
+  .resident-layout { grid-template-columns: 1fr; gap: 40px; }
+  .resident-photo { max-width: 440px; }
   .profile-grid { grid-template-columns: 1fr; }
   .resident-head { gap: 28px; }
 }

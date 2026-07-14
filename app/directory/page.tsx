@@ -47,14 +47,14 @@ export default async function DirectoryPage() {
             listing.
           </p>
         ) : (
-          <div className="neighbor-grid dir-grid">
+          <div className="people-grid">
             {rows.map((r) => (
               <a
-                className="neighbor-card"
+                className="person-card"
                 href={`/directory/${r.userId}`}
                 key={r.userId}
               >
-                <figure className="dir-figure">
+                <figure className="person-photo">
                   {r.photoKey ? (
                     <img src={`/api/photos/${r.photoKey}`} alt={r.user.name} />
                   ) : (
@@ -63,13 +63,15 @@ export default async function DirectoryPage() {
                     </div>
                   )}
                 </figure>
-                <h4>{r.user.name}</h4>
-                {r.unit && <p className="street">{r.unit}</p>}
-                {r.pets.length > 0 && (
-                  <p className="pets">
-                    with {r.pets.map((p) => p.name).join(" & ")}
-                  </p>
-                )}
+                <div className="person-body">
+                  <h4>{r.user.name}</h4>
+                  {r.unit && <p className="street">{r.unit}</p>}
+                  {r.pets.length > 0 && (
+                    <p className="pets">
+                      with {r.pets.map((p) => p.name).join(" & ")}
+                    </p>
+                  )}
+                </div>
               </a>
             ))}
           </div>

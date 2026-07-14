@@ -29,10 +29,18 @@ export default async function ResidentPage({
     orderBy: [asc(pet.createdAt)],
   });
 
+  const contact = (
+    [
+      ["Address", row.unit],
+      ["Phone", row.phone],
+      ["Email", row.user.email],
+    ] as const
+  ).filter(([, v]) => v);
+
   return (
     <>
-      <SiteHeader signedIn isAdmin={session.user.role === "admin"} active="/directory" />
-      <main className="board-main">
+      <SiteHeader signedIn isAdmin={isAdmin} active="/directory" />
+      <main className="board-main dir-main">
         <a className="text-link thread-back" href="/directory">
           Full directory
         </a>
@@ -45,70 +53,79 @@ export default async function ResidentPage({
           </p>
         )}
 
-        <header className="resident-head">
-          <figure className="resident-portrait">
-            {row.photoKey ? (
-              <img src={`/api/photos/${row.photoKey}`} alt={row.user.name} />
-            ) : (
-              <div className="dir-initial" aria-hidden="true">
-                {row.user.name[0]}
+        <div className="resident-layout">
+          <aside className="resident-rail">
+            <figure className="resident-photo">
+              {row.photoKey ? (
+                <img src={`/api/photos/${row.photoKey}`} alt={row.user.name} />
+              ) : (
+                <div className="dir-initial" aria-hidden="true">
+                  {row.user.name[0]}
+                </div>
+              )}
+            </figure>
+            {contact.length > 0 && (
+              <div className="resident-contact">
+                {contact.map(([label, value]) => (
+                  <div className="contact-row" key={label}>
+                    <span className="contact-label">{label}</span>
+                    <span className="contact-value">{value}</span>
+                  </div>
+                ))}
               </div>
             )}
-          </figure>
-          <div>
+          </aside>
+
+          <div className="resident-body-col">
             <p className="eyebrow">Resident</p>
             <h1 className="section-title">{row.user.name}</h1>
-            <div className="resident-meta">
-              {row.unit && <p>{row.unit}</p>}
-              {row.phone && <p>{row.phone}</p>}
-              <p>{row.user.email}</p>
-            </div>
+            {row.unit && <p className="resident-unit">{row.unit}</p>}
+
+            {row.bio && (
+              <section className="resident-section">
+                <h2 className="replies-head">About</h2>
+                <p className="thread-body">{row.bio}</p>
+              </section>
+            )}
+
+            {row.facts && (
+              <section className="resident-section">
+                <h2 className="replies-head">Worth Knowing</h2>
+                <p className="thread-body">{row.facts}</p>
+              </section>
+            )}
+
+            {pets.length > 0 && (
+              <section className="resident-section">
+                <h2 className="replies-head">
+                  {pets.length === 1 ? "Pet" : "Pets"}
+                </h2>
+                <div className="pet-cards">
+                  {pets.map((p) => (
+                    <figure className="pet-card" key={p.id}>
+                      {p.photoKey ? (
+                        <img src={`/api/photos/${p.photoKey}`} alt={p.name} />
+                      ) : (
+                        <div className="pet-card-empty" aria-hidden="true">
+                          {p.name[0]}
+                        </div>
+                      )}
+                      <figcaption>
+                        <span className="pet-name">{p.name}</span>
+                        {p.species && (
+                          <span className="pet-species">{p.species}</span>
+                        )}
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
-        </header>
-
-        {row.bio && (
-          <section className="resident-section">
-            <h2 className="replies-head">About</h2>
-            <p className="thread-body">{row.bio}</p>
-          </section>
-        )}
-
-        {row.facts && (
-          <section className="resident-section">
-            <h2 className="replies-head">Worth Knowing</h2>
-            <p className="thread-body">{row.facts}</p>
-          </section>
-        )}
-
-        {pets.length > 0 && (
-          <section className="resident-section">
-            <h2 className="replies-head">
-              {pets.length === 1 ? "Pet" : "Pets"}
-            </h2>
-            <div className="pet-cards">
-              {pets.map((p) => (
-                <figure className="pet-card" key={p.id}>
-                  {p.photoKey ? (
-                    <img src={`/api/photos/${p.photoKey}`} alt={p.name} />
-                  ) : (
-                    <div className="pet-card-empty" aria-hidden="true">
-                      {p.name[0]}
-                    </div>
-                  )}
-                  <figcaption>
-                    <span className="pet-name">{p.name}</span>
-                    {p.species && (
-                      <span className="pet-species">{p.species}</span>
-                    )}
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </section>
-        )}
+        </div>
 
         {row.residencePhotoKey && (
-          <section className="resident-section">
+          <section className="resident-section residence-section">
             <h2 className="replies-head">The Residence</h2>
             <img
               className="residence-photo"
