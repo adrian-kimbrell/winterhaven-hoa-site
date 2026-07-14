@@ -51,7 +51,7 @@ export default async function NewsPage() {
 
   return (
     <>
-      <SiteHeader signedIn active="/news" />
+      <SiteHeader signedIn isAdmin={session.user.role === "admin"} active="/news" />
       <main className="board-main">
         <p className="eyebrow">Community News</p>
         <h1 className="section-title">This Week at Winterhaven Village</h1>

@@ -32,7 +32,7 @@ export default async function BoardPage() {
 
   return (
     <>
-      <SiteHeader signedIn active="/board" />
+      <SiteHeader signedIn isAdmin={session.user.role === "admin"} active="/board" />
       <main className="board-main">
         <p className="eyebrow">From the Board</p>
         <h1 className="section-title">Board Updates &amp; Minutes</h1>

@@ -37,7 +37,7 @@ export default async function CcrsPage() {
 
   return (
     <>
-      <SiteHeader signedIn active="/ccrs" />
+      <SiteHeader signedIn isAdmin={session.user.role === "admin"} active="/ccrs" />
       <main className="board-main">
         <p className="eyebrow">CC&amp;R Corner</p>
         <h1 className="section-title">Covenants, Plainly Answered</h1>

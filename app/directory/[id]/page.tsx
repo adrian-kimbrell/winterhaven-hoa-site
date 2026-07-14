@@ -31,7 +31,7 @@ export default async function ResidentPage({
 
   return (
     <>
-      <SiteHeader signedIn active="/directory" />
+      <SiteHeader signedIn isAdmin={session.user.role === "admin"} active="/directory" />
       <main className="board-main">
         <a className="text-link thread-back" href="/directory">
           Full directory

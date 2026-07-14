@@ -104,6 +104,7 @@ export default async function Home() {
                   </a>
                 ))}
                 <a href="/profile">My Profile</a>
+                {session.user.role === "admin" && <a href="/admin">Admin</a>}
                 <NavSignOut />
               </>
             ) : (

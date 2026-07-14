@@ -46,7 +46,7 @@ export default async function ProfileEditPage({
 
   return (
     <>
-      <SiteHeader signedIn active="/profile" />
+      <SiteHeader signedIn isAdmin={session.user.role === "admin"} active="/profile" />
       <main className="board-main">
         <p className="eyebrow">Resident Directory</p>
         <h1 className="section-title">

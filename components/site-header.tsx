@@ -6,9 +6,11 @@ import { NavSignOut } from "./nav-sign-out";
    underline. */
 export function SiteHeader({
   signedIn = false,
+  isAdmin = false,
   active,
 }: {
   signedIn?: boolean;
+  isAdmin?: boolean;
   active?: string;
 }) {
   return (
@@ -35,6 +37,7 @@ export function SiteHeader({
             >
               My Profile
             </a>
+            {isAdmin && <a href="/admin">Admin</a>}
             <NavSignOut />
           </>
         ) : (

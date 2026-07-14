@@ -33,7 +33,7 @@ export default async function DirectoryPage() {
 
   return (
     <>
-      <SiteHeader signedIn active="/directory" />
+      <SiteHeader signedIn isAdmin={session.user.role === "admin"} active="/directory" />
       <main className="board-main dir-main">
         <p className="eyebrow">Residents Only</p>
         <h1 className="section-title">Resident Directory</h1>

@@ -72,7 +72,7 @@ export default async function BoardPage({
 
   return (
     <>
-      <SiteHeader signedIn active="/community" />
+      <SiteHeader signedIn isAdmin={session.user.role === "admin"} active="/community" />
       <main className="board-main">
         <p className="eyebrow">Residents Only</p>
         <h1 className="section-title">Community Board</h1>

@@ -63,7 +63,7 @@ export default async function ThreadPage({
 
   return (
     <>
-      <SiteHeader signedIn active="/community" />
+      <SiteHeader signedIn isAdmin={session.user.role === "admin"} active="/community" />
       <main className="board-main">
         <a className="text-link thread-back" href="/community">
           All conversations
