@@ -12,15 +12,21 @@ export function SiteFooter({ signedIn = false }: { signedIn?: boolean }) {
             <p className="tagline">Desert living, neighborly spirit.</p>
           </div>
           <div className="footer-nav">
-            {NAV_LINKS.map(([label, href]) => (
-              <a key={label} href={href}>
-                {label}
-              </a>
-            ))}
             {signedIn ? (
-              <a href="/profile">My Profile</a>
+              <>
+                {NAV_LINKS.map(([label, href]) => (
+                  <a key={label} href={href}>
+                    {label}
+                  </a>
+                ))}
+                <a href="/profile">My Profile</a>
+              </>
             ) : (
-              <a href="/login">Sign In</a>
+              <>
+                <a href="/">Home</a>
+                <a href="/#about">About</a>
+                <a href="/login">Sign In</a>
+              </>
             )}
           </div>
         </div>
