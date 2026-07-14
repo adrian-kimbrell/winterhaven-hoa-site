@@ -44,7 +44,7 @@ img { display: block; }
 
 a { color: inherit; }
 
-.container { max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+.container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 40px; }
 
 /* ---------- Type ---------- */
 
@@ -211,7 +211,10 @@ a { color: inherit; }
 
 /* ---------- Sections ---------- */
 
-section { padding: 110px 0; }
+/* Homepage band sections only — nested/semantic <section>s elsewhere
+   (e.g. profile pages) must not inherit band padding. */
+main > section { padding: 110px 0; }
+.board-main section { padding: 0; }
 
 /* News — magazine grid */
 .news-grid {
@@ -531,7 +534,7 @@ section { padding: 110px 0; }
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 .signout-btn:hover { background: rgba(239, 232, 217, 0.12); border-color: rgba(239, 232, 217, 0.7); }
-.admin-main { width: 100%; max-width: 1180px; margin: 0 auto; padding: 72px 40px 110px; }
+.admin-main { width: 100%; max-width: 1100px; margin: 0 auto; padding: 72px 40px 110px; }
 .admin-lede { color: var(--ink-soft); max-width: 560px; margin: 6px 0 48px; }
 .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .admin-card {
@@ -809,9 +812,6 @@ section { padding: 110px 0; }
 
 /* ---------- Directory & profiles ---------- */
 
-.board-wide { max-width: 1360px; }
-.dir-main { max-width: 1360px; }
-.dir-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
 .dir-bar { margin: 36px 0 52px; }
 .dir-grid { border: 0; }
 .dir-figure {
@@ -839,8 +839,9 @@ section { padding: 110px 0; }
 /* Directory people grid */
 .people-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 28px;
+  /* 4 columns at the standard 1100px canvas */
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 24px;
   margin-top: 48px;
 }
 .person-card {
@@ -898,8 +899,8 @@ section { padding: 110px 0; }
 /* Resident profile page */
 .resident-layout {
   display: grid;
-  grid-template-columns: 400px 1fr;
-  gap: 72px;
+  grid-template-columns: 340px 1fr;
+  gap: 56px;
   align-items: start;
   margin-top: 12px;
 }

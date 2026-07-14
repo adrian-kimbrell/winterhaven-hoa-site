@@ -40,7 +40,7 @@ export default async function ResidentPage({
   return (
     <>
       <SiteHeader signedIn isAdmin={isAdmin} active="/directory" />
-      <main className="board-main dir-main">
+      <main className="board-main">
         <a className="text-link thread-back" href="/directory">
           Full directory
         </a>
