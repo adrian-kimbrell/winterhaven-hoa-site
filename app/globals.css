@@ -31,7 +31,14 @@ body {
   color: var(--ink);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  /* Sticky footer: pages shorter than the viewport still put the
+     footer at the bottom edge. */
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
 }
+
+.footer { margin-top: auto; }
 
 img { display: block; }
 
