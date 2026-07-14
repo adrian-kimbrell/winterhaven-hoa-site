@@ -807,7 +807,9 @@ section { padding: 110px 0; }
 
 /* ---------- Directory & profiles ---------- */
 
-.dir-main { max-width: 1180px; }
+.board-wide { max-width: 1360px; }
+.dir-main { max-width: 1360px; }
+.dir-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
 .dir-bar { margin: 36px 0 52px; }
 .dir-grid { border: 0; }
 .dir-figure {
