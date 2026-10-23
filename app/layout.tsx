@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant, Jost } from "next/font/google";
+import { getSettings } from "@/lib/site";
 import "./globals.css";
 
 const cormorant = Cormorant({
@@ -16,18 +17,22 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "Winterhaven Village · Tucson, Arizona",
+  title: {
+    default: "Winterhaven Village · Tucson, Arizona",
+    template: "%s · Winterhaven Village",
+  },
   description:
     "Winterhaven Village Homeowners Association — desert living, neighborly spirit. Community news, resident directory, board updates, and CC&R answers.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const site = await getSettings();
   return (
     <html lang="en" className={`${cormorant.variable} ${jost.variable}`}>
       <body>
-        <div className="alpha-bar">Alpha preview · all content is placeholder</div>
+        {site.bannerText && <div className="alpha-bar">{site.bannerText}</div>}
         {children}
       </body>
     </html>

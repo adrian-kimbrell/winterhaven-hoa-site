@@ -5,7 +5,11 @@ import { db } from "@/lib/db";
 import { profile } from "@/lib/schema";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { blobUrl } from "@/lib/uploads";
 import { ResidentGate } from "@/components/resident-gate";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Resident Directory" };
 
 export default async function DirectoryPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -56,7 +60,7 @@ export default async function DirectoryPage() {
               >
                 <figure className="person-photo">
                   {r.photoKey ? (
-                    <img src={`/api/photos/${r.photoKey}`} alt={r.user.name} />
+                    <img src={blobUrl(r.photoKey, 640)} alt={r.user.name} />
                   ) : (
                     <div className="dir-initial" aria-hidden="true">
                       {r.user.name[0]}
@@ -64,7 +68,7 @@ export default async function DirectoryPage() {
                   )}
                 </figure>
                 <div className="person-body">
-                  <h4>{r.user.name}</h4>
+                  <h2>{r.user.name}</h2>
                   {r.unit && <p className="street">{r.unit}</p>}
                   {r.pets.length > 0 && (
                     <p className="pets">
@@ -77,7 +81,7 @@ export default async function DirectoryPage() {
           </div>
         )}
       </main>
-      <SiteFooter signedIn />
+      <SiteFooter />
     </>
   );
 }

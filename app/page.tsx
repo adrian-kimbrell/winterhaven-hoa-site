@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { headers } from "next/headers";
 import { and, count, desc, eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
@@ -6,7 +5,21 @@ import { db } from "@/lib/db";
 import { comment, profile, thread, user } from "@/lib/schema";
 import { NAV_LINKS } from "@/lib/nav";
 import { SiteFooter } from "@/components/site-footer";
+import { FillImage } from "@/components/blob-image";
+import { Prose } from "@/components/prose";
+import { residentLinks, getSettings, settingImageUrl } from "@/lib/site";
+import { blobUrl } from "@/lib/uploads";
+import {
+  excerpt,
+  publishedBoardPosts,
+  publishedLighter,
+  publishedNews,
+  publishedQuestions,
+} from "@/lib/queries";
 import { NavSignOut } from "@/components/nav-sign-out";
+import { HeroNav } from "@/components/hero-nav";
+import { NavMenu } from "@/components/nav-menu";
+import { ResidentLinks } from "@/components/resident-links";
 
 const boardDateFmt = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",
@@ -44,78 +57,89 @@ function Ocotillo() {
 }
 
 export default async function Home() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  // Session and settings in parallel; then every homepage query at
+  // once — each is a separate database round trip.
+  const [session, site] = await Promise.all([
+    auth.api.getSession({ headers: await headers() }),
+    getSettings(),
+  ]);
 
-  const conversations = session
-    ? await db
-        .select({
-          id: thread.id,
-          title: thread.title,
-          createdAt: thread.createdAt,
-          authorName: user.name,
-          replies: count(comment.id),
-        })
-        .from(thread)
-        .innerJoin(user, eq(thread.userId, user.id))
-        .leftJoin(
-          comment,
-          and(
-            eq(comment.targetType, "thread"),
-            eq(comment.targetId, thread.id),
-            eq(comment.status, "visible")
+  const [conversations, neighbors, news, lighter, boardPosts, questions] = session
+    ? await Promise.all([
+        db
+          .select({
+            id: thread.id,
+            title: thread.title,
+            createdAt: thread.createdAt,
+            authorName: user.name,
+            replies: count(comment.id),
+          })
+          .from(thread)
+          .innerJoin(user, eq(thread.userId, user.id))
+          .leftJoin(
+            comment,
+            and(
+              eq(comment.targetType, "thread"),
+              eq(comment.targetId, thread.id),
+              eq(comment.status, "visible")
+            )
           )
-        )
-        .where(eq(thread.status, "visible"))
-        .groupBy(thread.id, user.name)
-        .orderBy(desc(thread.lastReplyAt))
-        .limit(3)
-    : [];
-
-  const neighbors = session
-    ? await db.query.profile.findMany({
-        where: eq(profile.optIn, true),
-        with: { user: true, pets: true },
-        limit: 3,
-      })
-    : [];
+          .where(eq(thread.status, "visible"))
+          .groupBy(thread.id, user.name)
+          .orderBy(desc(thread.lastReplyAt))
+          .limit(3),
+        db.query.profile.findMany({
+          where: eq(profile.optIn, true),
+          with: { user: true, pets: true },
+          limit: 3,
+        }),
+        publishedNews(3),
+        publishedLighter(1),
+        publishedBoardPosts(2),
+        publishedQuestions(1),
+      ])
+    : [[], [], [], [], [], []];
+  const [lead, ...sideStories] = news;
+  const joke = lighter[0];
+  const question = questions[0];
 
   return (
-    <>
+    <div className="home">
+      <HeroNav>
+        <a className="wordmark" href="/">
+          Winterhaven Village
+        </a>
+        <NavMenu>
+          {session ? (
+            <>
+              {NAV_LINKS.map(([label, href]) => (
+                <a key={label} href={href}>
+                  {label}
+                </a>
+              ))}
+              <a href="/profile">My Profile</a>
+              {session.user.role === "admin" && <a href="/admin">Admin</a>}
+              <NavSignOut />
+            </>
+          ) : (
+            <>
+              <a href="/">Home</a>
+              <a href="#about">About</a>
+              <a href="/login">Sign In</a>
+            </>
+          )}
+        </NavMenu>
+      </HeroNav>
       <header className={session ? "hero hero-resident" : "hero"}>
-        <Image
-          src="/img/sunset1.jpg"
-          alt="Saguaros at sunset in the Sonoran desert"
-          fill
+        <FillImage
+          src={settingImageUrl(site.heroImage)}
+          alt={site.heroImageAlt}
           priority
+          quality={60}
           sizes="100vw"
           className="hero-img"
         />
         <div className="hero-scrim" />
-        <nav className="nav">
-          <a className="wordmark" href="/">
-            Winterhaven Village
-          </a>
-          <div className="nav-links">
-            {session ? (
-              <>
-                {NAV_LINKS.map(([label, href]) => (
-                  <a key={label} href={href}>
-                    {label}
-                  </a>
-                ))}
-                <a href="/profile">My Profile</a>
-                {session.user.role === "admin" && <a href="/admin">Admin</a>}
-                <NavSignOut />
-              </>
-            ) : (
-              <>
-                <a href="/">Home</a>
-                <a href="#about">About</a>
-                <a href="/login">Sign In</a>
-              </>
-            )}
-          </div>
-        </nav>
         <div className="hero-content">
           {session ? (
             <>
@@ -123,13 +147,15 @@ export default async function Home() {
                 {todayFmt.format(new Date())} · Tucson, Arizona
               </p>
               <h1>Welcome home, {session.user.name.split(" ")[0]}.</h1>
+              <ResidentLinks
+                links={Object.values(residentLinks(site))}
+                className="hero-actions"
+              />
             </>
           ) : (
             <>
-              <p className="hero-eyebrow">
-                Winterhaven Village · Tucson, Arizona
-              </p>
-              <h1>Desert living, neighborly spirit.</h1>
+              <p className="hero-eyebrow">{site.heroEyebrow}</p>
+              <h1>{site.heroHeadline}</h1>
               <div className="hero-actions">
                 <a className="btn" href="/login">
                   Resident Sign In
@@ -150,33 +176,18 @@ export default async function Home() {
               <div className="container about-grid">
                 <div>
                   <p className="eyebrow">About the Village</p>
-                  <h2 className="section-title">
-                    A Neighborhood in the Desert Foothills
-                  </h2>
-                  <p className="mission">
-                    Winterhaven Village exists to make good neighbors: to keep
-                    our homes and common grounds beautiful, to share what we
-                    know and what we grow, and to look out for one another
-                    under the Catalinas.
-                  </p>
-                  <p className="about-body">
-                    Established in 1987, the village sits in the Sonoran
-                    foothills northeast of Tucson — saguaro and ocotillo along
-                    the streets, quail in the washes, and mountain views from
-                    the moment you turn in at the gate. The homeowners
-                    association keeps the commons cared for and the community
-                    connected.
-                  </p>
-                  <p className="draft-note">
-                    Draft mission statement — pending committee approval.
-                  </p>
+                  <h2 className="section-title">{site.aboutHeading}</h2>
+                  <p className="mission">{site.mission}</p>
+                  <Prose text={site.aboutBody} className="about-body" />
+                  {site.aboutNote && (
+                    <p className="draft-note">{site.aboutNote}</p>
+                  )}
                 </div>
                 <figure className="about-photo">
-                  <Image
-                    src="/img/tucson.jpg"
-                    alt="The mountain view on the drive into the village"
-                    fill
-                    sizes="(max-width: 960px) 100vw, 520px"
+                  <FillImage
+                    src={settingImageUrl(site.aboutImage)}
+                    alt={site.aboutImageAlt}
+                    sizes="(max-width: 960px) calc(100vw - 56px), 460px"
                   />
                 </figure>
               </div>
@@ -189,13 +200,8 @@ export default async function Home() {
             <section className="lighter">
               <div className="container lighter-inner">
                 <p className="eyebrow">Residents</p>
-                <blockquote>
-                  If you live in the village, this site is yours.
-                </blockquote>
-                <p className="closes">
-                  Accounts are created by the HOA for Winterhaven Village
-                  residents.
-                </p>
+                <blockquote>{site.residentsQuote}</blockquote>
+                <p className="closes">{site.residentsNote}</p>
                 <a className="btn" href="/login">
                   Resident Sign In
                 </a>
@@ -210,61 +216,52 @@ export default async function Home() {
               <div className="container">
                 <div className="section-head">
                   <p className="eyebrow">Community News</p>
-                  <h2 className="section-title">
-                    This Week at Winterhaven Village
-                  </h2>
+                  <h2 className="section-title">{site.newsHeading}</h2>
                 </div>
-                <div className="news-grid">
-                  <a className="news-lead" href="#">
-                    <figure>
-                      <Image
-                        src="/img/pool.jpg"
-                        alt="The community pool beneath the Santa Catalina mountains"
-                        fill
-                        sizes="(max-width: 960px) 100vw, 640px"
-                      />
-                    </figure>
-                    <p className="news-date">Begins Monday</p>
-                    <h3>Pool resurfacing begins Monday</h3>
-                    <p>
-                      Swim laps under the Catalinas by July. The pool closes
-                      for two weeks while the plaster is renewed and the coping
-                      stones are reset.
-                    </p>
-                  </a>
-                  <div className="news-side">
-                    <a className="news-item" href="#">
-                      <div>
-                        <p className="news-date">Now blooming</p>
-                        <h4>New native pollinator garden at the east gate</h4>
-                        <p>Penstemon, fairy duster, and desert marigold are in.</p>
-                      </div>
-                      <figure>
-                        <Image
-                          src="/img/garden.jpg"
-                          alt="Desert courtyard garden in bloom"
-                          fill
-                          sizes="132px"
-                        />
-                      </figure>
+                {!lead ? (
+                  <p className="board-empty">
+                    No news this week — check back soon.
+                  </p>
+                ) : (
+                  <div className={sideStories.length ? "news-grid" : undefined}>
+                    <a className="news-lead" href={`/news/${lead.id}`}>
+                      {lead.imageKey && (
+                        <figure>
+                          <FillImage
+                            src={blobUrl(lead.imageKey)}
+                            alt={lead.imageAlt ?? ""}
+                            sizes="(max-width: 960px) calc(100vw - 56px), 600px"
+                          />
+                        </figure>
+                      )}
+                      {lead.kicker && <p className="news-date">{lead.kicker}</p>}
+                      <h3>{lead.title}</h3>
+                      <p>{excerpt(lead.summary, lead.body)}</p>
                     </a>
-                    <a className="news-item" href="#">
-                      <div>
-                        <p className="news-date">Saturday, June 21</p>
-                        <h4>Sunset potluck on the commons</h4>
-                        <p>Bring a dish and a lawn chair.</p>
+                    {sideStories.length > 0 && (
+                      <div className="news-side">
+                        {sideStories.map((s) => (
+                          <a className="news-item" href={`/news/${s.id}`} key={s.id}>
+                            <div>
+                              {s.kicker && <p className="news-date">{s.kicker}</p>}
+                              <h3>{s.title}</h3>
+                              <p>{excerpt(s.summary, s.body, 90)}</p>
+                            </div>
+                            {s.imageKey && (
+                              <figure>
+                                <FillImage
+                                  src={blobUrl(s.imageKey)}
+                                  alt={s.imageAlt ?? ""}
+                                  sizes="132px"
+                                />
+                              </figure>
+                            )}
+                          </a>
+                        ))}
                       </div>
-                      <figure>
-                        <Image
-                          src="/img/sonoran.jpg"
-                          alt="Sonoran desert landscape at golden hour"
-                          fill
-                          sizes="132px"
-                        />
-                      </figure>
-                    </a>
+                    )}
                   </div>
-                </div>
+                )}
                 <div className="community-cta">
                   <a className="text-link" href="/news">
                     All community news
@@ -277,79 +274,76 @@ export default async function Home() {
               <Ocotillo />
             </div>
 
-            <section className="lighter">
-              <div className="container lighter-inner">
-                <p className="eyebrow">The Lighter Side</p>
-                <blockquote>
-                  Caption contest: the Hendersons&rsquo; cat vs. the drip
-                  irrigation system.
-                </blockquote>
-                <p className="closes">Voting closes Friday.</p>
-                <a className="text-link" href="#">
-                  Enter a caption
-                </a>
-              </div>
-            </section>
+            {joke && (
+              <section className="lighter">
+                <div className="container lighter-inner">
+                  <p className="eyebrow">The Lighter Side</p>
+                  <blockquote>{joke.title}</blockquote>
+                  {joke.note && <p className="closes">{joke.note}</p>}
+                  <a className="text-link" href={`/lighter/${joke.id}`}>
+                    {joke.allowComments ? "Join in" : "Read the column"}
+                  </a>
+                </div>
+              </section>
+            )}
 
-            <section id="board">
-              <div className="container board-ccr">
-                <div>
-                  <div className="section-head">
-                    <p className="eyebrow">From the Board</p>
-                    <h2 className="section-title">Updates &amp; Minutes</h2>
-                  </div>
-                  <ul className="board-list">
-                    <li>
-                      <p className="board-kind">Meeting Minutes</p>
-                      <h4>May minutes posted</h4>
-                      <p>
-                        Full minutes from the May board meeting are available
-                        to all residents.
-                      </p>
-                      <a className="text-link" href="/board">
-                        Read the minutes
-                      </a>
-                    </li>
-                    <li>
-                      <p className="board-kind">Project Update</p>
-                      <h4>Clubhouse facelift: bids under review</h4>
-                      <p>
-                        Proposals are being evaluated in two parts — structural
-                        work and cosmetic refresh. A recommendation goes to the
-                        board this month.
-                      </p>
-                      <a className="text-link" href="/board">
-                        Follow the project
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div id="ccr">
-                  <div className="section-head">
-                    <p className="eyebrow">CC&amp;R Corner</p>
-                    <h2 className="section-title">Question of the Week</h2>
-                  </div>
-                  <div className="ccr-card">
-                    <p className="q">
-                      &ldquo;Can I park my RV in my driveway overnight?&rdquo;
-                    </p>
-                    <p className="a">
-                      <strong>Yes, briefly.</strong> Up to 72 hours for loading
-                      and unloading — see section 4.3 of the CC&amp;Rs for the
-                      details and how to request an extension.
-                    </p>
-                    <div className="ccr-links">
-                      <a className="text-link" href="/ccrs">
-                        Past questions
-                      </a>
-                      <a className="text-link" href="/ccrs">
-                        CC&amp;R Corner
-                      </a>
+            {(boardPosts.length > 0 || question) && (
+              <section id="board">
+                <div className="container board-ccr">
+                  <div>
+                    <div className="section-head">
+                      <p className="eyebrow">From the Board</p>
+                      <h2 className="section-title">Updates &amp; Minutes</h2>
                     </div>
+                    {boardPosts.length === 0 ? (
+                      <p className="board-empty">No board updates yet.</p>
+                    ) : (
+                      <ul className="board-list">
+                        {boardPosts.map((p) => (
+                          <li key={p.id}>
+                            <p className="board-kind">
+                              {p.kind === "minutes" ? "Meeting Minutes" : "Project Update"}
+                            </p>
+                            <h3>{p.title}</h3>
+                            {p.body && <p>{excerpt(null, p.body, 180)}</p>}
+                            <a className="text-link" href={`/board#post-${p.id}`}>
+                              {p.kind === "minutes" ? "Read the minutes" : "Follow the project"}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <div id="ccr">
+                    <div className="section-head">
+                      <p className="eyebrow">CC&amp;R Corner</p>
+                      <h2 className="section-title">Question of the Week</h2>
+                    </div>
+                    {question ? (
+                      <div className="ccr-card">
+                        <p className="q">&ldquo;{question.question}&rdquo;</p>
+                        <p className="a">
+                          {question.shortAnswer && (
+                            <strong>{question.shortAnswer} </strong>
+                          )}
+                          {excerpt(null, question.answer, 260)}
+                        </p>
+                        <div className="ccr-links">
+                          <a className="text-link" href={`/ccrs/${question.id}`}>
+                            Read &amp; discuss
+                          </a>
+                          <a className="text-link" href="/ccrs">
+                            Past questions
+                          </a>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="board-empty">No question this week.</p>
+                    )}
                   </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            )}
 
             <section id="community">
               <div className="container">
@@ -428,7 +422,7 @@ export default async function Home() {
                           <figure className="dir-figure">
                             {n.photoKey ? (
                               <img
-                                src={`/api/photos/${n.photoKey}`}
+                                src={blobUrl(n.photoKey, 320)}
                                 alt={n.user.name}
                               />
                             ) : (
@@ -437,7 +431,7 @@ export default async function Home() {
                               </div>
                             )}
                           </figure>
-                          <h4>{n.user.name}</h4>
+                          <h3>{n.user.name}</h3>
                           {n.unit && <p className="street">{n.unit}</p>}
                           {n.pets.length > 0 && (
                             <p className="pets">
@@ -464,7 +458,7 @@ export default async function Home() {
         )}
       </main>
 
-      <SiteFooter signedIn={!!session} />
-    </>
+      <SiteFooter />
+    </div>
   );
 }

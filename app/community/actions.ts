@@ -133,7 +133,13 @@ export async function deleteOwnReply(id: string, threadId: string) {
   if (!session) redirect("/login");
   await db
     .delete(comment)
-    .where(and(eq(comment.id, id), eq(comment.userId, session.user.id)));
+    .where(
+      and(
+        eq(comment.id, id),
+        eq(comment.userId, session.user.id),
+        eq(comment.status, "visible")
+      )
+    );
   revalidatePath(`/community/${threadId}`);
   revalidatePath("/community");
 }

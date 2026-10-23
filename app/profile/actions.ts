@@ -4,19 +4,13 @@ import { randomUUID } from "crypto";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { del, put } from "@vercel/blob";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { pet, profile } from "@/lib/schema";
-
-const IMAGE_TYPES: Record<string, string> = {
-  "image/jpeg": "jpg",
-  "image/png": "png",
-  "image/webp": "webp",
-};
-const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
+import { pet, profile, user } from "@/lib/schema";
+import { discardBlob, storeUpload as storePhoto } from "@/lib/uploads";
+import { geocodeAddress } from "@/lib/geocode";
 
 const shortText = (max: number) =>
   z
@@ -54,31 +48,9 @@ function withParam(base: string, param: string) {
   return base + (base.includes("?") ? "&" : "?") + param;
 }
 
-async function storePhoto(
-  value: FormDataEntryValue | null,
-  prefix: string
-): Promise<string | null | "invalid"> {
-  if (!(value instanceof File) || value.size === 0) return null;
-  const ext = IMAGE_TYPES[value.type];
-  if (!ext || value.size > MAX_PHOTO_BYTES) return "invalid";
-  const blob = await put(`${prefix}/${randomUUID()}.${ext}`, value, {
-    access: "private",
-    addRandomSuffix: false,
-  });
-  return blob.pathname;
-}
-
-async function discardBlob(pathname: string | null | undefined) {
-  if (!pathname) return;
-  try {
-    await del(pathname);
-  } catch {
-    /* best effort — an orphaned blob is not worth failing the save */
-  }
-}
-
 function revalidateDirectory(userId: string) {
   revalidatePath("/directory");
+  revalidatePath("/admin/residents");
   revalidatePath(`/directory/${userId}`);
   revalidatePath("/");
 }
@@ -91,18 +63,26 @@ export async function saveProfile(formData: FormData) {
 
   const parsed = z
     .object({
+      name: z.string().trim().min(1).max(80),
       unit: shortText(80),
       phone: shortText(40),
       bio: shortText(2000),
       facts: shortText(2000),
     })
     .safeParse({
+      name: formData.get("name") ?? "",
       unit: formData.get("unit") ?? "",
       phone: formData.get("phone") ?? "",
       bio: formData.get("bio") ?? "",
       facts: formData.get("facts") ?? "",
     });
-  if (!parsed.success) redirect(withParam(back, "error=length"));
+  if (!parsed.success) {
+    const nameMissing = parsed.error.issues.some(
+      (i) => i.path[0] === "name" && i.code === "too_small"
+    );
+    redirect(withParam(back, nameMissing ? "error=name" : "error=length"));
+  }
+  const { name, ...details } = parsed.data;
   const optIn = formData.get("optIn") === "on";
 
   const photo = await storePhoto(formData.get("photo"), `profiles/${uid}`);
@@ -120,9 +100,24 @@ export async function saveProfile(formData: FormData) {
   if (photo) await discardBlob(existing?.photoKey);
   if (residence) await discardBlob(existing?.residencePhotoKey);
 
+  // Geocode only when the address changes (or never resolved before).
+  let coordinates = {
+    latitude: existing?.latitude ?? null,
+    longitude: existing?.longitude ?? null,
+  };
+  if (!details.unit) {
+    coordinates = { latitude: null, longitude: null };
+  } else if (details.unit !== existing?.unit || existing?.latitude == null) {
+    coordinates = (await geocodeAddress(details.unit)) ?? {
+      latitude: null,
+      longitude: null,
+    };
+  }
+
   const values = {
     optIn,
-    ...parsed.data,
+    ...details,
+    ...coordinates,
     photoKey: photo ?? existing?.photoKey ?? null,
     residencePhotoKey: residence ?? existing?.residencePhotoKey ?? null,
     updatedAt: new Date(),
@@ -131,10 +126,39 @@ export async function saveProfile(formData: FormData) {
     .insert(profile)
     .values({ userId: uid, ...values })
     .onConflictDoUpdate({ target: profile.userId, set: values });
+  await db
+    .update(user)
+    .set({ name, updatedAt: new Date() })
+    .where(eq(user.id, uid));
 
   revalidateDirectory(uid);
   revalidatePath(back);
   redirect(withParam(back, "saved=1"));
+}
+
+export async function changePassword(formData: FormData) {
+  const session = await getSession();
+  if (!session) redirect("/login");
+  const current = formData.get("currentPassword");
+  const next = formData.get("newPassword");
+  const confirm = formData.get("confirmPassword");
+  if (typeof current !== "string" || typeof next !== "string" || current === "") {
+    redirect("/profile?error=password-current#password");
+  }
+  if (next.length < 10 || next.length > 128) {
+    redirect("/profile?error=password-length#password");
+  }
+  if (next !== confirm) redirect("/profile?error=password-match#password");
+
+  try {
+    await auth.api.changePassword({
+      body: { currentPassword: current, newPassword: next, revokeOtherSessions: true },
+      headers: await headers(),
+    });
+  } catch {
+    redirect("/profile?error=password-current#password");
+  }
+  redirect("/profile?saved=password#password");
 }
 
 export async function addPet(formData: FormData) {

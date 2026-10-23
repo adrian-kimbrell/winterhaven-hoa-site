@@ -6,12 +6,21 @@ import { db } from "@/lib/db";
 import { pet, profile, user as userTable } from "@/lib/schema";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { addPet, deletePet, saveProfile } from "./actions";
+import { UploadInput } from "@/components/upload-input";
+import { IMAGE_ACCEPT, blobUrl } from "@/lib/uploads";
+import { addPet, changePassword, deletePet, saveProfile } from "./actions";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "My Profile" };
 
 const ERRORS: Record<string, string> = {
-  photo: "Photos must be JPEG, PNG, or WebP and no larger than 5 MB.",
+  name: "Your name can't be blank.",
+  photo: "Photos must be JPEG, PNG, or WebP images.",
   length: "One of the fields is longer than allowed — trim it a little.",
   "pet-name": "Every pet needs at least a name.",
+  "password-current": "Your current password wasn't right.",
+  "password-length": "New passwords need at least 10 characters.",
+  "password-match": "The two new passwords don't match.",
 };
 
 export default async function ProfileEditPage({
@@ -61,8 +70,10 @@ export default async function ProfileEditPage({
             You are editing {target.name}&rsquo;s profile as an administrator.
           </p>
         )}
-        {params.saved && <p className="save-note">Profile saved.</p>}
-        {params.error && ERRORS[params.error] && (
+        {params.saved && params.saved !== "password" && (
+          <p className="save-note">Profile saved.</p>
+        )}
+        {params.error && ERRORS[params.error] && !params.error.startsWith("password") && (
           <p className="auth-error">{ERRORS[params.error]}</p>
         )}
 
@@ -80,6 +91,23 @@ export default async function ProfileEditPage({
               Until this is on, nothing here is visible to anyone else.
             </span>
           </label>
+
+          <div className="field">
+            <label htmlFor="name">Name</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              autoComplete="name"
+              maxLength={80}
+              required
+              defaultValue={target.name}
+              placeholder="Pat and Chris Rivera"
+            />
+            <p className="field-help">
+              How you appear in the directory, on posts, and in comments.
+            </p>
+          </div>
 
           <div className="profile-grid">
             <div className="field">
@@ -135,27 +163,22 @@ export default async function ProfileEditPage({
               {existing?.photoKey && (
                 <img
                   className="current-photo"
-                  src={`/api/photos/${existing.photoKey}`}
+                  src={blobUrl(existing.photoKey, 320)}
                   alt="Current portrait"
                 />
               )}
-              <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" />
+              <UploadInput id="photo" name="photo" accept={IMAGE_ACCEPT} />
             </div>
             <div className="field">
               <label htmlFor="residencePhoto">Photo of Residence</label>
               {existing?.residencePhotoKey && (
                 <img
                   className="current-photo current-photo-wide"
-                  src={`/api/photos/${existing.residencePhotoKey}`}
+                  src={blobUrl(existing.residencePhotoKey, 320)}
                   alt="Current residence photo"
                 />
               )}
-              <input
-                id="residencePhoto"
-                name="residencePhoto"
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-              />
+              <UploadInput id="residencePhoto" name="residencePhoto" accept={IMAGE_ACCEPT} />
             </div>
           </div>
 
@@ -179,7 +202,7 @@ export default async function ProfileEditPage({
                 {p.photoKey ? (
                   <img
                     className="pet-thumb"
-                    src={`/api/photos/${p.photoKey}`}
+                    src={blobUrl(p.photoKey, 160)}
                     alt={p.name}
                   />
                 ) : (
@@ -215,7 +238,7 @@ export default async function ProfileEditPage({
           </div>
           <div className="field">
             <label htmlFor="pet-photo">Pet Photo</label>
-            <input id="pet-photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" />
+            <UploadInput id="pet-photo" name="photo" accept={IMAGE_ACCEPT} />
           </div>
           <div className="board-form-foot">
             <span className="posting-as">Pets appear on the directory page.</span>
@@ -224,8 +247,66 @@ export default async function ProfileEditPage({
             </button>
           </div>
         </form>
+
+        {!editingOther && (
+          <section id="password">
+            <h2 className="replies-head">Change Password</h2>
+            {params.saved === "password" && (
+              <p className="save-note">
+                Password changed. Other devices have been signed out.
+              </p>
+            )}
+            {params.error?.startsWith("password") && ERRORS[params.error] && (
+              <p className="auth-error">{ERRORS[params.error]}</p>
+            )}
+            <form className="board-form" action={changePassword}>
+              <div className="field">
+                <label htmlFor="currentPassword">Current password</label>
+                <input
+                  id="currentPassword"
+                  name="currentPassword"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                />
+              </div>
+              <div className="profile-grid">
+                <div className="field">
+                  <label htmlFor="newPassword">New password</label>
+                  <input
+                    id="newPassword"
+                    name="newPassword"
+                    type="password"
+                    autoComplete="new-password"
+                    minLength={10}
+                    maxLength={128}
+                    required
+                  />
+                </div>
+                <div className="field">
+                  <label htmlFor="confirmPassword">New password, again</label>
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    autoComplete="new-password"
+                    minLength={10}
+                    maxLength={128}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="board-form-foot">
+                <span className="posting-as">At least 10 characters.</span>
+                <button className="btn" type="submit">
+                  Change Password
+                </button>
+              </div>
+            </form>
+          </section>
+        )}
       </main>
-      <SiteFooter signedIn />
+      <SiteFooter />
     </>
   );
 }

@@ -1,0 +1,5 @@
+scripts/tmp-shot.mjs
+e2e/.auth/
+e2e/report/
+e2e/results/
+test-results/

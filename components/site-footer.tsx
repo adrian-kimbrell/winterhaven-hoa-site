@@ -1,42 +1,13 @@
-import { NAV_LINKS } from "@/lib/nav";
+import { getSettings } from "@/lib/site";
 
-export function SiteFooter({ signedIn = false }: { signedIn?: boolean }) {
+/* One quiet line: navigation lives in the sticky header. */
+export async function SiteFooter() {
+  const site = await getSettings();
   return (
     <footer className="footer">
-      <div className="container">
-        <div className="footer-top">
-          <div>
-            <a className="wordmark" href="/">
-              Winterhaven Village
-            </a>
-            <p className="tagline">Desert living, neighborly spirit.</p>
-          </div>
-          <div className="footer-nav">
-            {signedIn ? (
-              <>
-                {NAV_LINKS.map(([label, href]) => (
-                  <a key={label} href={href}>
-                    {label}
-                  </a>
-                ))}
-                <a href="/profile">My Profile</a>
-              </>
-            ) : (
-              <>
-                <a href="/">Home</a>
-                <a href="/#about">About</a>
-                <a href="/login">Sign In</a>
-              </>
-            )}
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <p>
-            Winterhaven Village Homeowners Association · Tucson, Arizona · Est.
-            1987
-          </p>
-          <p>Alpha prototype — every name, photo, and story is fictional.</p>
-        </div>
+      <div className="container footer-bar">
+        <p>{site.footerLine}</p>
+        {site.footerNote && <p>{site.footerNote}</p>}
       </div>
     </footer>
   );

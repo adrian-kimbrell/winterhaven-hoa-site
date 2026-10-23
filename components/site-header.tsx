@@ -1,5 +1,6 @@
 import { NAV_LINKS } from "@/lib/nav";
 import { NavSignOut } from "./nav-sign-out";
+import { NavMenu } from "./nav-menu";
 
 /* Solid header for interior pages (the homepage hero carries its own).
    `active` is the current page's href — that link gets the copper
@@ -18,7 +19,7 @@ export function SiteHeader({
       <a className="wordmark" href="/">
         Winterhaven Village
       </a>
-      <div className="nav-links">
+      <NavMenu>
         {NAV_LINKS.map(([label, href]) => (
           <a
             key={label}
@@ -43,7 +44,7 @@ export function SiteHeader({
         ) : (
           <a href="/login">Sign In</a>
         )}
-      </div>
+      </NavMenu>
     </nav>
   );
 }

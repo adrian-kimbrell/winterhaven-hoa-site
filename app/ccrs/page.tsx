@@ -1,30 +1,23 @@
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
+import { getSettings } from "@/lib/site";
+import { excerpt, publishedQuestions } from "@/lib/queries";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ResidentGate } from "@/components/resident-gate";
+import type { Metadata } from "next";
 
-/* Placeholder content until the CC&R module lands (weekly Q&A with a
-   comment thread per question, reusing the comments table). */
-const PAST_QUESTIONS = [
-  {
-    q: "Do I need approval to repaint my front door?",
-    a: "Only if the color changes — the approved palette is in appendix B, and anything on it is pre-approved.",
-  },
-  {
-    q: "Are clotheslines allowed in backyards?",
-    a: "Yes, so long as they are not visible from the street — see section 6.2.",
-  },
-];
+export const metadata: Metadata = { title: "CC&R Corner" };
 
 export default async function CcrsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
+  const site = await getSettings();
   if (!session) {
     return (
       <ResidentGate
         eyebrow="CC&amp;R Corner"
         title="Covenants, Plainly Answered"
-        lede="One resident question about the CC&amp;Rs answered every week — in plain English, with the section reference for the curious."
+        lede={site.ccrLede}
         active="/ccrs"
         features={[
           "A new resident question answered every week",
@@ -34,6 +27,7 @@ export default async function CcrsPage() {
       />
     );
   }
+  const [current, ...past] = await publishedQuestions();
 
   return (
     <>
@@ -41,38 +35,47 @@ export default async function CcrsPage() {
       <main className="board-main">
         <p className="eyebrow">CC&amp;R Corner</p>
         <h1 className="section-title">Covenants, Plainly Answered</h1>
-        <p className="board-lede">
-          One resident question about the CC&amp;Rs answered every week — in
-          plain English, with the section reference for the curious.
-        </p>
+        <p className="board-lede">{site.ccrLede}</p>
 
-        <h2 className="replies-head">Question of the Week</h2>
-        <div className="ccr-card">
-          <p className="q">&ldquo;Can I park my RV in my driveway overnight?&rdquo;</p>
-          <p className="a">
-            <strong>Yes, briefly.</strong> Up to 72 hours for loading and
-            unloading — see section 4.3 of the CC&amp;Rs for the details and
-            how to request an extension.
-          </p>
-        </div>
+        {!current ? (
+          <p className="board-empty">The first question is on its way.</p>
+        ) : (
+          <>
+            <h2 className="replies-head">Question of the Week</h2>
+            <div className="ccr-card">
+              <p className="q">&ldquo;{current.question}&rdquo;</p>
+              <p className="a">
+                {current.shortAnswer && <strong>{current.shortAnswer} </strong>}
+                {excerpt(null, current.answer, 320)}
+              </p>
+              <div className="ccr-links">
+                <a className="text-link" href={`/ccrs/${current.id}`}>
+                  Full answer &amp; comments
+                </a>
+              </div>
+            </div>
+          </>
+        )}
 
-        <h2 className="replies-head">Recent Questions</h2>
-        <ul className="board-list">
-          {PAST_QUESTIONS.map((item) => (
-            <li key={item.q}>
-              <p className="board-kind">Answered</p>
-              <h4>{item.q}</h4>
-              <p>{item.a}</p>
-            </li>
-          ))}
-        </ul>
-
-        <p className="optin-note">
-          Comments on each question and the full searchable archive arrive
-          with the CC&amp;R module — placeholder questions until then.
-        </p>
+        {past.length > 0 && (
+          <>
+            <h2 className="replies-head">Past Questions</h2>
+            <div className="thread-list">
+              {past.map((q) => (
+                <a className="thread-row" href={`/ccrs/${q.id}`} key={q.id}>
+                  <div>
+                    <h3 className="thread-title">{q.question}</h3>
+                    <p className="thread-meta">
+                      {[q.shortAnswer, q.sectionRef].filter(Boolean).join(" · ")}
+                    </p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </>
+        )}
       </main>
-      <SiteFooter signedIn />
+      <SiteFooter />
     </>
   );
 }

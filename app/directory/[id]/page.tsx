@@ -6,6 +6,12 @@ import { db } from "@/lib/db";
 import { pet, profile } from "@/lib/schema";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { blobUrl } from "@/lib/uploads";
+import { ResidentMap } from "@/components/resident-map";
+import { mapboxToken } from "@/lib/map";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Resident Directory" };
 
 export default async function ResidentPage({
   params,
@@ -28,6 +34,14 @@ export default async function ResidentPage({
     where: eq(pet.userId, id),
     orderBy: [asc(pet.createdAt)],
   });
+
+  // Sits under the pets, or under About when there are none.
+  const map = mapboxToken() &&
+    row.unit &&
+    row.latitude != null &&
+    row.longitude != null && (
+      <ResidentMap userId={id} address={row.unit} name={row.user.name} />
+    );
 
   const contact = (
     [
@@ -57,7 +71,7 @@ export default async function ResidentPage({
           <aside className="resident-rail">
             <figure className="resident-photo">
               {row.photoKey ? (
-                <img src={`/api/photos/${row.photoKey}`} alt={row.user.name} />
+                <img src={blobUrl(row.photoKey, 800)} alt={row.user.name} />
               ) : (
                 <div className="dir-initial" aria-hidden="true">
                   {row.user.name[0]}
@@ -88,6 +102,8 @@ export default async function ResidentPage({
               </section>
             )}
 
+            {pets.length === 0 && map}
+
             {row.facts && (
               <section className="resident-section">
                 <h2 className="replies-head">Worth Knowing</h2>
@@ -104,7 +120,7 @@ export default async function ResidentPage({
                   {pets.map((p) => (
                     <figure className="pet-card" key={p.id}>
                       {p.photoKey ? (
-                        <img src={`/api/photos/${p.photoKey}`} alt={p.name} />
+                        <img src={blobUrl(p.photoKey, 480)} alt={p.name} />
                       ) : (
                         <div className="pet-card-empty" aria-hidden="true">
                           {p.name[0]}
@@ -121,6 +137,8 @@ export default async function ResidentPage({
                 </div>
               </section>
             )}
+
+            {pets.length > 0 && map}
           </div>
         </div>
 
@@ -129,7 +147,7 @@ export default async function ResidentPage({
             <h2 className="replies-head">The Residence</h2>
             <img
               className="residence-photo"
-              src={`/api/photos/${row.residencePhotoKey}`}
+              src={blobUrl(row.residencePhotoKey, 1600)}
               alt={`${row.user.name}'s residence`}
             />
           </section>
@@ -139,7 +157,7 @@ export default async function ResidentPage({
           Directory listings are opt-in. Residents choose what to share.
         </p>
       </main>
-      <SiteFooter signedIn />
+      <SiteFooter />
     </>
   );
 }

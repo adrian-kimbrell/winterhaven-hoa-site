@@ -7,6 +7,9 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ResidentGate } from "@/components/resident-gate";
 import { createThread } from "./actions";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Community Board" };
 
 const dateFmt = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",
@@ -129,10 +132,10 @@ export default async function BoardPage({
             {rows.map((t) => (
               <a className="thread-row" href={`/community/${t.id}`} key={t.id}>
                 <div>
-                  <h3 className="thread-title">
+                  <h2 className="thread-title">
                     {t.title}
                     {t.status === "hidden" && <span className="pill">Hidden</span>}
-                  </h3>
+                  </h2>
                   <p className="thread-meta">
                     Started by {t.authorName} · {dateFmt.format(t.createdAt)}
                   </p>
@@ -148,7 +151,7 @@ export default async function BoardPage({
           </div>
         )}
       </main>
-      <SiteFooter signedIn />
+      <SiteFooter />
     </>
   );
 }

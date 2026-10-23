@@ -1,9 +1,10 @@
 import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
+import { getSettings } from "@/lib/site";
 
 /* Public face of a residents-only page: introduces the section,
    previews what's inside, and invites residents in. */
-export function ResidentGate({
+export async function ResidentGate({
   eyebrow,
   title,
   lede,
@@ -16,6 +17,7 @@ export function ResidentGate({
   active: string;
   features: string[];
 }) {
+  const site = await getSettings();
   return (
     <>
       <SiteHeader active={active} />
@@ -39,10 +41,7 @@ export function ResidentGate({
             <a className="btn" href="/login">
               Resident Sign In
             </a>
-            <p className="auth-note">
-              Accounts are created by the HOA. Need access? Contact a board
-              member and we&rsquo;ll get you set up.
-            </p>
+            <p className="auth-note">{site.accessNote}</p>
           </div>
         </div>
       </main>

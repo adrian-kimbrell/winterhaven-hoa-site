@@ -13,6 +13,9 @@ import {
   setReplyHidden,
   setThreadHidden,
 } from "../actions";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Community Board" };
 
 const dateFmt = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",
@@ -167,7 +170,7 @@ export default async function ThreadPage({
           </div>
         </form>
       </main>
-      <SiteFooter signedIn />
+      <SiteFooter />
     </>
   );
 }

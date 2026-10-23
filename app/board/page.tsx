@@ -1,25 +1,33 @@
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
+import { getSettings } from "@/lib/site";
+import { blobUrl } from "@/lib/uploads";
+import { dateFmt } from "@/lib/content";
+import { boardMembers, publishedBoardPosts } from "@/lib/queries";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ResidentGate } from "@/components/resident-gate";
+import { Prose } from "@/components/prose";
+import type { Metadata } from "next";
 
-/* Placeholder content until the board module lands (minutes uploads,
-   project tracker, member bios per the requirements). */
-const MINUTES = [
-  { month: "May 2026", note: "Posted — clubhouse bids, pool schedule, monsoon prep." },
-  { month: "April 2026", note: "Posted — landscaping contract renewal, east gate garden." },
-  { month: "March 2026", note: "Posted — annual budget review." },
-];
+export const metadata: Metadata = { title: "Board Updates & Minutes" };
+
+/* Meeting dates are stored as YYYY-MM-DD; format them without a
+   timezone shift. */
+function meetingDate(iso: string) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return dateFmt.format(new Date(Date.UTC(y, m - 1, d, 12)));
+}
 
 export default async function BoardPage() {
   const session = await auth.api.getSession({ headers: await headers() });
+  const site = await getSettings();
   if (!session) {
     return (
       <ResidentGate
         eyebrow="From the Board"
         title="Board Updates &amp; Minutes"
-        lede="What your board is working on, decided, and planning — posted here first, frequently and plainly."
+        lede={site.boardLede}
         active="/board"
         features={[
           "Minutes from every board meeting",
@@ -29,6 +37,9 @@ export default async function BoardPage() {
       />
     );
   }
+  const [posts, members] = await Promise.all([publishedBoardPosts(), boardMembers()]);
+  const updates = posts.filter((p) => p.kind !== "minutes");
+  const minutes = posts.filter((p) => p.kind === "minutes");
 
   return (
     <>
@@ -36,48 +47,88 @@ export default async function BoardPage() {
       <main className="board-main">
         <p className="eyebrow">From the Board</p>
         <h1 className="section-title">Board Updates &amp; Minutes</h1>
-        <p className="board-lede">
-          What your board is working on, decided, and planning — posted here
-          first, frequently and plainly.
-        </p>
+        <p className="board-lede">{site.boardLede}</p>
+
+        {members.length > 0 && (
+          <>
+            <h2 className="replies-head">Your Board</h2>
+            <div className="member-grid">
+              {members.map((m) => (
+                <article className="member-card" key={m.id}>
+                  <figure className="member-photo">
+                    {m.photoKey ? (
+                      <img src={blobUrl(m.photoKey, 320)} alt={m.name} />
+                    ) : (
+                      <div className="dir-initial" aria-hidden="true">
+                        {m.name[0]}
+                      </div>
+                    )}
+                  </figure>
+                  <div>
+                    {m.position && <p className="board-kind">{m.position}</p>}
+                    <h3 className="member-name">{m.name}</h3>
+                    {(m.email || m.phone) && (
+                      <p className="member-contact">
+                        {m.email && <a href={`mailto:${m.email}`}>{m.email}</a>}
+                        {m.email && m.phone && " · "}
+                        {m.phone}
+                      </p>
+                    )}
+                    {m.bio && <Prose text={m.bio} className="prose member-bio" />}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </>
+        )}
 
         <h2 className="replies-head">Current Projects</h2>
-        <ul className="board-list">
-          <li>
-            <p className="board-kind">Project Update</p>
-            <h4>Clubhouse facelift: bids under review</h4>
-            <p>
-              Proposals are being evaluated in two parts — structural work and
-              cosmetic refresh. A recommendation goes to the board this month.
-            </p>
-          </li>
-          <li>
-            <p className="board-kind">Project Update</p>
-            <h4>Pool resurfacing</h4>
-            <p>
-              Begins Monday; two-week closure. Weekly progress notes will be
-              posted in the community news.
-            </p>
-          </li>
-        </ul>
+        {updates.length === 0 ? (
+          <p className="comment-empty">No project updates yet.</p>
+        ) : (
+          <ul className="board-list board-posts">
+            {updates.map((p) => (
+              <li key={p.id} id={`post-${p.id}`}>
+                <p className="board-kind">
+                  Project Update
+                  {p.publishedAt ? ` · ${dateFmt.format(p.publishedAt)}` : ""}
+                </p>
+                <h3>{p.title}</h3>
+                <Prose text={p.body} />
+                {p.documentKey && (
+                  <a className="text-link" href={blobUrl(p.documentKey)} target="_blank" rel="noreferrer">
+                    {p.documentName ?? "Attached document"}
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
 
         <h2 className="replies-head">Meeting Minutes</h2>
-        <ul className="board-list">
-          {MINUTES.map((m) => (
-            <li key={m.month}>
-              <p className="board-kind">Minutes</p>
-              <h4>{m.month}</h4>
-              <p>{m.note}</p>
-            </li>
-          ))}
-        </ul>
-
-        <p className="optin-note">
-          Board member photos, bios, and downloadable minutes arrive with the
-          board module — placeholder entries until then.
-        </p>
+        {minutes.length === 0 ? (
+          <p className="comment-empty">No minutes posted yet.</p>
+        ) : (
+          <ul className="board-list board-posts">
+            {minutes.map((p) => (
+              <li key={p.id} id={`post-${p.id}`}>
+                <p className="board-kind">
+                  Minutes
+                  {p.meetingDate ? ` · Meeting of ${meetingDate(p.meetingDate)}` : ""}
+                </p>
+                <h3>{p.title}</h3>
+                <Prose text={p.body} />
+                {p.documentKey && (
+                  <a className="text-link" href={blobUrl(p.documentKey)} target="_blank" rel="noreferrer">
+                    Open the minutes{p.documentName ? ` (${p.documentName})` : ""}
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
       </main>
-      <SiteFooter signedIn />
+      <SiteFooter />
     </>
   );
 }

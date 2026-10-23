@@ -4,3 +4,9 @@ node_modules/
 .next/
 next-env.d.ts
 .vercel
+e2e/.auth/
+e2e/report/
+e2e/results/
+scripts/tmp-shot.mjs
+test-results/
+tsconfig.tsbuildinfo
